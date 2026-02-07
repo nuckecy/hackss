@@ -1,0 +1,21 @@
+{
+  "name": "ux-buddy",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:ui": "vite build --config vite.config.ts --mode ui && mv dist/index.html dist/ui.html",
+    "build:main": "esbuild src/main.ts --bundle --format=esm --outfile=dist/main.js --target=es2020",
+    "build": "npm run build:ui && npm run build:main",
+    "dev": "npm run build && chokidar 'src/**/*' -c 'npm run build' --initial"
+  },
+  "dependencies": {
+    "@preact/preset-vite": "^2.10.3",
+    "preact": "^10.28.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-singlefile": "^2.3.0"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.123.0"
+  }
+}

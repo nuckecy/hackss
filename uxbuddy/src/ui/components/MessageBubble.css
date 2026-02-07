@@ -1,0 +1,101 @@
+.message {
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+.message-user {
+  background: var(--msg-user-bg);
+  border: 1px solid var(--msg-user-border);
+  margin: 1px 12px 1px 40px;
+  line-height: var(--line-height-base);
+}
+
+.message-assistant {
+  background: var(--msg-assistant-bg);
+  border: 1px solid var(--msg-assistant-border);
+  border-left: 2px solid var(--accent-primary);
+  margin: 1px 12px;
+  line-height: var(--line-height-relaxed);
+}
+
+.message-content {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.message-content strong {
+  font-weight: var(--font-weight-semibold);
+}
+
+.message-content code {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent-text);
+  background: var(--bg-secondary);
+  padding: 1px 4px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  word-break: break-all;
+}
+
+/* Paragraphs */
+.message-paragraph {
+  margin: 0;
+  padding: 0;
+}
+
+.message-paragraph + .message-paragraph,
+.message-paragraph + .message-list,
+.message-paragraph + .message-heading,
+.message-list + .message-paragraph,
+.message-list + .message-list,
+.message-list + .message-heading,
+.message-heading + .message-paragraph,
+.message-heading + .message-list {
+  margin-top: 6px;
+}
+
+/* Headings */
+.message-heading {
+  font-weight: 700;
+  font-size: var(--font-size-md);
+  margin: 0;
+}
+
+/* Lists */
+.message-list {
+  margin: 0;
+  padding: 0 0 0 16px;
+  list-style: disc;
+}
+
+.message-list-ordered {
+  list-style: decimal;
+}
+
+.message-list-item {
+  margin: 2px 0;
+  padding: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.message-list-item::marker {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+}
+
+/* Timestamp */
+.message-timestamp {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  margin-top: 4px;
+  letter-spacing: var(--tracking-wide);
+  text-align: right;
+}
