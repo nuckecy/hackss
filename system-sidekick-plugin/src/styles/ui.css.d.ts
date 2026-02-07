@@ -1,0 +1,33 @@
+declare const styles: {
+  readonly "app": string;
+  readonly "bubble": string;
+  readonly "bubble-assistant": string;
+  readonly "bubble-content": string;
+  readonly "bubble-user": string;
+  readonly "chat-input": string;
+  readonly "chip": string;
+  readonly "context-badge": string;
+  readonly "context-badge-text": string;
+  readonly "dot-pulse": string;
+  readonly "empty-icon": string;
+  readonly "empty-state": string;
+  readonly "empty-subtitle": string;
+  readonly "empty-title": string;
+  readonly "header": string;
+  readonly "header-title": string;
+  readonly "input-area": string;
+  readonly "input-wrapper": string;
+  readonly "loading-dots": string;
+  readonly "message": string;
+  readonly "message-assistant": string;
+  readonly "message-user": string;
+  readonly "messages": string;
+  readonly "place-button": string;
+  readonly "root": string;
+  readonly "send-button": string;
+  readonly "spin": string;
+  readonly "spinner": string;
+  readonly "suggestion-chips": string;
+};
+export = styles;
+

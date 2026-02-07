@@ -1,0 +1,31 @@
+{
+  "name": "system-sidekick-plugin",
+  "version": "1.0.0",
+  "description": "Figma plugin that recommends and places SDS components via AI chat",
+  "figma-plugin": {
+    "editorType": ["figma"],
+    "id": "system-sidekick",
+    "name": "System Sidekick",
+    "main": "src/main.ts",
+    "ui": "src/ui.tsx",
+    "networkAccess": {
+      "allowedDomains": ["none"],
+      "devAllowedDomains": ["http://localhost:3000"],
+      "reasoning": "Connects to local API server for system diagnostics during development."
+    }
+  },
+  "scripts": {
+    "build": "build-figma-plugin --typecheck --minify",
+    "watch": "build-figma-plugin --typecheck --watch"
+  },
+  "dependencies": {
+    "@create-figma-plugin/utilities": "^3.2.0",
+    "preact": "^10.25.4"
+  },
+  "devDependencies": {
+    "@create-figma-plugin/build": "^3.2.0",
+    "@create-figma-plugin/tsconfig": "^3.2.0",
+    "@figma/plugin-typings": "^1.108.0",
+    "typescript": "^5.7.3"
+  }
+}

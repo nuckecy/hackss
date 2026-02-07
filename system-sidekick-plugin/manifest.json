@@ -1,0 +1,1 @@
+{"api":"1.0.0","editorType":["figma"],"id":"system-sidekick","name":"System Sidekick","main":"build/main.js","ui":"build/ui.js","networkAccess":{"allowedDomains":["none"],"devAllowedDomains":["http://localhost:3000"],"reasoning":"Connects to local API server for system diagnostics during development."}}
