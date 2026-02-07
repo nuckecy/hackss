@@ -1,5 +1,6 @@
 declare const styles: {
   readonly "app": string;
+  readonly "attach-button": string;
   readonly "bubble": string;
   readonly "bubble-assistant": string;
   readonly "bubble-content": string;
@@ -9,13 +10,20 @@ declare const styles: {
   readonly "context-badge": string;
   readonly "context-badge-text": string;
   readonly "dot-pulse": string;
-  readonly "empty-icon": string;
+  readonly "empty-hero-image": string;
   readonly "empty-state": string;
   readonly "empty-subtitle": string;
   readonly "empty-title": string;
+  readonly "engine-badge": string;
   readonly "header": string;
+  readonly "header-actions": string;
+  readonly "header-info": string;
+  readonly "header-left": string;
+  readonly "header-logo": string;
   readonly "header-title": string;
+  readonly "hero-gradient": string;
   readonly "input-area": string;
+  readonly "input-label": string;
   readonly "input-wrapper": string;
   readonly "loading-dots": string;
   readonly "message": string;
@@ -27,6 +35,7 @@ declare const styles: {
   readonly "send-button": string;
   readonly "spin": string;
   readonly "spinner": string;
+  readonly "status-badge": string;
   readonly "suggestion-chips": string;
 };
 export = styles;
