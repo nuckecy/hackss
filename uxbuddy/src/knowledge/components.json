@@ -1,0 +1,416 @@
+[
+  {
+    "id": "button",
+    "name": "Button",
+    "description": "Primary action trigger used for form submissions, CTAs, and key interactions. Available in multiple visual variants and sizes.",
+    "category": "actions",
+    "variants": {
+      "variant": ["filled", "outlined", "ghost", "danger"],
+      "size": ["sm", "md", "lg"]
+    },
+    "properties": {
+      "label": { "type": "string", "required": true, "description": "Visible text label for the button" },
+      "variant": { "type": "enum", "required": false, "default": "filled", "description": "Visual style variant" },
+      "size": { "type": "enum", "required": false, "default": "md", "description": "Button size" },
+      "disabled": { "type": "boolean", "required": false, "default": false, "description": "Disables interaction" },
+      "iconLeft": { "type": "ReactNode", "required": false, "description": "Icon placed before label text" },
+      "iconRight": { "type": "ReactNode", "required": false, "description": "Icon placed after label text" },
+      "onClick": { "type": "function", "required": false, "description": "Click handler callback" },
+      "fullWidth": { "type": "boolean", "required": false, "default": false, "description": "Stretches button to fill container" }
+    },
+    "tokens": {
+      "background": "accent.primary (#635BFF)",
+      "background-hover": "accent.hover (#5851DF)",
+      "text": "text.inverse (#FFFFFF)",
+      "border-radius": "radius.sm (4px)",
+      "height-sm": "28px",
+      "height-md": "36px",
+      "height-lg": "44px",
+      "padding-horizontal": "space.6 (16px)",
+      "font-size": "font.size.base (12px)",
+      "font-weight": "font.weight.medium (500)"
+    },
+    "accessibility": {
+      "role": "button",
+      "min_touch_target": "44x44px (use lg size or add padding)",
+      "contrast_ratio": "4.5:1 for label text against background",
+      "focus_indicator": "3px accent ring via --shadow-focus",
+      "aria_label": "Not needed if visible label exists; required for icon-only buttons",
+      "keyboard": "Enter or Space to activate"
+    },
+    "usage": {
+      "do": [
+        "Use filled variant for primary actions (one per section)",
+        "Use outlined for secondary actions alongside a primary button",
+        "Use ghost for low-emphasis tertiary actions",
+        "Use danger variant only for destructive actions like delete",
+        "Always include a visible text label",
+        "Place primary action on the right in button groups"
+      ],
+      "dont": [
+        "Don't use more than one filled button per section",
+        "Don't use Button for navigation — use a link instead",
+        "Don't disable without explaining why",
+        "Don't use danger variant for non-destructive actions",
+        "Don't put too much text in the label — keep it to 1-3 words"
+      ]
+    },
+    "related_components": ["IconButton", "Badge"]
+  },
+  {
+    "id": "icon-button",
+    "name": "IconButton",
+    "description": "Compact button for icon-only actions. Always requires an accessible label since there is no visible text.",
+    "category": "actions",
+    "variants": {
+      "variant": ["filled", "outlined", "ghost"],
+      "size": ["sm", "md", "lg"]
+    },
+    "properties": {
+      "icon": { "type": "ReactNode", "required": true, "description": "Icon element to render" },
+      "aria-label": { "type": "string", "required": true, "description": "Accessible label (required since no visible text)" },
+      "variant": { "type": "enum", "required": false, "default": "ghost", "description": "Visual style variant" },
+      "size": { "type": "enum", "required": false, "default": "md", "description": "Button size" },
+      "disabled": { "type": "boolean", "required": false, "default": false, "description": "Disables interaction" },
+      "onClick": { "type": "function", "required": false, "description": "Click handler callback" }
+    },
+    "tokens": {
+      "background": "transparent (ghost), accent.primary (filled)",
+      "text": "text.secondary (ghost), text.inverse (filled)",
+      "border-radius": "radius.sm (4px)",
+      "size-sm": "28x28px",
+      "size-md": "36x36px",
+      "size-lg": "44x44px"
+    },
+    "accessibility": {
+      "role": "button",
+      "min_touch_target": "44x44px minimum",
+      "contrast_ratio": "3:1 for icon against background",
+      "focus_indicator": "3px accent ring via --shadow-focus",
+      "aria_label": "REQUIRED — must describe the action (e.g., 'Delete item', 'Open settings')",
+      "keyboard": "Enter or Space to activate"
+    },
+    "usage": {
+      "do": [
+        "Always provide aria-label describing the action",
+        "Use ghost variant for toolbar and header actions",
+        "Use a tooltip to show the label on hover",
+        "Ensure the icon clearly communicates the action"
+      ],
+      "dont": [
+        "Never omit aria-label — this is an accessibility violation",
+        "Don't use for primary actions — use Button with visible text instead",
+        "Don't use ambiguous icons without a tooltip",
+        "Don't make icon buttons smaller than 44x44px touch target"
+      ]
+    },
+    "related_components": ["Button"]
+  },
+  {
+    "id": "alert",
+    "name": "Alert",
+    "description": "Persistent inline message for important information. Stays visible until dismissed by the user. Use for contextual feedback within a page section.",
+    "category": "feedback",
+    "variants": {
+      "severity": ["info", "warning", "error", "success"],
+      "dismissible": ["true", "false"]
+    },
+    "properties": {
+      "severity": { "type": "enum", "required": true, "description": "Visual severity level that sets color and icon" },
+      "title": { "type": "string", "required": false, "description": "Bold title text above description" },
+      "description": { "type": "string", "required": true, "description": "Main alert message text" },
+      "dismissible": { "type": "boolean", "required": false, "default": false, "description": "Shows a close/dismiss button" },
+      "action": { "type": "ReactNode", "required": false, "description": "Optional action button or link" },
+      "icon": { "type": "ReactNode", "required": false, "description": "Custom icon (defaults to severity icon)" }
+    },
+    "tokens": {
+      "background-info": "severity.info-bg (#EFF6FF)",
+      "text-info": "severity.info (#0570DE)",
+      "background-warning": "severity.warning-bg (#FFFBEB)",
+      "text-warning": "severity.warning (#D97706)",
+      "background-error": "severity.error-bg (#FFF0F1)",
+      "text-error": "severity.error (#DF1B41)",
+      "background-success": "severity.success-bg (#F0FDF4)",
+      "text-success": "severity.success (#1B8F5A)",
+      "border-radius": "radius.md (6px)",
+      "padding": "space.5 (12px)"
+    },
+    "accessibility": {
+      "role": "role=alert for error/warning; role=status for info/success",
+      "contrast_ratio": "4.5:1 for alert text against alert background",
+      "focus_indicator": "Dismiss button has visible focus ring",
+      "aria_label": "Dismiss button needs aria-label='Dismiss alert'",
+      "keyboard": "Dismiss button focusable and activatable via Enter/Space"
+    },
+    "usage": {
+      "do": [
+        "Always include an icon — never rely on color alone (WCAG 1.4.1)",
+        "Use error for blocking issues that must be resolved",
+        "Use warning for potential issues the user should know about",
+        "Use info for helpful context or tips",
+        "Use success for confirming completed actions",
+        "Place alerts near the content they relate to"
+      ],
+      "dont": [
+        "Don't use Alert for transient feedback — use Toast instead",
+        "Don't use more than 2 alerts on a single view",
+        "Don't use error severity for non-blocking information",
+        "Don't auto-dismiss alerts — they should persist until addressed"
+      ]
+    },
+    "related_components": ["Toast", "Badge"]
+  },
+  {
+    "id": "badge",
+    "name": "Badge",
+    "description": "Small label for showing status, counts, or categories. Can appear as a dot, a number, or a text label.",
+    "category": "data-display",
+    "variants": {
+      "variant": ["dot", "count", "label"],
+      "color": ["default", "info", "warning", "error", "success"]
+    },
+    "properties": {
+      "variant": { "type": "enum", "required": false, "default": "label", "description": "Badge display format" },
+      "color": { "type": "enum", "required": false, "default": "default", "description": "Severity/color variant" },
+      "label": { "type": "string", "required": false, "description": "Text content (for label and count variants)" },
+      "count": { "type": "number", "required": false, "description": "Number to display (for count variant)" },
+      "max": { "type": "number", "required": false, "default": 99, "description": "Maximum count before showing 99+" }
+    },
+    "tokens": {
+      "background-default": "bg.tertiary (#F0F2F4)",
+      "text-default": "text.secondary (#6B7385)",
+      "background-error": "severity.error-bg (#FFF0F1)",
+      "text-error": "severity.error (#DF1B41)",
+      "border-radius": "radius.full (9999px)",
+      "padding": "space.1 (2px) space.3 (6px)",
+      "font-size": "font.size.xs (10px)",
+      "font-weight": "font.weight.medium (500)"
+    },
+    "accessibility": {
+      "role": "status",
+      "contrast_ratio": "4.5:1 for badge text",
+      "aria_label": "Provide aria-label for dot variants (no visible text)"
+    },
+    "usage": {
+      "do": [
+        "Use dot variant for simple presence indicators",
+        "Use count variant for notification counts",
+        "Use label variant for status text (e.g., 'New', 'Beta')",
+        "Position badges relative to their parent element",
+        "Include text alternative for dot-only badges"
+      ],
+      "dont": [
+        "Don't use badges for interactive actions — they are read-only",
+        "Don't rely on color alone to convey meaning",
+        "Don't use long text in badges — keep to 1-2 words"
+      ]
+    },
+    "related_components": ["Alert", "IconButton"]
+  },
+  {
+    "id": "input",
+    "name": "Input",
+    "description": "Text input field for capturing user data in forms. Supports validation states, helper text, and prefix/suffix elements.",
+    "category": "forms",
+    "variants": {
+      "state": ["default", "focus", "error", "disabled"],
+      "size": ["sm", "md"]
+    },
+    "properties": {
+      "label": { "type": "string", "required": true, "description": "Visible label text above the input" },
+      "placeholder": { "type": "string", "required": false, "description": "Placeholder text shown when empty" },
+      "helperText": { "type": "string", "required": false, "description": "Hint text below the input" },
+      "errorMessage": { "type": "string", "required": false, "description": "Error message shown in error state" },
+      "disabled": { "type": "boolean", "required": false, "default": false, "description": "Disables the input" },
+      "required": { "type": "boolean", "required": false, "default": false, "description": "Marks field as required" },
+      "type": { "type": "string", "required": false, "default": "text", "description": "Input type (text, email, password, etc.)" },
+      "prefix": { "type": "ReactNode", "required": false, "description": "Element before input text (icon or text)" },
+      "suffix": { "type": "ReactNode", "required": false, "description": "Element after input text (icon or text)" }
+    },
+    "tokens": {
+      "border": "border.default (#E3E5E8)",
+      "border-focus": "accent.primary (#635BFF)",
+      "border-error": "severity.error (#DF1B41)",
+      "background": "bg.primary (#FFFFFF)",
+      "background-disabled": "bg.tertiary (#F0F2F4)",
+      "text": "text.primary (#30313D)",
+      "text-placeholder": "text.tertiary (#9DA3AE)",
+      "height-sm": "28px",
+      "height-md": "36px",
+      "border-radius": "radius.sm (4px)",
+      "padding-horizontal": "space.4 (8px)",
+      "font-size": "font.size.base (12px)",
+      "focus-ring": "shadow.focus (0 0 0 3px rgba(99,91,255,0.16))"
+    },
+    "accessibility": {
+      "role": "textbox",
+      "contrast_ratio": "4.5:1 for input text, 3:1 for placeholder",
+      "focus_indicator": "Accent border + shadow-focus ring",
+      "aria_label": "Use visible label via <label> element (preferred) or aria-label",
+      "keyboard": "Tab to focus, type to input, Enter to submit in forms"
+    },
+    "usage": {
+      "do": [
+        "Always include a visible label above the input",
+        "Use helper text to explain expected format",
+        "Show specific error messages (not just 'Invalid')",
+        "Use aria-describedby to link helper/error text to input",
+        "Mark required fields with aria-required and visual indicator"
+      ],
+      "dont": [
+        "Don't use placeholder as a replacement for labels",
+        "Don't use red color alone for errors — include an error message",
+        "Don't disable inputs without explaining why",
+        "Don't auto-clear input on error — let users correct their entry"
+      ]
+    },
+    "related_components": ["Select", "Checkbox"]
+  },
+  {
+    "id": "checkbox",
+    "name": "Checkbox",
+    "description": "Toggle control for boolean options or multi-select lists. Supports checked, unchecked, and indeterminate states.",
+    "category": "forms",
+    "variants": {
+      "state": ["unchecked", "checked", "indeterminate", "disabled"]
+    },
+    "properties": {
+      "label": { "type": "string", "required": true, "description": "Visible label text beside the checkbox" },
+      "checked": { "type": "boolean", "required": false, "default": false, "description": "Checked state" },
+      "indeterminate": { "type": "boolean", "required": false, "default": false, "description": "Shows a dash, used for partial selection in groups" },
+      "disabled": { "type": "boolean", "required": false, "default": false, "description": "Disables the checkbox" },
+      "onChange": { "type": "function", "required": false, "description": "Change handler callback" }
+    },
+    "tokens": {
+      "border": "border.strong (#C4C9D0)",
+      "border-checked": "accent.primary (#635BFF)",
+      "background-checked": "accent.primary (#635BFF)",
+      "checkmark": "text.inverse (#FFFFFF)",
+      "size": "16x16px",
+      "border-radius": "radius.xs (2px)",
+      "touch-target": "44x44px (padding area around checkbox)"
+    },
+    "accessibility": {
+      "role": "checkbox",
+      "min_touch_target": "44x44px (include padding around the 16px checkbox)",
+      "contrast_ratio": "3:1 for checkbox border against background",
+      "focus_indicator": "3px accent ring via --shadow-focus",
+      "aria_label": "Use visible label linked via <label> element",
+      "keyboard": "Space to toggle, Tab to navigate between checkboxes"
+    },
+    "usage": {
+      "do": [
+        "Always include a visible label beside the checkbox",
+        "Group related checkboxes with a fieldset and legend",
+        "Use indeterminate state for parent checkbox of a partially selected group",
+        "Allow users to click the label (not just the checkbox) to toggle"
+      ],
+      "dont": [
+        "Don't use a checkbox for binary on/off settings — use a Toggle/Switch instead",
+        "Don't use a single checkbox for agreeing to terms without a visible label",
+        "Don't nest checkbox groups more than one level deep"
+      ]
+    },
+    "related_components": ["Input", "Select"]
+  },
+  {
+    "id": "select",
+    "name": "Select",
+    "description": "Dropdown control for choosing one option from a list. Opens a popover menu of options on click.",
+    "category": "forms",
+    "variants": {
+      "state": ["default", "focus", "error", "disabled", "open"]
+    },
+    "properties": {
+      "label": { "type": "string", "required": true, "description": "Visible label text above the select" },
+      "placeholder": { "type": "string", "required": false, "default": "Select...", "description": "Placeholder shown when no option is selected" },
+      "options": { "type": "Array<{value, label}>", "required": true, "description": "List of selectable options" },
+      "value": { "type": "string", "required": false, "description": "Currently selected option value" },
+      "disabled": { "type": "boolean", "required": false, "default": false, "description": "Disables the select" },
+      "errorMessage": { "type": "string", "required": false, "description": "Error message shown in error state" },
+      "onChange": { "type": "function", "required": false, "description": "Change handler callback" }
+    },
+    "tokens": {
+      "border": "border.default (#E3E5E8)",
+      "border-focus": "accent.primary (#635BFF)",
+      "border-error": "severity.error (#DF1B41)",
+      "background": "bg.primary (#FFFFFF)",
+      "background-option-hover": "bg.secondary (#F6F8FA)",
+      "dropdown-shadow": "shadow.md",
+      "height": "36px",
+      "border-radius": "radius.sm (4px)",
+      "font-size": "font.size.base (12px)"
+    },
+    "accessibility": {
+      "role": "listbox (dropdown) with combobox pattern",
+      "contrast_ratio": "4.5:1 for selected text, 3:1 for placeholder",
+      "focus_indicator": "Accent border + shadow-focus ring",
+      "aria_label": "Use visible label via <label> element",
+      "keyboard": "Enter/Space to open, Arrow keys to navigate, Enter to select, Escape to close"
+    },
+    "usage": {
+      "do": [
+        "Always include a visible label above the select",
+        "Use placeholder text to hint at expected selection",
+        "Provide a clear list of 3-15 options (use autocomplete for longer lists)",
+        "Show the selected option clearly in the trigger"
+      ],
+      "dont": [
+        "Don't use Select for binary choices — use Checkbox or Toggle",
+        "Don't use Select for fewer than 3 options — use Radio buttons",
+        "Don't use Select for very long lists (50+) — use an autocomplete/combobox",
+        "Don't auto-submit on selection change without warning"
+      ]
+    },
+    "related_components": ["Input", "Checkbox"]
+  },
+  {
+    "id": "toast",
+    "name": "Toast",
+    "description": "Auto-dismissing notification for transient, non-critical feedback. Appears briefly and disappears automatically. Use for confirmations and minor updates.",
+    "category": "feedback",
+    "variants": {
+      "severity": ["info", "success"],
+      "hasAction": ["true", "false"]
+    },
+    "properties": {
+      "message": { "type": "string", "required": true, "description": "Toast message text" },
+      "severity": { "type": "enum", "required": false, "default": "info", "description": "Visual severity (info or success only)" },
+      "duration": { "type": "number", "required": false, "default": 5000, "description": "Auto-dismiss delay in milliseconds" },
+      "action": { "type": "{ label: string, onClick: function }", "required": false, "description": "Optional action button" },
+      "onDismiss": { "type": "function", "required": false, "description": "Callback when toast is dismissed" }
+    },
+    "tokens": {
+      "background": "bg.inverse (#0A2540)",
+      "text": "text.inverse (#FFFFFF)",
+      "border-radius": "radius.md (6px)",
+      "shadow": "shadow.md",
+      "padding": "space.4 (8px) space.6 (16px)",
+      "font-size": "font.size.base (12px)",
+      "position": "bottom-center, 16px from bottom edge"
+    },
+    "accessibility": {
+      "role": "role=status with aria-live=polite",
+      "contrast_ratio": "4.5:1 for toast text against dark background",
+      "aria_label": "Action button needs descriptive label",
+      "keyboard": "Tab to focus action button, Escape to dismiss"
+    },
+    "usage": {
+      "do": [
+        "Use for confirming successful actions (e.g., 'Changes saved')",
+        "Keep messages short — 1 sentence maximum",
+        "Set appropriate duration (3-8 seconds depending on text length)",
+        "Allow manual dismissal even with auto-dismiss",
+        "Stack multiple toasts if needed (newest on top)"
+      ],
+      "dont": [
+        "NEVER use Toast for errors or critical information — use Alert instead",
+        "Don't use Toast for information that needs to persist",
+        "Don't use warning or error severity with Toast",
+        "Don't require user action via Toast — it may auto-dismiss before they see it",
+        "Don't show more than 3 toasts simultaneously"
+      ]
+    },
+    "related_components": ["Alert"]
+  }
+]
