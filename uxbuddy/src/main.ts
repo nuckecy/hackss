@@ -3,7 +3,7 @@ import type { SelectionDataV2 } from './types/figma';
 import { applyFix } from './fix/fix-registry';
 import { handleComponentPlacement } from './placement/placement-handler';
 
-figma.showUI(__html__, { width: 414, height: 667 });
+figma.showUI(__html__, { width: 1000, height: 700 });
 
 // ── V1: Shallow selection extraction ──
 
