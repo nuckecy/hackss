@@ -1,0 +1,2479 @@
+[
+  {
+    "id": "accordion",
+    "name": "Accordion",
+    "description": "Accordion component from the Simple Design System.",
+    "category": "disclosure",
+    "variants": {
+      "item": [
+        "title",
+        "indicator",
+        "content"
+      ],
+      "state": [
+        "true"
+      ]
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    },
+    "tokens": {
+      "--sds-size-space-400": "spacing",
+      "--sds-size-radius-200": "radius",
+      "--sds-color-background-default-secondary": "color",
+      "--sds-size-stroke-border": "size",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-background-default-secondary-hover": "color",
+      "--sds-font-body-strong": "typography",
+      "--sds-color-icon-default-default": "color",
+      "--sds-color-background-default-default": "color",
+      "--sds-size-space-200": "spacing",
+      "--sds-color-background-default-default-hover": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "hovered",
+        "focus-visible",
+        "expanded"
+      ],
+      "figma_props": {
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Open": "true"
+          }
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Content": {
+          "type": "string"
+        }
+      },
+      "source_files": {
+        "tsx": "Accordion.tsx",
+        "css": "accordion.css",
+        "figma": "Accordion.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "avatar",
+    "name": "Avatar",
+    "description": "Avatar component from the Simple Design System.",
+    "category": "data-display",
+    "variants": {
+      "size": [
+        "small",
+        "medium",
+        "large"
+      ],
+      "shape": [
+        "circle",
+        "square"
+      ],
+      "group": [
+        "overflow",
+        "spacing-100",
+        "spacing-200",
+        "spacing-300",
+        "spacing-negative-100",
+        "spacing-negative-200",
+        "spacing-negative-300"
+      ],
+      "spacing": [
+        "negative-200",
+        "100"
+      ],
+      "type": [
+        "placeholder"
+      ]
+    },
+    "properties": {
+      "src": {
+        "type": "string | null",
+        "required": false,
+        "description": ""
+      },
+      "square": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "initials": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "alt": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "size": {
+        "type": "enum",
+        "required": false,
+        "description": "size variant"
+      }
+    },
+    "tokens": {
+      "--sds-size-stroke-border": "size",
+      "--sds-color-background-brand-default": "color",
+      "--sds-color-text-brand-on-brand": "color",
+      "--sds-typography-scale-07": "typography",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-size-space-200": "spacing",
+      "--sds-size-space-050": "spacing",
+      "--sds-size-radius-full": "radius",
+      "--sds-size-radius-200": "radius",
+      "--sds-size-icon-small": "size",
+      "--sds-size-icon-medium": "size",
+      "--sds-size-icon-large": "size",
+      "--sds-size-space-300": "spacing",
+      "--sds-color-background-default-secondary": "color",
+      "--sds-font-body-small": "typography",
+      "--sds-typography-body-weight-strong": "typography",
+      "--sds-typography-scale-05": "typography",
+      "--sds-size-space-100": "spacing",
+      "--sds-effects-shadows-drop-shadow-200": "other",
+      "--sds-size-space-negative-100": "spacing",
+      "--sds-size-space-negative-200": "spacing",
+      "--sds-size-space-negative-300": "spacing"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "figma_props": {
+        "Spacing": {
+          "type": "enum",
+          "mappings": {
+            "Overlap": "negative-200",
+            "Spaced": "100"
+          }
+        },
+        "Shape": {
+          "type": "enum",
+          "mappings": {
+            "Square": "true"
+          }
+        },
+        "Type": {
+          "type": "enum",
+          "mappings": {
+            "Image": "placeholder"
+          }
+        },
+        "Size": {
+          "type": "enum",
+          "mappings": {
+            "Large": "large",
+            "Small": "small"
+          }
+        },
+        "Initials": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        }
+      },
+      "source_files": {
+        "tsx": "Avatar.tsx",
+        "css": "avatar.css",
+        "figma": "Avatar.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "button",
+    "name": "Button",
+    "description": "Button component from the Simple Design System.",
+    "category": "actions",
+    "variants": {
+      "size": [
+        "small",
+        "medium"
+      ],
+      "variant": [
+        "primary",
+        "neutral",
+        "subtle",
+        "danger-primary",
+        "danger-subtle"
+      ],
+      "group": [
+        "align-start",
+        "align-center",
+        "align-end",
+        "align-justify",
+        "align-stack"
+      ],
+      "state": [
+        "true"
+      ],
+      "align": [
+        "center",
+        "end",
+        "justify",
+        "stack"
+      ]
+    },
+    "properties": {
+      "type": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "size": {
+        "type": "enum",
+        "required": false,
+        "description": "size variant"
+      },
+      "variant": {
+        "type": "| \"primary\"\n    | \"neutral\"\n    | \"subtle\"\n    | \"danger-primary\"\n    | \"danger-subtle\"",
+        "required": false,
+        "description": ""
+      }
+    },
+    "tokens": {
+      "--sds-size-radius-200": "radius",
+      "--sds-size-stroke-border": "size",
+      "--sds-size-space-200": "spacing",
+      "--sds-font-body-small": "typography",
+      "--sds-typography-scale-02": "typography",
+      "--sds-font-body-base": "typography",
+      "--sds-size-space-300": "spacing",
+      "--sds-typography-scale-03": "typography",
+      "--sds-color-background-brand-default": "color",
+      "--sds-color-border-brand-default": "color",
+      "--sds-color-text-brand-on-brand": "color",
+      "--sds-color-background-brand-hover": "color",
+      "--sds-color-background-default-secondary": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-text-brand-default": "color",
+      "--sds-color-background-danger-default": "color",
+      "--sds-color-border-danger-secondary": "color",
+      "--sds-color-text-danger-on-danger": "color",
+      "--sds-color-background-danger-hover": "color",
+      "--sds-color-border-danger-default": "color",
+      "--sds-color-text-danger-default": "color",
+      "--sds-color-background-disabled-default": "color",
+      "--sds-color-border-disabled-default": "color",
+      "--sds-color-text-disabled-default": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "focus-visible",
+        "hovered",
+        "disabled"
+      ],
+      "figma_props": {
+        "Size": {
+          "type": "enum",
+          "mappings": {
+            "Small": "small"
+          }
+        },
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Disabled": "true"
+          }
+        },
+        "Variant": {
+          "type": "enum",
+          "mappings": {
+            "Subtle": "danger-subtle"
+          }
+        },
+        "Align": {
+          "type": "enum",
+          "mappings": {
+            "Center": "center",
+            "End": "end",
+            "Justify": "justify",
+            "Stack": "stack"
+          }
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Has Icon Start": {
+          "type": "boolean"
+        },
+        "Has Icon End": {
+          "type": "boolean"
+        },
+        "Icon Start": {
+          "type": "instance"
+        },
+        "Icon End": {
+          "type": "instance"
+        },
+        "_children": {
+          "type": "children",
+          "value": [
+            "Button"
+          ]
+        }
+      },
+      "source_files": {
+        "tsx": "Button.tsx",
+        "css": "button.css",
+        "figma": "Button.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "checkbox",
+    "name": "Checkbox",
+    "description": "Checkbox component from the Simple Design System.",
+    "category": "forms",
+    "variants": {
+      "value type": [
+        "true"
+      ],
+      "state": [
+        "true"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-color-background-default-default": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-icon-brand-on-brand": "color",
+      "--sds-size-radius-100": "radius",
+      "--sds-size-stroke-border": "size",
+      "--sds-size-space-400": "spacing",
+      "--sds-color-background-disabled-default": "color",
+      "--sds-color-border-disabled-default": "color",
+      "--sds-color-background-brand-default": "color",
+      "--sds-color-icon-disabled-default": "color",
+      "--sds-size-space-200": "spacing",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-size-space-300": "spacing",
+      "--sds-size-space-100": "spacing",
+      "--sds-color-text-disabled-default": "color",
+      "--sds-color-icon-disabled-on-disabled": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "disabled",
+        "selected",
+        "indeterminate",
+        "focus-visible"
+      ],
+      "figma_props": {
+        "Value Type": {
+          "type": "enum",
+          "mappings": {
+            "Indeterminate": "true"
+          }
+        },
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Disabled": "true"
+          }
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Has Description": {
+          "type": "boolean"
+        },
+        "_children": {
+          "type": "children",
+          "value": [
+            "Checkbox Field"
+          ]
+        }
+      },
+      "source_files": {
+        "tsx": "Checkbox.tsx",
+        "css": "checkbox.css",
+        "figma": "Checkbox.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "dialog",
+    "name": "Dialog",
+    "description": "Dialog component from the Simple Design System.",
+    "category": "feedback",
+    "variants": {
+      "type": [
+        "sheet",
+        "card"
+      ],
+      "body": [
+        "bleed"
+      ]
+    },
+    "properties": {
+      "type": {
+        "type": "enum",
+        "required": false,
+        "description": "type variant"
+      },
+      "bleed": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      }
+    },
+    "tokens": {
+      "--sds-effects-backdrop-filter-blur-overlay": "other",
+      "--sds-color-background-utilities-scrim": "color",
+      "--sds-size-space-800": "spacing",
+      "--sds-color-background-default-default": "color",
+      "--sds-effects-shadows-drop-shadow-400": "other",
+      "--sds-size-space-200": "spacing",
+      "--sds-size-radius-200": "radius",
+      "--sds-size-stroke-border": "size",
+      "--sds-color-border-default-default": "color",
+      "--sds-size-space-400": "spacing",
+      "--sds-size-space-600": "spacing"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "figma_props": {
+        "Type": {
+          "type": "enum",
+          "mappings": {
+            "Card": "card",
+            "Sheet": "sheet"
+          }
+        },
+        "Body": {
+          "type": "string"
+        },
+        "Heading": {
+          "type": "string"
+        }
+      },
+      "source_files": {
+        "tsx": "Dialog.tsx",
+        "css": "dialog.css",
+        "figma": "Dialog.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "fieldset",
+    "name": "Fieldset",
+    "description": "Fieldset component from the Simple Design System.",
+    "category": "layout",
+    "variants": {},
+    "properties": {
+      "singleLine": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "label": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "description": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "placeholder": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "errorMessage": {
+        "type": "function",
+        "required": false,
+        "description": ""
+      }
+    },
+    "tokens": {
+      "--sds-size-space-600": "spacing",
+      "--sds-color-text-disabled-default": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-size-space-200": "spacing",
+      "--sds-size-space-300": "spacing",
+      "--sds-font-subheading": "typography",
+      "--sds-font-body-base": "typography",
+      "--sds-color-text-danger-default": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "disabled"
+      ],
+      "source_files": {
+        "tsx": "Fieldset.tsx",
+        "css": "fieldset.css",
+        "figma": null
+      }
+    }
+  },
+  {
+    "id": "icon",
+    "name": "Icon",
+    "description": "Icon component from the Simple Design System.",
+    "category": "data-display",
+    "variants": {
+      "state": [
+        "true"
+      ],
+      "size": [
+        "small"
+      ],
+      "variant": [
+        "primary",
+        "neutral",
+        "subtle"
+      ]
+    },
+    "properties": {
+      "size": {
+        "type": "IconSize",
+        "required": false,
+        "description": ""
+      }
+    },
+    "tokens": {},
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "figma_props": {
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Disabled": "true"
+          }
+        },
+        "Size": {
+          "type": "enum",
+          "mappings": {
+            "Small": "small"
+          }
+        },
+        "Variant": {
+          "type": "enum",
+          "mappings": {
+            "Primary": "primary",
+            "Neutral": "neutral",
+            "Subtle": "subtle"
+          }
+        },
+        "Icon": {
+          "type": "instance"
+        }
+      },
+      "source_files": {
+        "tsx": "Icon.tsx",
+        "css": null,
+        "figma": "IconButton.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "iconbutton",
+    "name": "IconButton",
+    "description": "IconButton component from the Simple Design System.",
+    "category": "actions",
+    "variants": {
+      "state": [
+        "true"
+      ],
+      "size": [
+        "small"
+      ],
+      "variant": [
+        "primary",
+        "neutral",
+        "subtle"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-size-radius-full": "radius"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "figma_props": {
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Disabled": "true"
+          }
+        },
+        "Size": {
+          "type": "enum",
+          "mappings": {
+            "Small": "small"
+          }
+        },
+        "Variant": {
+          "type": "enum",
+          "mappings": {
+            "Primary": "primary",
+            "Neutral": "neutral",
+            "Subtle": "subtle"
+          }
+        },
+        "Icon": {
+          "type": "instance"
+        }
+      },
+      "source_files": {
+        "tsx": "IconButton.tsx",
+        "css": "iconButton.css",
+        "figma": "IconButton.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "image",
+    "name": "Image",
+    "description": "Image component from the Simple Design System.",
+    "category": "data-display",
+    "variants": {
+      "variant": [
+        "rounded"
+      ],
+      "aspect": [
+        "ratio-1-1",
+        "ratio-16-9",
+        "ratio-4-3",
+        "ratio-fill",
+        "ratio-natural"
+      ],
+      "size": [
+        "small",
+        "medium",
+        "large",
+        "fill",
+        "natural"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-color-background-default-secondary": "color",
+      "--sds-size-radius-100": "radius"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "source_files": {
+        "tsx": "Image.tsx",
+        "css": "image.css",
+        "figma": null
+      }
+    }
+  },
+  {
+    "id": "input",
+    "name": "Input",
+    "description": "Input component from the Simple Design System.",
+    "category": "forms",
+    "variants": {
+      "state": [
+        "figma"
+      ],
+      "value type": [
+        "I am a placeholder...",
+        "figma"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-color-background-default-default": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-text-default-tertiary": "color",
+      "--sds-size-stroke-border": "size",
+      "--sds-size-radius-200": "radius",
+      "--sds-size-space-300": "spacing",
+      "--sds-size-space-400": "spacing",
+      "--sds-color-background-disabled-default": "color",
+      "--sds-color-text-disabled-default": "color",
+      "--sds-color-border-disabled-default": "color",
+      "--sds-color-border-danger-default": "color",
+      "--sds-color-border-brand-secondary": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "disabled",
+        "invalid",
+        "focus-visible"
+      ],
+      "figma_props": {
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Error": "figma"
+          }
+        },
+        "Value Type": {
+          "type": "enum",
+          "mappings": {
+            "default": "I am a placeholder...",
+            "Placeholder": "figma"
+          }
+        },
+        "Value": {
+          "type": "string"
+        },
+        "Error": {
+          "type": "string"
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Has Description": {
+          "type": "boolean"
+        }
+      },
+      "source_files": {
+        "tsx": "Input.tsx",
+        "css": "input.css",
+        "figma": "Input.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "link",
+    "name": "Link",
+    "description": "Link component from the Simple Design System.",
+    "category": "navigation",
+    "variants": {},
+    "properties": {
+      "href": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    },
+    "tokens": {},
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "source_files": {
+        "tsx": "Link.tsx",
+        "css": "link.css",
+        "figma": null
+      }
+    }
+  },
+  {
+    "id": "listbox",
+    "name": "ListBox",
+    "description": "ListBox component from the Simple Design System.",
+    "category": "disclosure",
+    "variants": {},
+    "properties": {},
+    "tokens": {
+      "--sds-color-background-default-default": "color",
+      "--sds-size-radius-200": "radius",
+      "--sds-size-stroke-border": "size",
+      "--sds-color-border-default-default": "color",
+      "--sds-effects-shadows-drop-shadow-400": "other",
+      "--sds-size-space-200": "spacing",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-color-icon-default-default": "color",
+      "--sds-color-text-disabled-default": "color",
+      "--sds-color-text-brand-on-brand": "color",
+      "--sds-color-icon-brand-on-brand": "color",
+      "--sds-color-background-brand-default": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "selected",
+        "disabled",
+        "focused"
+      ],
+      "source_files": {
+        "tsx": "ListBox.tsx",
+        "css": "listBox.css",
+        "figma": null
+      }
+    }
+  },
+  {
+    "id": "logo",
+    "name": "Logo",
+    "description": "Logo component from the Simple Design System.",
+    "category": "data-display",
+    "variants": {},
+    "properties": {},
+    "tokens": {
+      "--sds-size-radius-200": "radius",
+      "--sds-size-stroke-border": "size",
+      "--sds-color-icon-default-default": "color",
+      "--sds-size-icon-small": "size"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "focus-visible"
+      ],
+      "source_files": {
+        "tsx": "Logo.tsx",
+        "css": "logo.css",
+        "figma": null
+      }
+    }
+  },
+  {
+    "id": "menu",
+    "name": "Menu",
+    "description": "Menu component from the Simple Design System.",
+    "category": "navigation",
+    "variants": {},
+    "properties": {},
+    "tokens": {
+      "--sds-size-space-300": "spacing",
+      "--sds-color-background-default-default": "color",
+      "--sds-size-radius-200": "radius",
+      "--sds-size-stroke-border": "size",
+      "--sds-color-border-default-default": "color",
+      "--sds-effects-shadows-drop-shadow-400": "other",
+      "--sds-size-space-200": "spacing",
+      "--sds-size-space-400": "spacing",
+      "--sds-size-space-100": "spacing",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-font-body-strong": "typography",
+      "--sds-color-icon-default-default": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-font-body-base": "typography",
+      "--sds-color-icon-brand-on-brand": "color",
+      "--sds-color-text-brand-on-brand": "color",
+      "--sds-color-background-brand-default": "color",
+      "--sds-color-icon-disabled-default": "color",
+      "--sds-color-text-disabled-default": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "focused",
+        "hovered",
+        "disabled"
+      ],
+      "figma_props": {
+        "Shortcut": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Has Icon": {
+          "type": "boolean"
+        },
+        "Has Description": {
+          "type": "boolean"
+        },
+        "Has Shortcut": {
+          "type": "boolean"
+        },
+        "Icon": {
+          "type": "instance"
+        },
+        "_children": {
+          "type": "children",
+          "value": [
+            "Menu Header",
+            "Menu Separator",
+            "Menu Section",
+            "Menu Item",
+            ""
+          ]
+        }
+      },
+      "source_files": {
+        "tsx": "Menu.tsx",
+        "css": "menu.css",
+        "figma": "Menu.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "navigation",
+    "name": "Navigation",
+    "description": "Navigation component from the Simple Design System.",
+    "category": "navigation",
+    "variants": {
+      "size": [
+        "small",
+        "medium"
+      ],
+      "direction": [
+        "column",
+        "row"
+      ],
+      "button": [
+        "direction-column",
+        "direction-row",
+        "size-small",
+        "size-medium"
+      ],
+      "state": [
+        "true",
+        "undefined",
+        "undefined"
+      ]
+    },
+    "properties": {
+      "isSelected": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "icon": {
+        "type": "ReactNode",
+        "required": false,
+        "description": ""
+      },
+      "size": {
+        "type": "enum",
+        "required": false,
+        "description": "size variant"
+      },
+      "direction": {
+        "type": "enum",
+        "required": false,
+        "description": "direction variant"
+      }
+    },
+    "tokens": {
+      "--sds-size-space-200": "spacing",
+      "--sds-size-radius-200": "radius",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-background-default-default-hover": "color",
+      "--sds-color-text-brand-on-brand-secondary": "color",
+      "--sds-color-background-brand-tertiary": "color",
+      "--sds-size-stroke-border": "size",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-color-icon-default-secondary": "color",
+      "--sds-color-text-brand-default": "color",
+      "--sds-color-icon-brand-default": "color",
+      "--sds-font-body-small-strong": "typography",
+      "--sds-font-body-base": "typography"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "hovered",
+        "selected",
+        "focus-visible"
+      ],
+      "figma_props": {
+        "Direction": {
+          "type": "enum",
+          "mappings": {
+            "Row": "row",
+            "Column": "column"
+          }
+        },
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Active": "true",
+            "Default": "undefined",
+            "Hover": "undefined"
+          }
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Has Icon": {
+          "type": "boolean"
+        },
+        "Icon": {
+          "type": "instance"
+        }
+      },
+      "source_files": {
+        "tsx": "Navigation.tsx",
+        "css": "navigation.css",
+        "figma": "Navigation.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "notification",
+    "name": "Notification",
+    "description": "Notification component from the Simple Design System.",
+    "category": "feedback",
+    "variants": {
+      "variant": [
+        "message",
+        "alert"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-size-radius-200": "radius",
+      "--sds-size-stroke-border": "size",
+      "--sds-size-space-400": "spacing",
+      "--sds-size-space-300": "spacing",
+      "--sds-size-space-100": "spacing",
+      "--sds-size-space-200": "spacing",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-icon-default-default": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-background-default-default": "color",
+      "--sds-color-text-danger-on-danger-tertiary": "color",
+      "--sds-color-icon-danger-on-danger-tertiary": "color",
+      "--sds-color-border-danger-default": "color",
+      "--sds-color-background-danger-tertiary": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "figma_props": {
+        "Variant": {
+          "type": "enum",
+          "mappings": {
+            "Message": "message",
+            "Alert": "alert"
+          }
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Body": {
+          "type": "string"
+        },
+        "Has Icon": {
+          "type": "boolean"
+        },
+        "Dismissible": {
+          "type": "boolean"
+        },
+        "Icon": {
+          "type": "instance"
+        }
+      },
+      "source_files": {
+        "tsx": "Notification.tsx",
+        "css": "notification.css",
+        "figma": "Notification.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "pagination",
+    "name": "Pagination",
+    "description": "Pagination component from the Simple Design System.",
+    "category": "navigation",
+    "variants": {
+      "state": [
+        "?next",
+        "?next"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-size-space-200": "spacing"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "figma_props": {
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Default": "?next",
+            "Hover": "?next"
+          }
+        },
+        "Number": {
+          "type": "string"
+        },
+        "_children": {
+          "type": "children",
+          "value": [
+            "Pagination Previous",
+            "Pagination List",
+            "Pagination Next",
+            ""
+          ]
+        }
+      },
+      "source_files": {
+        "tsx": "Pagination.tsx",
+        "css": "pagination.css",
+        "figma": "Pagination.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "radio",
+    "name": "Radio",
+    "description": "Radio component from the Simple Design System.",
+    "category": "forms",
+    "variants": {
+      "state": [
+        "true"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-color-background-default-default": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-icon-brand-on-brand": "color",
+      "--sds-size-space-400": "spacing",
+      "--sds-size-stroke-border": "size",
+      "--sds-size-space-200": "spacing",
+      "--sds-color-background-brand-default": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-size-space-300": "spacing",
+      "--sds-size-space-100": "spacing",
+      "--sds-color-text-disabled-default": "color",
+      "--sds-color-background-disabled-default": "color",
+      "--sds-color-border-disabled-default": "color",
+      "--sds-color-icon-disabled-on-disabled": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "selected",
+        "focus-visible",
+        "disabled"
+      ],
+      "figma_props": {
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Disabled": "true"
+          }
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Has Description": {
+          "type": "boolean"
+        },
+        "_children": {
+          "type": "children",
+          "value": [
+            "Radio Field"
+          ]
+        }
+      },
+      "source_files": {
+        "tsx": "Radio.tsx",
+        "css": "radio.css",
+        "figma": "Radio.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "search",
+    "name": "Search",
+    "description": "Search component from the Simple Design System.",
+    "category": "forms",
+    "variants": {
+      "input": [
+        "container"
+      ],
+      "value type": [
+        "Placeholder here...",
+        "figma"
+      ],
+      "state": [
+        "true"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-size-radius-full": "radius",
+      "--sds-size-space-800": "spacing",
+      "--sds-size-space-100": "spacing"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "figma_props": {
+        "Value Type": {
+          "type": "enum",
+          "mappings": {
+            "Default": "Placeholder here...",
+            "Placeholder": "figma"
+          }
+        },
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Disabled": "true"
+          }
+        },
+        "Value": {
+          "type": "string"
+        }
+      },
+      "source_files": {
+        "tsx": "Search.tsx",
+        "css": "search.css",
+        "figma": "Search.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "select",
+    "name": "Select",
+    "description": "Select component from the Simple Design System.",
+    "category": "forms",
+    "variants": {
+      "item": [
+        "check"
+      ],
+      "state": [
+        "figma"
+      ],
+      "value type": [
+        "I am a placeholder...",
+        "figma"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-color-background-default-default": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-size-stroke-border": "size",
+      "--sds-size-radius-200": "radius",
+      "--sds-size-space-200": "spacing",
+      "--sds-size-space-300": "spacing",
+      "--sds-size-space-400": "spacing",
+      "--sds-color-icon-default-default": "color",
+      "--sds-color-text-default-tertiary": "color",
+      "--sds-color-background-disabled-default": "color",
+      "--sds-color-text-disabled-default": "color",
+      "--sds-color-border-disabled-default": "color",
+      "--sds-color-icon-disabled-on-disabled": "color",
+      "--sds-color-border-danger-default": "color",
+      "--sds-color-border-brand-secondary": "color",
+      "--sds-size-space-100": "spacing"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "placeholder",
+        "disabled",
+        "invalid",
+        "focus-visible",
+        "selected"
+      ],
+      "figma_props": {
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Error": "figma"
+          }
+        },
+        "Value Type": {
+          "type": "enum",
+          "mappings": {
+            "Default": "I am a placeholder...",
+            "Placeholder": "figma"
+          }
+        },
+        "Value": {
+          "type": "string"
+        },
+        "Error": {
+          "type": "string"
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Has Description": {
+          "type": "boolean"
+        }
+      },
+      "source_files": {
+        "tsx": "Select.tsx",
+        "css": "select.css",
+        "figma": "Select.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "slider",
+    "name": "Slider",
+    "description": "Slider component from the Simple Design System.",
+    "category": "forms",
+    "variants": {
+      "state": [
+        "true"
+      ]
+    },
+    "properties": {
+      "name": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "label": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "description": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "thumbLabels": {
+        "type": "string[]",
+        "required": false,
+        "description": ""
+      },
+      "showOutput": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      }
+    },
+    "tokens": {
+      "--sds-color-background-brand-default": "color",
+      "--sds-color-background-brand-secondary": "color",
+      "--sds-font-body-base": "typography",
+      "--sds-color-border-disabled-default": "color",
+      "--sds-size-space-400": "spacing",
+      "--sds-size-space-200": "spacing",
+      "--sds-font-body-small": "typography",
+      "--sds-size-radius-full": "radius",
+      "--sds-size-stroke-border": "size"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "disabled",
+        "focus-visible"
+      ],
+      "figma_props": {
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Disabled": "true"
+          }
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Has Description": {
+          "type": "boolean"
+        }
+      },
+      "source_files": {
+        "tsx": "Slider.tsx",
+        "css": "slider.css",
+        "figma": "Slider.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "switch",
+    "name": "Switch",
+    "description": "Switch component from the Simple Design System.",
+    "category": "forms",
+    "variants": {
+      "value type": [
+        "true"
+      ],
+      "state": [
+        "true"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-color-background-default-secondary": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-icon-default-secondary": "color",
+      "--sds-size-space-100": "spacing",
+      "--sds-size-space-400": "spacing",
+      "--sds-size-space-600": "spacing",
+      "--sds-size-stroke-border": "size",
+      "--sds-size-space-300": "spacing",
+      "--sds-color-background-brand-default": "color",
+      "--sds-color-icon-brand-on-brand": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-color-text-disabled-default": "color",
+      "--sds-color-background-disabled-default": "color",
+      "--sds-color-border-disabled-default": "color",
+      "--sds-color-icon-disabled-default": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "selected",
+        "focus-visible",
+        "disabled"
+      ],
+      "figma_props": {
+        "Value Type": {
+          "type": "enum",
+          "mappings": {
+            "Checked": "true"
+          }
+        },
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Disabled": "true"
+          }
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Has Description": {
+          "type": "boolean"
+        }
+      },
+      "source_files": {
+        "tsx": "Switch.tsx",
+        "css": "switch.css",
+        "figma": "Switch.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "tab",
+    "name": "Tab",
+    "description": "Tab component from the Simple Design System.",
+    "category": "navigation",
+    "variants": {},
+    "properties": {},
+    "tokens": {
+      "--sds-color-text-default-secondary": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-size-radius-100": "radius",
+      "--sds-size-space-100": "spacing",
+      "--sds-size-space-300": "spacing",
+      "--sds-size-stroke-border": "size",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-border-default-secondary": "color",
+      "--sds-color-background-default-default-hover": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "selected",
+        "hovered",
+        "focus-visible"
+      ],
+      "figma_props": {
+        "Label": {
+          "type": "string"
+        }
+      },
+      "source_files": {
+        "tsx": "Tab.tsx",
+        "css": "tab.css",
+        "figma": "Tab.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "table",
+    "name": "Table",
+    "description": "Table component from the Simple Design System.",
+    "category": "data-display",
+    "variants": {
+      "row": [
+        "interactive"
+      ],
+      "column": [
+        "inner"
+      ],
+      "align": [
+        "start",
+        "end",
+        "center"
+      ],
+      "cell": [
+        "link"
+      ]
+    },
+    "properties": {
+      "bleed": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "dense": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "grid": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "striped": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      },
+      "align": {
+        "type": "TableAlign",
+        "required": false,
+        "description": ""
+      }
+    },
+    "tokens": {
+      "--sds-size-space-200": "spacing",
+      "--sds-size-space-400": "spacing",
+      "--sds-size-stroke-border": "size",
+      "--sds-color-background-default-secondary": "color",
+      "--sds-color-background-default-hover": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-font-body-small": "typography",
+      "--sds-typography-weight-bold": "typography"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "source_files": {
+        "tsx": "Table.tsx",
+        "css": "table.css",
+        "figma": null
+      }
+    }
+  },
+  {
+    "id": "tag",
+    "name": "Tag",
+    "description": "Tag component from the Simple Design System.",
+    "category": "data-display",
+    "variants": {
+      "remove": [
+        "button"
+      ],
+      "scheme": [
+        "brand",
+        "danger",
+        "positive",
+        "warning",
+        "neutral"
+      ],
+      "variant": [
+        "secondary"
+      ],
+      "toggle": [
+        "list",
+        "group"
+      ]
+    },
+    "properties": {
+      "scheme": {
+        "type": "TagScheme",
+        "required": false,
+        "description": ""
+      },
+      "variant": {
+        "type": "TagVariant",
+        "required": false,
+        "description": ""
+      },
+      "onRemove": {
+        "type": "function",
+        "required": false,
+        "description": ""
+      },
+      "iconStart": {
+        "type": "ReactNode",
+        "required": false,
+        "description": ""
+      }
+    },
+    "tokens": {
+      "--sds-size-stroke-border": "size",
+      "--sds-size-radius-200": "radius",
+      "--sds-font-body-base": "typography",
+      "--sds-size-space-300": "spacing",
+      "--sds-size-space-200": "spacing",
+      "--sds-color-text-brand-on-brand": "color",
+      "--sds-color-icon-brand-on-brand": "color",
+      "--sds-color-background-brand-default": "color",
+      "--sds-color-background-brand-hover": "color",
+      "--sds-color-text-brand-on-brand-tertiary": "color",
+      "--sds-color-icon-brand-on-brand-tertiary": "color",
+      "--sds-color-background-brand-tertiary": "color",
+      "--sds-color-text-danger-on-danger": "color",
+      "--sds-color-icon-danger-on-danger": "color",
+      "--sds-color-background-danger-default": "color",
+      "--sds-color-background-danger-hover": "color",
+      "--sds-color-text-danger-on-danger-secondary": "color",
+      "--sds-color-icon-danger-on-danger-secondary": "color",
+      "--sds-color-background-danger-secondary": "color",
+      "--sds-color-text-positive-on-positive": "color",
+      "--sds-color-icon-positive-on-positive": "color",
+      "--sds-color-background-positive-default": "color",
+      "--sds-color-background-positive-hover": "color",
+      "--sds-color-text-positive-on-positive-secondary": "color",
+      "--sds-color-icon-positive-on-positive-secondary": "color",
+      "--sds-color-background-positive-secondary": "color",
+      "--sds-color-text-warning-on-warning": "color",
+      "--sds-color-icon-warning-on-warning": "color",
+      "--sds-color-background-warning-default": "color",
+      "--sds-color-background-warning-hover": "color",
+      "--sds-color-text-warning-on-warning-secondary": "color",
+      "--sds-color-icon-warning-on-warning-secondary": "color",
+      "--sds-color-background-warning-secondary": "color",
+      "--sds-color-text-brand-on-brand-secondary": "color",
+      "--sds-color-icon-brand-on-brand-secondary": "color",
+      "--sds-color-background-brand-secondary": "color",
+      "--sds-color-background-brand-secondary-hover": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-icon-default-default": "color",
+      "--sds-color-background-default-tertiary": "color",
+      "--sds-color-background-default-tertiary-hover": "color",
+      "--sds-color-background-default-secondary": "color",
+      "--sds-color-text-brand-tertiary": "color",
+      "--sds-color-icon-brand-tertiary": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "focus-visible",
+        "hovered",
+        "selected"
+      ],
+      "figma_props": {
+        "Variant": {
+          "type": "enum",
+          "mappings": {
+            "Secondary": "secondary"
+          }
+        },
+        "Scheme": {
+          "type": "enum",
+          "mappings": {
+            "Danger": "danger",
+            "Positive": "positive",
+            "Warning": "warning",
+            "Neutral": "neutral"
+          }
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Removable": {
+          "type": "boolean"
+        },
+        "Icon": {
+          "type": "instance"
+        }
+      },
+      "source_files": {
+        "tsx": "Tag.tsx",
+        "css": "tag.css",
+        "figma": "Tag.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "text",
+    "name": "Text",
+    "description": "Text component from the Simple Design System.",
+    "category": "data-display",
+    "variants": {
+      "lineHeight": [
+        "body",
+        "single"
+      ],
+      "size": [
+        "small",
+        "large"
+      ],
+      "body": [
+        "base",
+        "small",
+        "small-strong",
+        "strong",
+        "emphasis",
+        "link",
+        "code"
+      ],
+      "line": [
+        "height-single",
+        "height-body"
+      ],
+      "title": [
+        "hero",
+        "page"
+      ],
+      "list": [
+        "density-default",
+        "title",
+        "density-tight",
+        "item"
+      ],
+      "link": [
+        "list"
+      ],
+      "price": [
+        "size-small",
+        "size-large",
+        "currency"
+      ],
+      "align": [
+        "center",
+        "start",
+        "end"
+      ],
+      "content": [
+        "title",
+        "heading"
+      ],
+      "density": [
+        "default",
+        "tight"
+      ]
+    },
+    "properties": {
+      "lineHeight": {
+        "type": "enum",
+        "required": false,
+        "description": "lineHeight variant"
+      },
+      "lineClamp": {
+        "type": "number",
+        "required": false,
+        "description": ""
+      },
+      "currency": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "price": {
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      "label": {
+        "type": "string",
+        "required": false,
+        "description": ""
+      },
+      "size": {
+        "type": "enum",
+        "required": false,
+        "description": "size variant"
+      }
+    },
+    "tokens": {
+      "--sds-font-body-base": "typography",
+      "--sds-font-body-small": "typography",
+      "--sds-font-body-small-strong": "typography",
+      "--sds-font-body-strong": "typography",
+      "--sds-font-body-emphasis": "typography",
+      "--sds-size-radius-100": "radius",
+      "--sds-font-body-link": "typography",
+      "--sds-size-stroke-border": "size",
+      "--sds-font-input": "typography",
+      "--sds-font-body-code": "typography",
+      "--sds-font-subtitle": "typography",
+      "--sds-font-subheading": "typography",
+      "--sds-font-heading": "typography",
+      "--sds-font-title-hero": "typography",
+      "--sds-font-title-page": "typography",
+      "--sds-size-space-300": "spacing",
+      "--sds-size-space-400": "spacing",
+      "--sds-size-space-200": "spacing",
+      "--sds-size-space-100": "spacing",
+      "--sds-color-text-default-secondary": "color",
+      "--sds-font-body": "typography",
+      "--sds-size-space-050": "spacing"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "figma_props": {
+        "Density": {
+          "type": "enum",
+          "mappings": {
+            "Default": "default",
+            "Tight": "tight"
+          }
+        },
+        "Size": {
+          "type": "enum",
+          "mappings": {
+            "Small": "small"
+          }
+        },
+        "Align": {
+          "type": "enum",
+          "mappings": {
+            "Center": "center"
+          }
+        },
+        "Text": {
+          "type": "string"
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Currency": {
+          "type": "string"
+        },
+        "Price": {
+          "type": "string"
+        },
+        "Heading": {
+          "type": "string"
+        },
+        "Subheading": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Subtitle": {
+          "type": "string"
+        },
+        "Has Title": {
+          "type": "boolean"
+        }
+      },
+      "source_files": {
+        "tsx": "Text.tsx",
+        "css": "text.css",
+        "figma": "Text.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "textarea",
+    "name": "Textarea",
+    "description": "Textarea component from the Simple Design System.",
+    "category": "forms",
+    "variants": {
+      "state": [
+        "figma"
+      ],
+      "value type": [
+        "I am a placeholder...",
+        "figma"
+      ]
+    },
+    "properties": {
+      "isResizable": {
+        "type": "boolean",
+        "required": false,
+        "description": ""
+      }
+    },
+    "tokens": {
+      "--sds-color-background-default-default": "color",
+      "--sds-color-text-default-default": "color",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-text-default-tertiary": "color",
+      "--sds-size-radius-200": "radius",
+      "--sds-size-stroke-border": "size",
+      "--sds-size-space-300": "spacing",
+      "--sds-size-space-400": "spacing",
+      "--sds-color-background-disabled-default": "color",
+      "--sds-color-text-disabled-default": "color",
+      "--sds-color-border-disabled-default": "color",
+      "--sds-color-border-danger-default": "color",
+      "--sds-color-border-brand-secondary": "color"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [
+        "disabled",
+        "invalid",
+        "focus-visible"
+      ],
+      "figma_props": {
+        "State": {
+          "type": "enum",
+          "mappings": {
+            "Error": "figma"
+          }
+        },
+        "Value Type": {
+          "type": "enum",
+          "mappings": {
+            "default": "I am a placeholder...",
+            "Placeholder": "figma"
+          }
+        },
+        "Value": {
+          "type": "string"
+        },
+        "Error": {
+          "type": "string"
+        },
+        "Label": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Has Description": {
+          "type": "boolean"
+        }
+      },
+      "source_files": {
+        "tsx": "Textarea.tsx",
+        "css": "textarea.css",
+        "figma": "Textarea.figma.tsx"
+      }
+    }
+  },
+  {
+    "id": "tooltip",
+    "name": "Tooltip",
+    "description": "Tooltip component from the Simple Design System.",
+    "category": "feedback",
+    "variants": {
+      "overlay": [
+        "arrow"
+      ],
+      "placement": [
+        "bottom",
+        "top",
+        "right",
+        "left"
+      ]
+    },
+    "properties": {},
+    "tokens": {
+      "--sds-typography-scale-04": "typography",
+      "--sds-color-border-default-default": "color",
+      "--sds-color-background-default-default": "color",
+      "--sds-size-stroke-border": "size",
+      "--sds-size-space-200": "spacing",
+      "--sds-effects-shadows-drop-shadow-200": "other",
+      "--sds-size-space-100": "spacing",
+      "--sds-size-space-300": "spacing"
+    },
+    "accessibility": {
+      "role": "PLACEHOLDER — fill in the correct ARIA role",
+      "min_touch_target": "PLACEHOLDER — specify if applicable",
+      "contrast_ratio": "PLACEHOLDER — specify requirements",
+      "focus_indicator": "PLACEHOLDER — describe focus style",
+      "aria_label": "PLACEHOLDER — describe labeling requirements",
+      "keyboard": "PLACEHOLDER — describe keyboard interactions"
+    },
+    "usage": {
+      "do": [
+        "PLACEHOLDER — add usage guidelines"
+      ],
+      "dont": [
+        "PLACEHOLDER — add anti-patterns"
+      ]
+    },
+    "related_components": [],
+    "_metadata": {
+      "css_states": [],
+      "figma_props": {
+        "Placement": {
+          "type": "enum",
+          "mappings": {
+            "Bottom": "bottom",
+            "Top": "top",
+            "Right": "right",
+            "Left": "left"
+          }
+        },
+        "Body": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "Has Body": {
+          "type": "boolean"
+        }
+      },
+      "source_files": {
+        "tsx": "Tooltip.tsx",
+        "css": "tooltip.css",
+        "figma": "Tooltip.figma.tsx"
+      }
+    }
+  }
+]

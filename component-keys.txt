@@ -60,6 +60,28 @@
 #   when a component is published.
 #
 # ──────────────────────────────────────
+# COMPONENT PLACEMENT (System Sidekick)
+# ──────────────────────────────────────
+#
+# The System Sidekick plugin places components based on the current selection:
+#
+# 1. WITH SELECTION (element selected on canvas):
+#    - X Position: Same as selected element (selected.x)
+#    - Y Position: 20px below selected element (selected.y + selected.height + 20)
+#    - Use Case: Stack components vertically below existing elements
+#
+# 2. WITHOUT SELECTION (nothing selected):
+#    - X Position: Centered in viewport (viewport.x - instance.width / 2)
+#    - Y Position: Centered in viewport (viewport.y - instance.height / 2)
+#    - Use Case: Place component in the middle of your current view
+#
+# After placement:
+#    - The new component instance is automatically selected
+#    - Viewport scrolls and zooms to show the placed component
+#
+# Implementation: system-sidekick-plugin/src/main.ts lines 156-170
+#
+# ──────────────────────────────────────
 # COMPONENT REFERENCE (Node IDs)
 # ──────────────────────────────────────
 #
