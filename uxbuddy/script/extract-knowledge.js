@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * UX Buddy - Knowledge Base Extraction Script
+ * System Sidekick - Knowledge Base Extraction Script
  * 
  * Extracts component data from a cloned SDS (Simple Design System) repo
  * and generates a starter knowledge base JSON file.
@@ -352,7 +352,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log('\n🔍 UX Buddy Knowledge Base Extractor');
+  console.log('\n🔍 System Sidekick Knowledge Base Extractor');
   console.log('=====================================\n');
   console.log(`📂 SDS repo: ${sdsRoot}`);
   console.log(`📂 Primitives: ${primitivesPath}\n`);

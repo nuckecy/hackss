@@ -4,7 +4,7 @@
  * extract-knowledge.js
  *
  * Extracts component data from a cloned SDS (Simple Design System) repo
- * and generates a knowledge base JSON file for UX Buddy.
+ * and generates a knowledge base JSON file for System Sidekick.
  *
  * Usage:
  *   node scripts/extract-knowledge.js /path/to/sds

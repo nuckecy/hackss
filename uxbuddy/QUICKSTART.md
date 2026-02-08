@@ -1,6 +1,6 @@
-# UX Buddy — Quickstart Guide
+# System Sidekick — Quickstart Guide
 
-A step-by-step walkthrough for building UX Buddy V1 using Claude Code in VSCode. Follow this document from top to bottom.
+A step-by-step walkthrough for building System Sidekick V1 using Claude Code in VSCode. Follow this document from top to bottom.
 
 ---
 
@@ -23,24 +23,24 @@ Before you start, make sure you have:
 Open your terminal (not Claude Code yet) and run:
 
 ```bash
-mkdir ux-buddy-workspace
-cd ux-buddy-workspace
+mkdir system-sidekick-workspace
+cd system-sidekick-workspace
 ```
 
 ### Step 1.2: Create the plugin project inside the workspace
 
 ```bash
-mkdir ux-buddy
-cd ux-buddy
+mkdir system-sidekick
+cd system-sidekick
 git init
 ```
 
 ### Step 1.3: Add the document files
 
-Copy all the downloaded files into the `ux-buddy/` project root. Your folder should look like this:
+Copy all the downloaded files into the `system-sidekick/` project root. Your folder should look like this:
 
 ```
-ux-buddy/
+system-sidekick/
 ├── CLAUDE.md                  ← Claude Code reads this automatically
 ├── PRD.md                     ← Product requirements
 ├── CHATBOT_PERSONA.md         ← AI persona for Gemini
@@ -68,15 +68,15 @@ git clone https://github.com/figma/sds.git
 
 ### Step 1.5: Create the VSCode workspace file
 
-Still in the `ux-buddy-workspace/` root, create a workspace file:
+Still in the `system-sidekick-workspace/` root, create a workspace file:
 
 ```bash
-cat > ux-buddy.code-workspace << 'EOF'
+cat > system-sidekick.code-workspace << 'EOF'
 {
   "folders": [
     {
-      "name": "UX Buddy (plugin)",
-      "path": "ux-buddy"
+      "name": "System Sidekick (plugin)",
+      "path": "system-sidekick"
     },
     {
       "name": "Simple Design System (reference)",
@@ -96,15 +96,15 @@ EOF
 ### Step 1.6: Open the workspace in VSCode
 
 ```bash
-code ux-buddy.code-workspace
+code system-sidekick.code-workspace
 ```
 
 Your final workspace structure:
 
 ```
-ux-buddy-workspace/
-├── ux-buddy.code-workspace    ← Open this in VSCode
-├── ux-buddy/                  ← Plugin project (Claude Code runs here)
+system-sidekick-workspace/
+├── system-sidekick.code-workspace    ← Open this in VSCode
+├── system-sidekick/                  ← Plugin project (Claude Code runs here)
 │   ├── CLAUDE.md
 │   ├── PRD.md
 │   ├── UI_STYLE_GUIDE.md
@@ -121,7 +121,7 @@ ux-buddy-workspace/
     └── ...
 ```
 
-**Why a workspace?** It keeps the SDS source visible in your file explorer for quick reference, while Claude Code operates in the `ux-buddy/` folder with its own `CLAUDE.md` context. The extraction script references SDS via relative path (`../sds`).
+**Why a workspace?** It keeps the SDS source visible in your file explorer for quick reference, while Claude Code operates in the `system-sidekick/` folder with its own `CLAUDE.md` context. The extraction script references SDS via relative path (`../sds`).
 
 ---
 
@@ -131,8 +131,8 @@ ux-buddy-workspace/
 
 Open `BUILD_PROMPTS.md` in VSCode so you can see it alongside your terminal. The file contains **10 numbered prompts**. Here's the workflow:
 
-1. **Open the workspace** via `ux-buddy.code-workspace` if not already open
-2. **Open Claude Code** in your VSCode terminal, making sure it's running in the `ux-buddy/` folder (not the workspace root or `sds/`). Check with `pwd`.
+1. **Open the workspace** via `system-sidekick.code-workspace` if not already open
+2. **Open Claude Code** in your VSCode terminal, making sure it's running in the `system-sidekick/` folder (not the workspace root or `sds/`). Check with `pwd`.
 3. **Copy a prompt** from BUILD_PROMPTS.md
 4. **Paste it** into Claude Code
 5. **Wait** for Claude Code to finish generating files
@@ -142,7 +142,7 @@ Open `BUILD_PROMPTS.md` in VSCode so you can see it alongside your terminal. The
 
 ### Important: Claude Code reads CLAUDE.md automatically
 
-When Claude Code runs in the `ux-buddy/` folder, it automatically reads `CLAUDE.md` and understands the project structure, architecture rules, and conventions. You don't need to explain the project from scratch in each prompt. The SDS repo is available next door at `../sds/` for the extraction script.
+When Claude Code runs in the `system-sidekick/` folder, it automatically reads `CLAUDE.md` and understands the project structure, architecture rules, and conventions. You don't need to explain the project from scratch in each prompt. The SDS repo is available next door at `../sds/` for the extraction script.
 
 ---
 
@@ -214,7 +214,7 @@ Paste **Prompt 5** into Claude Code.
 **What it does:** Builds the API key entry screen and the storage mechanism using figma.clientStorage.
 
 **What to verify:** Load the plugin in Figma.
-- First launch should show the "Welcome to UX Buddy" screen
+- First launch should show the "Welcome to System Sidekick" screen
 - Enter a test string and click Save
 - Close and reopen the plugin; it should go straight to the chat
 
@@ -320,14 +320,14 @@ You'll do this multiple times during development:
 1. Run `npm run build` in your terminal
 2. Open **Figma Desktop**
 3. Go to **Plugins** → **Development** → **Import plugin from manifest...**
-4. Navigate to your `ux-buddy/dist/` folder and select `manifest.json`
+4. Navigate to your `system-sidekick/dist/` folder and select `manifest.json`
 5. The plugin appears in your Development plugins list
-6. Run it: **Plugins** → **Development** → **UX Buddy**
+6. Run it: **Plugins** → **Development** → **System Sidekick**
 
 **To reload after code changes:**
 1. Run `npm run build` again
 2. In Figma, close the plugin panel
-3. Re-run: **Plugins** → **Development** → **UX Buddy**
+3. Re-run: **Plugins** → **Development** → **System Sidekick**
 
 **To see console logs and errors:**
 - **Plugins** → **Development** → **Open Console**
@@ -420,7 +420,7 @@ Before starting V2, confirm:
 Copy these new files into your project root alongside the V1 docs:
 
 ```
-ux-buddy/
+system-sidekick/
 ├── PRD_V2.md              ← V2 product requirements (new)
 ├── BUILD_PROMPTS_V2.md    ← V2 prompts for Claude Code (new)
 ├── CLAUDE.md              ← Already updated with V2 architecture section

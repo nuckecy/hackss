@@ -69,7 +69,7 @@ export function Drawer({ open, onClose, userName }: DrawerProps) {
 
         {/* Footer */}
         <div class="drawer-footer">
-          <span class="drawer-version">UX Buddy v2.0</span>
+          <span class="drawer-version">System Sidekick v2.0</span>
         </div>
       </div>
     </>

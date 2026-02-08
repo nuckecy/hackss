@@ -1,13 +1,13 @@
 {
   "common": {
-    "appName": "UX Buddy",
+    "appName": "System Sidekick",
     "settings": "Einstellungen",
     "cancel": "Abbrechen",
     "save": "Speichern",
     "done": "Fertig"
   },
   "settings": {
-    "welcome": "Willkommen bei UX Buddy",
+    "welcome": "Willkommen bei System Sidekick",
     "aiProvider": "KI-Anbieter",
     "apiKey": "API-Schlüssel",
     "apiKeyPlaceholder": "Fügen Sie Ihren API-Schlüssel ein",
@@ -30,7 +30,7 @@
     "clearChat": "Chat löschen",
     "copyMessage": "In Zwischenablage kopieren",
     "you": "Sie",
-    "conversationTitle": "UX Buddy Unterhaltung",
+    "conversationTitle": "System Sidekick Unterhaltung",
     "sendMessage": "Nachricht senden"
   },
   "errors": {

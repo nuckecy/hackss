@@ -79,19 +79,6 @@
   box-shadow: var(--shadow-focus);
 }
 
-/* Selection-aware chips — deep purple fill */
-.empty-state-chip--selection {
-  color: #FFFFFF;
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
-}
-
-.empty-state-chip--selection:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
-  color: #FFFFFF;
-}
-
 /* Hint text */
 .empty-state-hint {
   font-size: var(--font-size-sm);
@@ -100,15 +87,15 @@
   margin-top: 2px;
 }
 
-/* Dark mode overrides for general chips */
+/* Dark mode overrides */
 @media (prefers-color-scheme: dark) {
-  .empty-state-chip:not(.empty-state-chip--selection) {
+  .empty-state-chip {
     color: #B8A8E0;
     background: #1E1035;
     border-color: #2A1950;
   }
 
-  .empty-state-chip:not(.empty-state-chip--selection):hover {
+  .empty-state-chip:hover {
     background: #2A1950;
     border-color: #9388A2;
     color: #D0C5E5;

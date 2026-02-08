@@ -1,4 +1,4 @@
-# UX Buddy — Knowledge Base Schema
+# System Sidekick — Knowledge Base Schema
 
 This document defines the JSON schema for all three knowledge base files. Use this as the authoritative reference when building or extending the knowledge base.
 

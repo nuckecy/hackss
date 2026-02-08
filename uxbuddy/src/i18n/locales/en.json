@@ -1,13 +1,13 @@
 {
   "common": {
-    "appName": "UX Buddy",
+    "appName": "System Sidekick",
     "settings": "Settings",
     "cancel": "Cancel",
     "save": "Save",
     "done": "Done"
   },
   "settings": {
-    "welcome": "Welcome to UX Buddy",
+    "welcome": "Welcome to System Sidekick",
     "aiProvider": "AI Provider",
     "apiKey": "API Key",
     "apiKeyPlaceholder": "Paste your API key",
@@ -30,7 +30,7 @@
     "clearChat": "Clear chat",
     "copyMessage": "Copy to clipboard",
     "you": "You",
-    "conversationTitle": "UX Buddy Conversation",
+    "conversationTitle": "System Sidekick Conversation",
     "sendMessage": "Send message"
   },
   "errors": {

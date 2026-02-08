@@ -1,4 +1,4 @@
-# UX Buddy — UI Style Guide
+# System Sidekick — UI Style Guide
 
 ## Design Philosophy
 
@@ -304,7 +304,7 @@ Micro-shadows. If you can obviously see the shadow, it's too strong.
 
 ```
 ┌─────────────────────────────────────────┐
-│  ◆ UX Buddy                        ⚙   │  ← 36px height
+│  ◆ System Sidekick                        ⚙   │  ← 36px height
 ├─────────────────────────────────────────┤
 │  ▪ SELECTED · Button / filled / md      │  ← 28px height (conditional)
 ├─────────────────────────────────────────┤
@@ -696,7 +696,7 @@ Max message content width: `calc(100% - 24px)` (12px padding each side).
 ```
 360px wide
 ┌─────────────────────────────────────────┐
-│  ◆ UX Buddy                        ⚙   │  header: 36px
+│  ◆ System Sidekick                        ⚙   │  header: 36px
 ├─────────────────────────────────────────┤
 │  ▪ SELECTED · Button / filled / md      │  selection: 28px
 ├─────────────────────────────────────────┤

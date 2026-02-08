@@ -3,10 +3,10 @@ import { useState, useEffect, useRef } from 'preact/hooks';
 import './styles/global.css';
 import { MessageBubble } from './components/MessageBubble';
 import { InputBar } from './components/InputBar';
-import { SelectionIndicator } from './components/SelectionIndicator';
+import { SelectionIndicator, SuggestionPanel } from './components/SelectionIndicator';
 import { EmptyState } from './components/EmptyState';
 import { Settings } from './components/Settings';
-import { SuggestionChips } from './components/SuggestionChips';
+
 import { ScanResultMessage } from './components/ScanResultMessage';
 import { ScanLoadingState } from './components/ScanLoadingState';
 import { Drawer } from './components/Drawer';
@@ -44,7 +44,7 @@ function App() {
         <div class="app-header">
           <div class="app-header-title">
             <img src={chatbotIcon} alt="" class="app-header-icon" />
-            <span>UX Buddy</span>
+            <span>System Sidekick</span>
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@ function App() {
         <div class="app-header">
           <div class="app-header-title">
             <img src={chatbotIcon} alt="" class="app-header-icon" />
-            <span>UX Buddy</span>
+            <span>System Sidekick</span>
           </div>
         </div>
         <Settings
@@ -80,7 +80,7 @@ function App() {
           <div class="app-header">
             <div class="app-header-title">
               <img src={chatbotIcon} alt="" class="app-header-icon" />
-              <span>UX Buddy</span>
+              <span>System Sidekick</span>
             </div>
             <button
               class="app-header-settings"
@@ -118,19 +118,6 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
   const { userName } = useCurrentUser();
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const prevSelectionId = useRef<string | null>(null);
-
-  // Show suggestions when selection changes to a new element
-  useEffect(() => {
-    const newId = selection ? selection.id : null;
-    if (newId && newId !== prevSelectionId.current) {
-      setShowSuggestions(true);
-    } else if (!newId) {
-      setShowSuggestions(false);
-    }
-    prevSelectionId.current = newId;
-  }, [selection]);
 
   // Auto-scroll to bottom on new messages or loading state change
   useEffect(() => {
@@ -140,7 +127,6 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
   }, [messages, isLoading, isScanning]);
 
   const handleSuggestionClick = (text: string): void => {
-    setShowSuggestions(false);
     handleSendOrScan(text);
   };
 
@@ -155,7 +141,6 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
   }
 
   const handleSend = (text: string): void => {
-    setShowSuggestions(false);
     handleSendOrScan(text);
   };
 
@@ -193,7 +178,7 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
           </button>
           <div class="app-header-title">
             <img src={chatbotIcon} alt="" class="app-header-icon" />
-            <span>UX Buddy</span>
+            <span>System Sidekick</span>
           </div>
         </div>
         <div class="app-header-actions">
@@ -226,7 +211,10 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
       </div>
 
       {/* Selection Indicator */}
-      <SelectionIndicator selection={selection} onClear={handleClearSelection} />
+      <SelectionIndicator
+        selection={selection}
+        onClear={handleClearSelection}
+      />
 
       {/* Chat Area */}
       <div class="chat-area-wrapper">
@@ -286,14 +274,12 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
         </div>
       </div>
 
-      {/* Suggestion Chips — only when chat has messages */}
-      {hasMessages && (
-        <SuggestionChips
-          selection={selection}
-          onChipClick={handleSuggestionClick}
-          visible={showSuggestions && !busy}
-        />
-      )}
+      {/* Suggestion Panel — floating card above input */}
+      <SuggestionPanel
+        selection={selection}
+        onChipClick={handleSuggestionClick}
+        disabled={busy}
+      />
 
       {/* Input Bar */}
       <InputBar onSend={handleSend} disabled={busy} />

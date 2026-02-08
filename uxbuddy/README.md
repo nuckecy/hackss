@@ -1,6 +1,6 @@
-# UX Buddy — Document Package
+# System Sidekick — Document Package
 
-This folder contains everything you need to build UX Buddy using Claude Code in VSCode.
+This folder contains everything you need to build System Sidekick using Claude Code in VSCode.
 
 **Start here:** Read `QUICKSTART.md` for the full step-by-step walkthrough.
 

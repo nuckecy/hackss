@@ -1,10 +1,10 @@
-# UX Buddy — Product Requirements Document (V2)
+# System Sidekick — Product Requirements Document (V2)
 
 ## Document Info
 
 | Field | Value |
 |-------|-------|
-| **Product Name** | UX Buddy |
+| **Product Name** | System Sidekick |
 | **Version** | 2.0 (Scan & Fix Mode) |
 | **Author** | Otobong Okoko |
 | **Date** | February 2026 |
@@ -15,7 +15,7 @@
 
 ## 1. Overview
 
-V2 evolves UX Buddy from a reactive Q&A tool into a proactive design review companion. The plugin now scans selected layers against the design system and accessibility rules, surfaces issues conversationally in the chat, and offers one-click fixes for mechanical violations.
+V2 evolves System Sidekick from a reactive Q&A tool into a proactive design review companion. The plugin now scans selected layers against the design system and accessibility rules, surfaces issues conversationally in the chat, and offers one-click fixes for mechanical violations.
 
 **The core interaction shifts from:**
 V1: Designer asks → AI answers
@@ -52,7 +52,7 @@ V2: Designer selects → AI observes and prompts → Designer scans → AI revie
 
 ### 3.1 Smart Selection Prompts (Passive)
 
-When a designer selects a layer, UX Buddy becomes context-aware. Instead of just showing "SELECTED: Button / filled / md" (V1 behavior), the selection indicator now offers smart action suggestions.
+When a designer selects a layer, System Sidekick becomes context-aware. Instead of just showing "SELECTED: Button / filled / md" (V1 behavior), the selection indicator now offers smart action suggestions.
 
 ```
 Designer selects a Button instance
@@ -333,7 +333,7 @@ interface FixResult {
 
 ```
 ┌─────────────────────────────────────────┐
-│  ◆ UX Buddy                    🔍  ⚙   │
+│  ◆ System Sidekick                    🔍  ⚙   │
 └─────────────────────────────────────────┘
                                   ↑
                            Scan button (new)

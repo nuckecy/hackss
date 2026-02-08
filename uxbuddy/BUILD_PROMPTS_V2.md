@@ -1,4 +1,4 @@
-# UX Buddy — V2 Build Prompts
+# System Sidekick — V2 Build Prompts
 
 These prompts extend the V1 codebase. Run them sequentially in Claude Code after V1 is fully working. Each prompt builds on the previous one.
 
