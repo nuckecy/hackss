@@ -3,6 +3,7 @@ import type { ScanIssue } from '../types/scan';
 import componentsKB from '../knowledge/components.json';
 import accessibilityKB from '../knowledge/accessibility.json';
 import tokensKB from '../knowledge/tokens.json';
+import patternsKB from '../knowledge/patterns.json';
 
 const PERSONA = `You are UX Buddy, a friendly and knowledgeable design system assistant embedded in Figma. You act as a favorite colleague — slightly casual, collaborative, and encouraging.
 
@@ -102,13 +103,21 @@ export function buildSystemPrompt(selection: SelectionData | null): string {
   // 4. Token reference
   sections.push('---\n## Token Reference\n' + JSON.stringify(tokensKB, null, 2));
 
-  // 5. Current selection
+  // 5. Design patterns (compact serialization, no pretty-printing)
+  sections.push(
+    '---\n## Design Patterns & Decision Frameworks\n' +
+    'Use these patterns alongside the component and token knowledge above. ' +
+    'When a pattern references "see_also", consult those KB sections.\n' +
+    JSON.stringify(patternsKB)
+  );
+
+  // 6. Current selection
   sections.push(
     '---\n## Current Selection Context\nThe user currently has the following element selected in Figma:\n' +
       serializeSelection(selection)
   );
 
-  // 6. Response instructions
+  // 7. Response instructions
   sections.push(`---
 ## Response Instructions
 - Answer the user's question using the knowledge base above. If the answer isn't in the KB, say so honestly.
@@ -118,6 +127,7 @@ export function buildSystemPrompt(selection: SelectionData | null): string {
 - Use severity labels (**Error**, **Warning**, **Info**) when identifying issues.
 - Format responses with markdown: **bold** for emphasis, \`backticks\` for token and component names.
 - Keep responses concise and actionable. Aim for 3-8 sentences unless the question requires more detail.
+- When evaluating designs, consult the Design Patterns section for decision frameworks. Always explain WHY using the pattern's reasoning, not just WHAT is wrong. Reference the pattern's see_also entries for specific component/token details.
 
 ## Critical Limitations
 - You CANNOT modify the Figma canvas. You cannot add, move, delete, or edit layers, components, or any design elements.

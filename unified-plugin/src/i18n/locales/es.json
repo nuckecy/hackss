@@ -1,0 +1,93 @@
+{
+  "common": {
+    "appName": "System Sidekick",
+    "settings": "Configuración",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "done": "Listo"
+  },
+  "settings": {
+    "welcome": "Bienvenido a System Sidekick",
+    "aiProvider": "Proveedor de IA",
+    "apiKey": "Clave API",
+    "apiKeyPlaceholder": "Pegue su clave API de Gemini",
+    "enterApiKey": "Ingrese su clave API de Gemini para comenzar",
+    "getApiKey": "Obtenga una clave API gratuita de Google AI Studio",
+    "claudeInfo": "Claude usa la API backend en localhost:3000. Asegúrese de que el servidor esté ejecutándose.",
+    "changeKey": "Cambiar Clave",
+    "clearKey": "Borrar",
+    "saveKey": "Guardar Clave",
+    "accessibility": "Accesibilidad",
+    "fontSize": "Tamaño de Fuente",
+    "fontSizeSmall": "Pequeño",
+    "fontSizeMedium": "Mediano",
+    "fontSizeLarge": "Grande",
+    "screenReaderMode": "Etiquetas mejoradas para lectores de pantalla",
+    "language": "Idioma"
+  },
+  "chat": {
+    "placeholder": "Pregunte sobre componentes, tokens o accesibilidad...",
+    "exportConversation": "Exportar conversación",
+    "clearChat": "Limpiar chat",
+    "copyMessage": "Copiar al portapapeles",
+    "you": "Tú",
+    "conversationTitle": "Conversación de System Sidekick",
+    "sendMessage": "Enviar mensaje"
+  },
+  "errors": {
+    "selectFrame": "Por favor seleccione un marco para analizar",
+    "selectFrameInstance": "Por favor seleccione un marco, componente, sección o instancia"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "de": "Deutsch",
+    "fr": "Français"
+  },
+  "emptyState": {
+    "welcome": "Pregúntame cualquier cosa sobre el Simple Design System.",
+    "selectionNotice": "Noté que seleccionaste algo. ¿Quieres que te ayude?",
+    "hint": "O selecciona una capa en Figma para sugerencias contextuales."
+  },
+  "chips": {
+    "general": {
+      "alertVsToast": "¿Alerta o Toast?",
+      "spacingTokens": "Tokens de espaciado",
+      "accessibleForms": "Formularios accesibles",
+      "buttonVariants": "Variantes de botones",
+      "colorContrast": "Contraste de color",
+      "typographyScale": "Escala tipográfica",
+      "iconUsage": "Uso de iconos",
+      "responsiveLayout": "Diseño responsivo"
+    },
+    "instance": {
+      "rightUse": "¿Uso correcto de {name}?",
+      "accessibilityCheck": "Verificación de accesibilidad",
+      "availableVariants": "¿Variantes disponibles?",
+      "spacingReview": "Revisión de espaciado"
+    },
+    "text": {
+      "textAccessible": "¿Texto accesible?",
+      "contrastRatio": "Relación de contraste",
+      "correctToken": "¿Token correcto?",
+      "fontSizeReview": "Revisión de tamaño de fuente"
+    },
+    "layout": {
+      "reviewLayout": "Revisar diseño",
+      "checkSpacing": "Verificar espaciado",
+      "accessibilityIssues": "¿Problemas de accesibilidad?",
+      "alignmentCheck": "Verificar alineación"
+    },
+    "component": {
+      "howToUse": "¿Cómo usar {name}?",
+      "accessibilityReqs": "Requisitos de accesibilidad",
+      "tokenUsage": "¿Uso de tokens?",
+      "bestPractices": "Mejores prácticas"
+    },
+    "default": {
+      "whatIs": "¿Qué es {name}?",
+      "anyIssues": "¿Algún problema?",
+      "howToImprove": "¿Cómo mejorar?"
+    }
+  }
+}
