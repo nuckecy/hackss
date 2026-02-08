@@ -1,29 +1,19 @@
+import type { ChatMessage } from './gemini-provider';
 import type { AIProvider } from './provider';
 
-export interface ChatMessage {
-  role: 'user' | 'model';
+interface ClaudeMessage {
+  role: 'user' | 'assistant';
   content: string;
 }
 
-interface GeminiContent {
-  role: string;
-  parts: Array<{ text: string }>;
+interface ClaudeResponse {
+  content?: Array<{ type: string; text?: string }>;
+  error?: { type: string; message: string };
 }
 
-interface GeminiResponse {
-  candidates?: Array<{
-    content: {
-      parts: Array<{ text: string }>;
-    };
-  }>;
-  error?: {
-    message: string;
-  };
-}
+const API_URL = 'https://api.anthropic.com/v1/messages';
 
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
-
-export class GeminiProvider implements AIProvider {
+export class ClaudeProvider implements AIProvider {
   private apiKey: string;
 
   constructor(apiKey: string) {
@@ -55,28 +45,28 @@ export class GeminiProvider implements AIProvider {
   }
 
   private async makeRequest(messages: ChatMessage[], systemPrompt: string): Promise<string> {
-    const contents: GeminiContent[] = messages.map((msg) => ({
-      role: msg.role,
-      parts: [{ text: msg.content }],
+    const claudeMessages: ClaudeMessage[] = messages.map((msg) => ({
+      role: msg.role === 'model' ? 'assistant' : 'user',
+      content: msg.content,
     }));
 
     const body = {
-      contents,
-      systemInstruction: {
-        parts: [{ text: systemPrompt }],
-      },
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 1024,
-        topP: 0.9,
-      },
+      model: 'claude-sonnet-4-5-20250929',
+      max_tokens: 1024,
+      system: systemPrompt,
+      messages: claudeMessages,
     };
 
     let response: Response;
     try {
-      response = await fetch(`${API_URL}?key=${this.apiKey}`, {
+      response = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'content-type': 'application/json',
+          'x-api-key': this.apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
         body: JSON.stringify(body),
       });
     } catch (_) {
@@ -92,24 +82,24 @@ export class GeminiProvider implements AIProvider {
     }
 
     if (response.status >= 500) {
-      throw new Error('Gemini service error');
+      throw new Error('Claude service error');
     }
 
     if (!response.ok) {
-      throw new Error(`Request failed (${response.status})`);
+      throw new Error('Request failed (' + response.status + ')');
     }
 
-    const data: GeminiResponse = await response.json();
+    const data: ClaudeResponse = await response.json();
 
-    if (!data.candidates || data.candidates.length === 0) {
+    if (!data.content || data.content.length === 0) {
       throw new Error('No response generated');
     }
 
-    const text = data.candidates[0]?.content?.parts?.[0]?.text;
-    if (!text) {
+    const textBlock = data.content.find((block) => block.type === 'text');
+    if (!textBlock || !textBlock.text) {
       throw new Error('No response generated');
     }
 
-    return text;
+    return textBlock.text;
   }
 }

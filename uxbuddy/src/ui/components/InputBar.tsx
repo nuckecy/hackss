@@ -14,7 +14,7 @@ export function InputBar({ onSend, disabled }: InputBarProps) {
     const el = textareaRef.current;
     if (!el) return;
     el.style.height = 'auto';
-    el.style.height = `${Math.min(el.scrollHeight, el.offsetHeight === 0 ? Infinity : el.scrollHeight)}px`;
+    el.style.height = `${Math.min(el.scrollHeight, 72)}px`;
   };
 
   useEffect(() => {
@@ -38,24 +38,26 @@ export function InputBar({ onSend, disabled }: InputBarProps) {
 
   return (
     <div class="input-bar">
-      <textarea
-        ref={textareaRef}
-        class="input-field"
-        placeholder="Ask about components, a11y..."
-        value={value}
-        onInput={(e) => setValue((e.target as HTMLTextAreaElement).value)}
-        onKeyDown={handleKeyDown}
-        disabled={disabled}
-        rows={4}
-      />
-      <button
-        class="send-button"
-        onClick={handleSubmit}
-        disabled={disabled || !value.trim()}
-        aria-label="Send message"
-      >
-        <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>send</span>
-      </button>
+      <div class={'input-pill' + (disabled ? ' input-pill--disabled' : '')}>
+        <textarea
+          ref={textareaRef}
+          class="input-field"
+          placeholder="Ask about components, a11y..."
+          value={value}
+          onInput={(e) => setValue((e.target as HTMLTextAreaElement).value)}
+          onKeyDown={handleKeyDown}
+          disabled={disabled}
+          rows={1}
+        />
+        <button
+          class="send-button"
+          onClick={handleSubmit}
+          disabled={disabled || !value.trim()}
+          aria-label="Send message"
+        >
+          <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_upward</span>
+        </button>
+      </div>
     </div>
   );
 }
