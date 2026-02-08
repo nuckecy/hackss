@@ -1,0 +1,82 @@
+.fix-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.fix-button:disabled {
+  cursor: default;
+}
+
+.fix-button--idle {
+  color: var(--text-inverse);
+  background: var(--accent-primary);
+}
+
+.fix-button--idle:hover {
+  background: var(--accent-hover);
+  color: var(--text-inverse);
+}
+
+.fix-button--applying {
+  color: var(--text-tertiary);
+  background: var(--bg-tertiary);
+}
+
+.fix-button--applied {
+  color: var(--severity-success);
+  background: var(--severity-success-bg);
+}
+
+.fix-button--failed {
+  color: var(--severity-error);
+  background: var(--severity-error-bg);
+}
+
+.fix-button--failed:hover {
+  opacity: 0.85;
+}
+
+.fix-button-icon {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.fix-button-spinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--border-default);
+  border-top-color: var(--text-tertiary);
+  border-radius: 50%;
+  animation: fix-spin 0.6s linear infinite;
+}
+
+@keyframes fix-spin {
+  to { transform: rotate(360deg); }
+}
+
+.fix-button-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fix-button-error {
+  font-size: 10px;
+  color: var(--severity-error);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}

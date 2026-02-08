@@ -31,3 +31,41 @@ export interface SelectionData {
     componentName?: string;
   }>;
 }
+
+export interface SelectionDataV2 extends SelectionData {
+  // Recursive children (up to 3 levels deep, 20 per level)
+  children?: SelectionDataV2[];
+  childCount?: number;
+
+  // Component metadata
+  componentId?: string;
+  componentDescription?: string;
+  componentSetName?: string;
+
+  // Style references
+  fillStyleId?: string;
+  fillStyleName?: string;
+  strokeStyleId?: string;
+  strokeStyleName?: string;
+  textStyleId?: string;
+  textStyleName?: string;
+  effectStyleId?: string;
+  effectStyleName?: string;
+
+  // Layout constraints
+  constraints?: { horizontal: string; vertical: string };
+  layoutAlign?: string;
+  layoutGrow?: number;
+
+  // Position
+  absoluteX?: number;
+  absoluteY?: number;
+
+  // Visibility & state
+  opacity?: number;
+  visible?: boolean;
+  locked?: boolean;
+
+  // Shape
+  cornerRadius?: number | number[];
+}
