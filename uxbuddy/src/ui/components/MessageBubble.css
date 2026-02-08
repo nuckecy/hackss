@@ -1,0 +1,131 @@
+.message {
+  padding: 8px 12px;
+  font-size: var(--font-size-base);
+  overflow: hidden;
+}
+
+.message-user {
+  background: var(--msg-user-bg);
+  color: var(--msg-user-text);
+  border: none;
+  border-radius: 8px 8px 4px 8px;
+  margin: 1px 12px 1px 48px;
+  line-height: var(--line-height-base);
+}
+
+.message-assistant {
+  background: var(--msg-assistant-bg);
+  border: 1px solid var(--msg-assistant-border);
+  border-radius: 8px 8px 8px 4px;
+  margin: 1px 12px;
+  line-height: var(--line-height-relaxed);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.message-content {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.message-content strong {
+  font-weight: var(--font-weight-semibold);
+}
+
+.message-content code {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent-text);
+  background: var(--bg-secondary);
+  padding: 1px 4px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  word-break: break-all;
+}
+
+/* User bubble overrides for code/bold/links — white-on-purple readability */
+.message-user .message-content code {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.message-user .message-content strong {
+  color: #FFFFFF;
+}
+
+.message-user .message-content a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: underline;
+}
+
+/* Paragraphs */
+.message-paragraph {
+  margin: 0;
+  padding: 0;
+}
+
+.message-paragraph + .message-paragraph,
+.message-paragraph + .message-list,
+.message-paragraph + .message-heading,
+.message-list + .message-paragraph,
+.message-list + .message-list,
+.message-list + .message-heading,
+.message-heading + .message-paragraph,
+.message-heading + .message-list {
+  margin-top: 6px;
+}
+
+/* Headings */
+.message-heading {
+  font-weight: 700;
+  font-size: var(--font-size-md);
+  margin: 0;
+}
+
+/* Lists */
+.message-list {
+  margin: 0;
+  padding: 0 0 0 16px;
+  list-style: disc;
+}
+
+.message-list-ordered {
+  list-style: decimal;
+}
+
+.message-list-item {
+  margin: 2px 0;
+  padding: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.message-list-item::marker {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+}
+
+/* User bubble list marker override */
+.message-user .message-list-item::marker {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Timestamp */
+.message-timestamp {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  margin-top: 4px;
+  letter-spacing: var(--tracking-wide);
+  text-align: right;
+}
+
+/* User bubble timestamp override */
+.message-user .message-timestamp {
+  color: rgba(255, 255, 255, 0.6);
+}

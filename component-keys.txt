@@ -1,0 +1,144 @@
+# SDS Component Keys — Extraction Guide
+# ======================================
+#
+# The sds-components.json file uses "YOUR_KEY_HERE" as placeholder keys.
+# You need to extract real component keys for figma.importComponentByKeyAsync() to work.
+#
+# SDS Figma File ID: J0KLPKXiONDRssXD1AX9Oi
+# SDS Community URL: https://www.figma.com/community/file/1380235722331273046/simple-design-system
+#
+# ──────────────────────────────────────
+# OPTION A: Figma REST API (Recommended)
+# ──────────────────────────────────────
+#
+# 1. Get a Figma personal access token from: https://www.figma.com/developers/api#access-tokens
+#
+# 2. Run this command:
+#    curl -H "X-Figma-Token: YOUR_FIGMA_TOKEN" \
+#      "https://api.figma.com/v1/files/J0KLPKXiONDRssXD1AX9Oi/components"
+#
+# 3. The response will contain all published components with their `key` field.
+#    Each component object has: { key, name, description, ... }
+#
+# 4. Update sds-components.json: replace each "YOUR_KEY_HERE" with the real key.
+#
+# ──────────────────────────────────────
+# OPTION B: Figma Plugin Helper Script
+# ──────────────────────────────────────
+#
+# 1. Open the SDS file in Figma (duplicate to your drafts first)
+# 2. Publish it as a team library
+# 3. Create a temporary plugin with this code:
+#
+#    const components = figma.root.findAllWithCriteria({ types: ['COMPONENT'] })
+#    for (const c of components) {
+#      console.log(`${c.name}: ${c.key}`)
+#    }
+#
+# 4. Run the plugin and copy the output
+# 5. Update sds-components.json with the real keys
+#
+# ──────────────────────────────────────
+# OPTION C: Manual Extraction
+# ──────────────────────────────────────
+#
+# 1. Open the SDS community file in Figma
+# 2. Duplicate it to your drafts
+# 3. Publish it as a library
+# 4. For each component: right-click → "Copy/Paste as" → "Copy link"
+# 5. The URL contains the component key
+#
+# ──────────────────────────────────────
+# IMPORTANT NOTES
+# ──────────────────────────────────────
+#
+# - The SDS Figma file MUST be published as a library in your Figma team
+#   for importComponentByKeyAsync() to work.
+# - Node IDs (e.g., 4185-3778) are NOT component keys — they're internal
+#   Figma references for locating components in the file.
+# - Component keys are unique strings like "abc123def456..." assigned by Figma
+#   when a component is published.
+#
+# ──────────────────────────────────────
+# COMPONENT PLACEMENT (System Sidekick)
+# ──────────────────────────────────────
+#
+# The System Sidekick plugin places components based on the current selection:
+#
+# 1. WITH SELECTION (element selected on canvas):
+#    - X Position: Same as selected element (selected.x)
+#    - Y Position: 20px below selected element (selected.y + selected.height + 20)
+#    - Use Case: Stack components vertically below existing elements
+#
+# 2. WITHOUT SELECTION (nothing selected):
+#    - X Position: Centered in viewport (viewport.x - instance.width / 2)
+#    - Y Position: Centered in viewport (viewport.y - instance.height / 2)
+#    - Use Case: Place component in the middle of your current view
+#
+# After placement:
+#    - The new component instance is automatically selected
+#    - Viewport scrolls and zooms to show the placed component
+#
+# Implementation: system-sidekick-plugin/src/main.ts lines 156-170
+#
+# ──────────────────────────────────────
+# COMPONENT REFERENCE (Node IDs)
+# ──────────────────────────────────────
+#
+# Primitives:
+#   Button              → Node 4185-3778
+#   ButtonDanger        → Node 185-852
+#   ButtonGroup         → Node 2072-9432
+#   IconButton          → Node 11-11508
+#   Accordion           → Node 7753-4779
+#   AccordionItem       → Node 7753-4634
+#   Avatar              → Node 9762:1103
+#   AvatarBlock         → Node 2010-15581
+#   AvatarGroup         → Node 56-15608
+#   Card                → Node 2142-11380
+#   CheckboxField       → Node 9762:1441
+#   CheckboxGroup       → Node 9762:1426
+#   Dialog              → Node 192-31534
+#   InputField          → Node 2136-2263
+#   Menu                → Node 9762:720
+#   NavigationPill      → Node 7768-19970
+#   NavigationPillList  → Node 2194-14984
+#   NavigationButton    → Node 515-5459
+#   NavigationButtonList→ Node 524-503
+#   Notification        → Node 124-8256
+#   Pagination          → Node 9762:899
+#   RadioField          → Node 9762:1412
+#   RadioGroup          → Node 624-23642
+#   Search              → Node 2236-14989
+#   SelectField         → Node 2136-2336
+#   SliderField         → Node 589-17676
+#   SwitchField         → Node 9762:1902
+#   Tab                 → Node 3729-12963
+#   Tabs                → Node 3729-13362
+#   Tag                 → Node 56-8830
+#   TagToggle           → Node 157-10316
+#   TagToggleGroup      → Node 157-10352
+#   Text                → Node 2087-8487
+#   TextareaField       → Node 9762-3088
+#   Tooltip             → Node 315-32700
+#
+# Compositions:
+#   PricingCard         → Node 1444-11846
+#   ProductInfoCard     → Node 7753-4465
+#   ReviewCard          → Node 2236-16106
+#   StatsCard           → Node 2236-15082
+#   TestimonialCard     → Node 7717-3946
+#   Contact Form        → Node 197:19741
+#   ForgotPassword Form → Node 197:19744
+#   LogIn Form          → Node 197:19740
+#   Newsletter Form     → Node 197:19743
+#   Register Form       → Node 197:19742
+#   Shipping Form       → Node 197:23153
+#   Header              → Node 2287-22651
+#   HeaderAuth          → Node 18-9389
+#   Footer              → Node 321-11357
+#   HeroBasic           → Node 348-15896
+#   HeroActions         → Node 348-15901
+#   HeroImage           → Node 348-15970
+#   HeroForm            → Node 348-15933
+#   HeroNewsletter      → Node 348-15919

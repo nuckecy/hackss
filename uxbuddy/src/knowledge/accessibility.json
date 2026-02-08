@@ -1,0 +1,222 @@
+[
+  {
+    "id": "color-contrast",
+    "title": "Color Contrast (Minimum)",
+    "wcag_criterion": "1.4.3",
+    "level": "AA",
+    "description": "Text must have sufficient contrast against its background to be readable by people with low vision.",
+    "requirement": "Normal text requires 4.5:1 contrast ratio. Large text (18px+ regular or 14px+ bold) requires 3:1.",
+    "how_to_check": "Use a contrast checker tool (e.g., WebAIM Contrast Checker). Compare the text color against its direct background color. Check all states: default, hover, focus, disabled.",
+    "common_violations": [
+      "Light gray text on white backgrounds",
+      "Placeholder text with insufficient contrast",
+      "Disabled state text that is too faint to read",
+      "Colored text on colored backgrounds (e.g., white on light blue)"
+    ],
+    "applies_to": ["Button", "Input", "Alert", "Badge", "Toast", "Select", "Checkbox"],
+    "check_config": {
+      "check_type": "contrast_ratio",
+      "thresholds": { "normal_text": 4.5, "large_text": 3 },
+      "applies_to_types": ["TEXT"],
+      "severity": "error"
+    }
+  },
+  {
+    "id": "non-text-contrast",
+    "title": "Non-text Contrast",
+    "wcag_criterion": "1.4.11",
+    "level": "AA",
+    "description": "UI components and meaningful graphics must have sufficient contrast to be perceivable.",
+    "requirement": "UI component boundaries and states require 3:1 contrast against adjacent colors. Includes borders, icons, focus indicators.",
+    "how_to_check": "Check input borders against background (3:1). Check icons against background (3:1). Check focus ring visibility. Check checkbox/radio borders.",
+    "common_violations": [
+      "Light input borders that disappear on white backgrounds",
+      "Low-contrast icons in disabled states",
+      "Focus indicators that blend into the background",
+      "Chart elements without sufficient contrast"
+    ],
+    "applies_to": ["Input", "Checkbox", "Select", "IconButton", "Button"],
+    "check_config": {
+      "check_type": "contrast_ratio",
+      "thresholds": { "ratio": 3 },
+      "applies_to_types": ["FRAME", "INSTANCE", "COMPONENT"],
+      "severity": "warning"
+    }
+  },
+  {
+    "id": "touch-target",
+    "title": "Target Size (Minimum)",
+    "wcag_criterion": "2.5.8",
+    "level": "AA",
+    "description": "Interactive elements must be large enough for users to activate reliably, especially on touch devices.",
+    "requirement": "Minimum 44x44 CSS pixels for touch targets. Smaller elements need adequate spacing to meet effective target size.",
+    "how_to_check": "Measure the clickable/tappable area of each interactive element. Include padding in the measurement. Check that closely spaced targets don't overlap.",
+    "common_violations": [
+      "Small icon buttons without adequate padding (e.g., 24x24px)",
+      "Close buttons in corners that are too small",
+      "Dense lists of links or buttons with tiny tap targets",
+      "Checkbox/radio inputs without clickable label area"
+    ],
+    "applies_to": ["Button", "IconButton", "Checkbox", "Select", "Input"],
+    "check_config": {
+      "check_type": "min_size",
+      "thresholds": { "min_width": 44, "min_height": 44 },
+      "applies_to_types": ["INSTANCE"],
+      "severity": "error"
+    }
+  },
+  {
+    "id": "focus-visible",
+    "title": "Focus Visible",
+    "wcag_criterion": "2.4.7",
+    "level": "AA",
+    "description": "All interactive elements must show a visible focus indicator when navigated via keyboard.",
+    "requirement": "Focus indicator must be visible and distinguishable. Should have at least 3:1 contrast. Never remove outline without providing an alternative.",
+    "how_to_check": "Tab through all interactive elements. Verify each shows a clear focus ring or border change. Check that custom focus styles are visible in both light and dark mode.",
+    "common_violations": [
+      "Using outline:none or outline:0 without a replacement",
+      "Focus rings that are invisible on certain backgrounds",
+      "Custom components that don't receive or show focus",
+      "Modal content that cannot be focused or tabbed through"
+    ],
+    "applies_to": ["Button", "IconButton", "Input", "Checkbox", "Select"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "warning"
+    }
+  },
+  {
+    "id": "name-role-value",
+    "title": "Name, Role, Value",
+    "wcag_criterion": "4.1.2",
+    "level": "A",
+    "description": "All UI components must have an accessible name, role, and current state that can be programmatically determined.",
+    "requirement": "Use semantic HTML elements. Add ARIA roles/attributes for custom widgets. Ensure state changes (checked, expanded, selected) are communicated.",
+    "how_to_check": "Inspect elements with browser dev tools accessibility panel. Verify accessible name is present and descriptive. Check that role matches the component behavior. Test with a screen reader.",
+    "common_violations": [
+      "Icon buttons missing aria-label",
+      "Custom dropdowns without listbox/combobox roles",
+      "Toggle switches without aria-checked state",
+      "Dynamic content changes not announced via aria-live"
+    ],
+    "applies_to": ["IconButton", "Select", "Checkbox", "Button", "Alert", "Toast"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "error"
+    }
+  },
+  {
+    "id": "error-identification",
+    "title": "Error Identification",
+    "wcag_criterion": "3.3.1",
+    "level": "A",
+    "description": "When an input error is detected, the item in error must be identified and the error described in text.",
+    "requirement": "Show specific error messages (not just red borders). Identify which field has the error. Describe what went wrong and how to fix it.",
+    "how_to_check": "Trigger validation errors on each form field. Verify error messages appear in text (not just color change). Check that error messages are linked to inputs via aria-describedby.",
+    "common_violations": [
+      "Only changing border color to red without error text",
+      "Generic error messages like 'Invalid input'",
+      "Error messages not associated with their input field",
+      "Errors only shown on form submit, not inline"
+    ],
+    "applies_to": ["Input", "Select", "Checkbox"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "warning"
+    }
+  },
+  {
+    "id": "labels-instructions",
+    "title": "Labels or Instructions",
+    "wcag_criterion": "3.3.2",
+    "level": "A",
+    "description": "Form inputs must have labels or instructions so users know what data is expected.",
+    "requirement": "Every input needs a visible label. Use placeholder text as a supplement, never a replacement. Indicate required fields. Provide format hints for complex inputs.",
+    "how_to_check": "Verify each form input has a visible <label> element associated via for/id or wrapping. Check that required fields are indicated. Check that format expectations are communicated.",
+    "common_violations": [
+      "Inputs with placeholder text but no visible label",
+      "Labels that disappear on focus (floating label pattern without fallback)",
+      "Required fields not indicated visually or programmatically",
+      "Date/phone inputs without format hints"
+    ],
+    "applies_to": ["Input", "Select", "Checkbox"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "warning"
+    }
+  },
+  {
+    "id": "keyboard",
+    "title": "Keyboard Accessible",
+    "wcag_criterion": "2.1.1",
+    "level": "A",
+    "description": "All functionality must be operable through a keyboard interface without requiring specific timings.",
+    "requirement": "All interactive elements must be focusable and activatable via keyboard. Tab for navigation, Enter/Space for activation, Arrow keys for within-widget navigation, Escape to close.",
+    "how_to_check": "Unplug your mouse and navigate the entire interface using only keyboard. Verify all actions can be performed. Check for keyboard traps (can you always Tab out).",
+    "common_violations": [
+      "Click-only handlers without keyboard equivalents",
+      "Custom dropdowns that don't respond to arrow keys",
+      "Modals that don't trap focus or allow Escape to close",
+      "Drag-and-drop without keyboard alternative"
+    ],
+    "applies_to": ["Button", "IconButton", "Input", "Checkbox", "Select"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "error"
+    }
+  },
+  {
+    "id": "use-of-color",
+    "title": "Use of Color",
+    "wcag_criterion": "1.4.1",
+    "level": "A",
+    "description": "Color must not be the only visual means of conveying information, indicating actions, or distinguishing elements.",
+    "requirement": "Supplement color with icons, text, patterns, or other visual indicators. Error states need icons + color. Links need underline or other non-color indicator.",
+    "how_to_check": "View the interface in grayscale. Can you still understand all information? Check error/warning/success states for non-color indicators. Check links for underlines.",
+    "common_violations": [
+      "Error states indicated only by red border (no icon or text)",
+      "Success/failure shown only with green/red colors",
+      "Links distinguished from body text only by color",
+      "Chart data series differentiated only by color"
+    ],
+    "applies_to": ["Alert", "Badge", "Input", "Toast"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE", "FRAME"],
+      "severity": "warning"
+    }
+  },
+  {
+    "id": "reflow",
+    "title": "Reflow",
+    "wcag_criterion": "1.4.10",
+    "level": "AA",
+    "description": "Content must be presentable without loss of information or functionality when reflowed at different viewport widths.",
+    "requirement": "Content must reflow without horizontal scrolling at 320px width. No fixed-width layouts that cause overflow. Use responsive techniques.",
+    "how_to_check": "Resize browser to 320px width. Verify no horizontal scrollbar appears. Check that all content is still accessible. Verify text wraps properly.",
+    "common_violations": [
+      "Fixed-width tables that overflow on narrow screens",
+      "Horizontal navigation that doesn't collapse",
+      "Images or embeds that don't scale down",
+      "Absolute positioning that causes overlap at small widths"
+    ],
+    "applies_to": ["Alert", "Input", "Select", "Button"],
+    "check_config": {
+      "check_type": "min_size",
+      "thresholds": { "min_width": 320 },
+      "applies_to_types": ["FRAME", "COMPONENT"],
+      "severity": "warning"
+    }
+  }
+]

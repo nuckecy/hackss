@@ -1,0 +1,92 @@
+{
+  "common": {
+    "appName": "UX Buddy",
+    "settings": "Einstellungen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "done": "Fertig"
+  },
+  "settings": {
+    "welcome": "Willkommen bei UX Buddy",
+    "aiProvider": "KI-Anbieter",
+    "apiKey": "API-Schlüssel",
+    "apiKeyPlaceholder": "Fügen Sie Ihren API-Schlüssel ein",
+    "enterApiKey": "Geben Sie Ihren API-Schlüssel ein, um zu beginnen",
+    "getApiKey": "Holen Sie sich einen kostenlosen API-Schlüssel",
+    "changeKey": "Schlüssel Ändern",
+    "clearKey": "Löschen",
+    "saveKey": "Schlüssel Speichern",
+    "accessibility": "Barrierefreiheit",
+    "fontSize": "Schriftgröße",
+    "fontSizeSmall": "Klein",
+    "fontSizeMedium": "Mittel",
+    "fontSizeLarge": "Groß",
+    "screenReaderMode": "Erweiterte Beschriftungen für Bildschirmleseprogramme",
+    "language": "Sprache"
+  },
+  "chat": {
+    "placeholder": "Fragen Sie nach Komponenten, Tokens oder Barrierefreiheit...",
+    "exportConversation": "Unterhaltung exportieren",
+    "clearChat": "Chat löschen",
+    "copyMessage": "In Zwischenablage kopieren",
+    "you": "Sie",
+    "conversationTitle": "UX Buddy Unterhaltung",
+    "sendMessage": "Nachricht senden"
+  },
+  "errors": {
+    "selectFrame": "Bitte wählen Sie einen Rahmen zum Analysieren aus",
+    "selectFrameInstance": "Bitte wählen Sie einen Rahmen, eine Komponente, einen Abschnitt oder eine Instanz aus"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "de": "Deutsch",
+    "fr": "Français"
+  },
+  "emptyState": {
+    "welcome": "Fragen Sie mich alles über das Design-System.",
+    "selectionNotice": "Ich habe bemerkt, dass Sie etwas ausgewählt haben. Möchten Sie Hilfe?",
+    "hint": "Oder wählen Sie eine Ebene in Figma für kontextbezogene Vorschläge."
+  },
+  "chips": {
+    "general": {
+      "alertVsToast": "Alert vs. Toast?",
+      "spacingTokens": "Abstands-Token",
+      "accessibleForms": "Barrierefreie Formulare",
+      "buttonVariants": "Button-Varianten",
+      "colorContrast": "Farbkontrast",
+      "typographyScale": "Typografie-Skala",
+      "iconUsage": "Icon-Verwendung",
+      "responsiveLayout": "Responsives Layout"
+    },
+    "instance": {
+      "rightUse": "Richtige Verwendung von {name}?",
+      "accessibilityCheck": "Barrierefreiheitsprüfung",
+      "availableVariants": "Verfügbare Varianten?",
+      "spacingReview": "Abstandsüberprüfung"
+    },
+    "text": {
+      "textAccessible": "Text barrierefrei?",
+      "contrastRatio": "Kontrastverhältnis",
+      "correctToken": "Korrekter Token?",
+      "fontSizeReview": "Schriftgrößenprüfung"
+    },
+    "layout": {
+      "reviewLayout": "Layout überprüfen",
+      "checkSpacing": "Abstände prüfen",
+      "accessibilityIssues": "Barrierefreiheitsprobleme?",
+      "alignmentCheck": "Ausrichtung prüfen"
+    },
+    "component": {
+      "howToUse": "Wie wird {name} verwendet?",
+      "accessibilityReqs": "Barrierefreiheitsanforderungen",
+      "tokenUsage": "Token-Verwendung?",
+      "bestPractices": "Best Practices"
+    },
+    "default": {
+      "whatIs": "Was ist {name}?",
+      "anyIssues": "Irgendwelche Probleme?",
+      "howToImprove": "Wie verbessern?"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "common": {
+    "appName": "UX Buddy",
+    "settings": "Settings",
+    "cancel": "Cancel",
+    "save": "Save",
+    "done": "Done"
+  },
+  "settings": {
+    "welcome": "Welcome to UX Buddy",
+    "aiProvider": "AI Provider",
+    "apiKey": "API Key",
+    "apiKeyPlaceholder": "Paste your API key",
+    "enterApiKey": "Enter your API key to get started",
+    "getApiKey": "Get a free API key",
+    "changeKey": "Change Key",
+    "clearKey": "Clear",
+    "saveKey": "Save Key",
+    "accessibility": "Accessibility",
+    "fontSize": "Font Size",
+    "fontSizeSmall": "Small",
+    "fontSizeMedium": "Medium",
+    "fontSizeLarge": "Large",
+    "screenReaderMode": "Enhanced labels for screen readers",
+    "language": "Language"
+  },
+  "chat": {
+    "placeholder": "Ask about components, tokens, or accessibility...",
+    "exportConversation": "Export conversation",
+    "clearChat": "Clear chat",
+    "copyMessage": "Copy to clipboard",
+    "you": "You",
+    "conversationTitle": "UX Buddy Conversation",
+    "sendMessage": "Send message"
+  },
+  "errors": {
+    "selectFrame": "Please select a frame to analyze",
+    "selectFrameInstance": "Please select a frame, component, section, or instance"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "de": "Deutsch",
+    "fr": "Français"
+  },
+  "emptyState": {
+    "welcome": "Ask me anything about the design system.",
+    "selectionNotice": "I noticed you selected something. Want me to help?",
+    "hint": "Or select a layer in Figma for contextual suggestions."
+  },
+  "chips": {
+    "general": {
+      "alertVsToast": "Alert vs Toast?",
+      "spacingTokens": "Spacing tokens",
+      "accessibleForms": "Accessible forms",
+      "buttonVariants": "Button variants",
+      "colorContrast": "Color contrast",
+      "typographyScale": "Typography scale",
+      "iconUsage": "Icon usage",
+      "responsiveLayout": "Responsive layout"
+    },
+    "instance": {
+      "rightUse": "Right use of {name}?",
+      "accessibilityCheck": "Accessibility check",
+      "availableVariants": "Available variants?",
+      "spacingReview": "Spacing review"
+    },
+    "text": {
+      "textAccessible": "Text accessible?",
+      "contrastRatio": "Contrast ratio",
+      "correctToken": "Correct token?",
+      "fontSizeReview": "Font size review"
+    },
+    "layout": {
+      "reviewLayout": "Review layout",
+      "checkSpacing": "Check spacing",
+      "accessibilityIssues": "Accessibility issues?",
+      "alignmentCheck": "Alignment check"
+    },
+    "component": {
+      "howToUse": "How to use {name}?",
+      "accessibilityReqs": "Accessibility reqs",
+      "tokenUsage": "Token usage?",
+      "bestPractices": "Best practices"
+    },
+    "default": {
+      "whatIs": "What is {name}?",
+      "anyIssues": "Any issues?",
+      "howToImprove": "How to improve?"
+    }
+  }
+}

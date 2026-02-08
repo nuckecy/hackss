@@ -1,0 +1,115 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 24px 16px;
+  text-align: center;
+  gap: 10px;
+}
+
+.empty-state-logo {
+  width: 56px;
+  height: 56px;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.empty-state-logo-icon {
+  font-size: 28px;
+  color: var(--accent-primary);
+}
+
+.empty-state-greeting {
+  font-size: 28px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+
+.empty-state-primary {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  line-height: var(--line-height-base);
+  margin-top: 22px;
+}
+
+/* Cloud tag layout */
+.empty-state-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  max-width: 360px;
+}
+
+/* General starter chips — soft purple tint from palette */
+.empty-state-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family);
+  color: #341948;
+  background: #EDE8F4;
+  border: 1px solid #D5CDE3;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.empty-state-chip:hover {
+  background: #E0D8EE;
+  border-color: #9388A2;
+  color: #170B3B;
+}
+
+.empty-state-chip:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+/* Selection-aware chips — deep purple fill */
+.empty-state-chip--selection {
+  color: #FFFFFF;
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.empty-state-chip--selection:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #FFFFFF;
+}
+
+/* Hint text */
+.empty-state-hint {
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+  line-height: var(--line-height-base);
+  margin-top: 2px;
+}
+
+/* Dark mode overrides for general chips */
+@media (prefers-color-scheme: dark) {
+  .empty-state-chip:not(.empty-state-chip--selection) {
+    color: #B8A8E0;
+    background: #1E1035;
+    border-color: #2A1950;
+  }
+
+  .empty-state-chip:not(.empty-state-chip--selection):hover {
+    background: #2A1950;
+    border-color: #9388A2;
+    color: #D0C5E5;
+  }
+}

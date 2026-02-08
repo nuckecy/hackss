@@ -1,0 +1,73 @@
+.selection-indicator {
+  display: flex;
+  flex-direction: column;
+  padding: 0 12px;
+  background: var(--accent-subtle);
+  border-bottom: 1px solid var(--border-default);
+  overflow: hidden;
+}
+
+.selection-indicator-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  white-space: nowrap;
+}
+
+.selection-overline {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--accent-text);
+  letter-spacing: var(--tracking-wide);
+  flex-shrink: 0;
+}
+
+.selection-dot {
+  color: var(--accent-text);
+  flex-shrink: 0;
+}
+
+.selection-value {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.selection-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.selection-clear:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--text-primary);
+}
+
+.selection-clear:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+@media (prefers-color-scheme: dark) {
+  .selection-clear:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
