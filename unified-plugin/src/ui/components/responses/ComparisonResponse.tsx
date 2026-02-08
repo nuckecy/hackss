@@ -1,6 +1,8 @@
 import { h } from 'preact';
 import type { ResponseComponentProps } from '../../../types/responses';
 import { Card } from './shared/Card';
+import { ActionButtons } from './shared/ActionButtons';
+import { Accordion } from './shared/Accordion';
 
 interface ComparisonOption {
   name: string;
@@ -64,48 +66,53 @@ function parseRecommendation(body: string): string {
   return '';
 }
 
-export function ComparisonResponse({ metadata, body }: ResponseComponentProps) {
+export function ComparisonResponse({ metadata, body, action, quickActions }: ResponseComponentProps) {
   const { options = [] } = metadata;
   const cards = parseComparisonCards(body, options);
   const recommendation = parseRecommendation(body);
 
   return (
     <div class="response-comparison">
+      <ActionButtons action={action} quickActions={quickActions} />
+
       {cards.length > 0 && (
-        <div class="response-comparison-grid">
-          {cards.map((card, idx) => (
-            <Card key={idx} className="response-comparison-card">
-              <h4 class="response-comparison-card-name">{card.name}</h4>
-              {card.useFor && (
-                <p class="response-comparison-item">
-                  <strong>Use for:</strong> {card.useFor}
-                </p>
-              )}
-              {card.trigger && (
-                <p class="response-comparison-item">
-                  <strong>Trigger:</strong> {card.trigger}
-                </p>
-              )}
-              {card.content && (
-                <p class="response-comparison-item">
-                  <strong>Content:</strong> {card.content}
-                </p>
-              )}
-              {card.example && (
-                <p class="response-comparison-example">
-                  <em>Example: {card.example}</em>
-                </p>
-              )}
-            </Card>
-          ))}
-        </div>
+        <Accordion summary={`Options (${cards.length})`} defaultExpanded={false}>
+          <div class="response-comparison-grid">
+            {cards.map((card, idx) => (
+              <Card key={idx} className="response-comparison-card">
+                <h4 class="response-comparison-card-name">{card.name}</h4>
+                {card.useFor && (
+                  <p class="response-comparison-item">
+                    <strong>Use for:</strong> {card.useFor}
+                  </p>
+                )}
+                {card.trigger && (
+                  <p class="response-comparison-item">
+                    <strong>Trigger:</strong> {card.trigger}
+                  </p>
+                )}
+                {card.content && (
+                  <p class="response-comparison-item">
+                    <strong>Content:</strong> {card.content}
+                  </p>
+                )}
+                {card.example && (
+                  <p class="response-comparison-example">
+                    <em>Example: {card.example}</em>
+                  </p>
+                )}
+              </Card>
+            ))}
+          </div>
+        </Accordion>
       )}
 
       {recommendation && (
-        <div class="response-recommendation">
-          <h4 class="response-recommendation-heading">Recommendation</h4>
-          <p>{recommendation}</p>
-        </div>
+        <Accordion summary="Recommendation" defaultExpanded={false}>
+          <div class="response-recommendation">
+            <p>{recommendation}</p>
+          </div>
+        </Accordion>
       )}
     </div>
   );

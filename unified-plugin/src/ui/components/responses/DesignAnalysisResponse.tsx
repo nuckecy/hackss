@@ -2,6 +2,7 @@ import { h } from 'preact';
 import type { ResponseComponentProps } from '../../../types/responses';
 import { Badge } from './shared/Badge';
 import { Accordion } from './shared/Accordion';
+import { ActionButtons } from './shared/ActionButtons';
 
 interface Issue {
   severity: 'error' | 'warning' | 'info';
@@ -130,7 +131,7 @@ function IssueCard({ issue }: { issue: Issue }) {
   );
 }
 
-export function DesignAnalysisResponse({ metadata, body }: ResponseComponentProps) {
+export function DesignAnalysisResponse({ metadata, body, action, quickActions }: ResponseComponentProps) {
   const {
     analysisType,
     frameName,
@@ -173,10 +174,16 @@ export function DesignAnalysisResponse({ metadata, body }: ResponseComponentProp
         )}
       </div>
 
-      {/* Summary */}
-      {summary && <p class="response-analysis-summary">{summary}</p>}
+      <ActionButtons action={action} quickActions={quickActions} />
 
-      {/* Issue Counts */}
+      {/* Summary */}
+      {summary && (
+        <Accordion summary="Summary" defaultExpanded={false}>
+          <p class="response-analysis-summary">{summary}</p>
+        </Accordion>
+      )}
+
+      {/* Issue Counts - Keep visible as it's key info */}
       {totalIssues > 0 && (
         <div class="response-issue-counts">
           {finalErrorCount > 0 && (
@@ -202,7 +209,7 @@ export function DesignAnalysisResponse({ metadata, body }: ResponseComponentProp
         <div class="response-issues-section">
           <Accordion
             summary={`Errors (${errors.length})`}
-            defaultExpanded={true}
+            defaultExpanded={false}
           >
             <div class="response-issues-list">
               {errors.map((issue, idx) => (
@@ -218,7 +225,7 @@ export function DesignAnalysisResponse({ metadata, body }: ResponseComponentProp
         <div class="response-issues-section">
           <Accordion
             summary={`Warnings (${warnings.length})`}
-            defaultExpanded={errors.length === 0}
+            defaultExpanded={false}
           >
             <div class="response-issues-list">
               {warnings.map((issue, idx) => (
@@ -234,7 +241,7 @@ export function DesignAnalysisResponse({ metadata, body }: ResponseComponentProp
         <div class="response-issues-section">
           <Accordion
             summary={`Info (${info.length})`}
-            defaultExpanded={errors.length === 0 && warnings.length === 0}
+            defaultExpanded={false}
           >
             <div class="response-issues-list">
               {info.map((issue, idx) => (

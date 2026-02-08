@@ -1,6 +1,8 @@
 import { h } from 'preact';
 import type { ResponseComponentProps } from '../../../types/responses';
 import { CopyButton } from './shared/CopyButton';
+import { ActionButtons } from './shared/ActionButtons';
+import { Accordion } from './shared/Accordion';
 
 function parseUseCases(body: string): string[] {
   const lines = body.split('\n');
@@ -80,7 +82,7 @@ function TokenSwatch({ category, value }: TokenSwatchProps) {
   return <span class="token-value">{value}</span>;
 }
 
-export function TokenResponse({ metadata, body }: ResponseComponentProps) {
+export function TokenResponse({ metadata, body, action, quickActions }: ResponseComponentProps) {
   const { tokenName, category, value } = metadata;
   const useCases = parseUseCases(body);
 
@@ -93,27 +95,31 @@ export function TokenResponse({ metadata, body }: ResponseComponentProps) {
         </div>
       )}
 
-      {category && value && (
-        <div class="response-token-preview">
-          <TokenSwatch category={category} value={value} />
-          {value && <CopyButton text={value} label="Copy value" />}
-        </div>
-      )}
+      <ActionButtons action={action} quickActions={quickActions} />
 
-      {category && (
-        <p class="response-token-category">
-          <strong>Category:</strong> {category}
-        </p>
+      {category && value && (
+        <Accordion summary="Value" defaultExpanded={false}>
+          <div class="response-token-preview">
+            <TokenSwatch category={category} value={value} />
+            {value && <CopyButton text={value} label="Copy value" />}
+          </div>
+          {category && (
+            <p class="response-token-category">
+              <strong>Category:</strong> {category}
+            </p>
+          )}
+        </Accordion>
       )}
 
       {useCases.length > 0 && (
         <div class="response-token-usage">
-          <h4 class="response-section-heading">Common Uses</h4>
-          <ul class="response-usage-list">
-            {useCases.map((useCase, idx) => (
-              <li key={idx}>{useCase}</li>
-            ))}
-          </ul>
+          <Accordion summary={`Usage (${useCases.length} examples)`} defaultExpanded={false}>
+            <ul class="response-usage-list">
+              {useCases.map((useCase, idx) => (
+                <li key={idx}>{useCase}</li>
+              ))}
+            </ul>
+          </Accordion>
         </div>
       )}
     </div>

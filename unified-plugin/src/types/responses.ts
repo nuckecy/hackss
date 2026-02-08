@@ -45,4 +45,6 @@ export interface ParsedResponse {
 export interface ResponseComponentProps {
   metadata: ResponseMetadata;
   body: string;
+  action?: any;
+  quickActions?: Array<{ label: string; onClick: () => void; icon?: string }>;
 }

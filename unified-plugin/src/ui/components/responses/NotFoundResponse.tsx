@@ -1,5 +1,6 @@
 import { h } from 'preact';
 import type { ResponseComponentProps } from '../../../types/responses';
+import { ActionButtons } from './shared/ActionButtons';
 
 function parseSuggestions(body: string): string[] {
   const lines = body.split('\n');
@@ -76,7 +77,7 @@ function getMessage(body: string): string {
   return paragraphs.join(' ');
 }
 
-export function NotFoundResponse({ metadata, body }: ResponseComponentProps) {
+export function NotFoundResponse({ metadata, body, action, quickActions }: ResponseComponentProps) {
   const { query, suggestions: metaSuggestions = [] } = metadata;
   const bodySuggestions = parseSuggestions(body);
   const relatedQueries = parseRelatedQueries(body);
@@ -92,6 +93,8 @@ export function NotFoundResponse({ metadata, body }: ResponseComponentProps) {
       </div>
 
       <h3 class="response-not-found-heading">Hmm, I couldn't find that</h3>
+
+      <ActionButtons action={action} quickActions={quickActions} />
 
       {message && <p class="response-not-found-message">{message}</p>}
 
