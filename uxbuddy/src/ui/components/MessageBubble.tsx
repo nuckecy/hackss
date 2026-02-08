@@ -12,7 +12,7 @@ function formatTime(date: Date): string {
   return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 
-function renderInline(text: string, baseKey: number): (string | preact.JSX.Element)[] {
+export function renderInline(text: string, baseKey: number): (string | preact.JSX.Element)[] {
   const parts: (string | preact.JSX.Element)[] = [];
   let key = baseKey * 100;
 
@@ -42,7 +42,7 @@ function renderInline(text: string, baseKey: number): (string | preact.JSX.Eleme
   return parts;
 }
 
-function renderMarkdown(text: string) {
+export function renderMarkdown(text: string) {
   const parts: preact.JSX.Element[] = [];
   let key = 0;
 

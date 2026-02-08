@@ -1,14 +1,18 @@
 import { useState, useRef } from 'preact/hooks';
-import { GeminiProvider } from '../../ai/gemini-provider';
+import { createProvider } from '../../ai/provider';
+import type { AIProvider, ProviderType } from '../../ai/provider';
 import { buildSystemPrompt } from '../../ai/system-prompt';
 import type { ChatMessage } from '../../ai/gemini-provider';
 import type { SelectionData } from '../../types/figma';
+import type { ScanResult } from '../../types/scan';
 
 export interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  scanResult?: ScanResult;
+  selectionId?: string;
 }
 
 interface UseChatReturn {
@@ -16,6 +20,7 @@ interface UseChatReturn {
   isLoading: boolean;
   error: string | null;
   sendMessage: (text: string) => void;
+  addMessage: (role: 'user' | 'assistant', content: string, scanResult?: ScanResult, selectionId?: string) => void;
   clearChat: () => void;
 }
 
@@ -24,16 +29,18 @@ function generateId(): string {
   return `msg-${Date.now()}-${++messageCounter}`;
 }
 
-export function useChat(apiKey: string, selection: SelectionData | null): UseChatReturn {
+export function useChat(apiKey: string, selectedProvider: ProviderType, selection: SelectionData | null): UseChatReturn {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const providerRef = useRef<GeminiProvider | null>(null);
+  const providerRef = useRef<AIProvider | null>(null);
   const apiKeyRef = useRef<string>(apiKey);
+  const providerTypeRef = useRef<ProviderType>(selectedProvider);
 
-  if (!providerRef.current || apiKeyRef.current !== apiKey) {
-    providerRef.current = new GeminiProvider(apiKey);
+  if (!providerRef.current || apiKeyRef.current !== apiKey || providerTypeRef.current !== selectedProvider) {
+    providerRef.current = createProvider(selectedProvider, apiKey);
     apiKeyRef.current = apiKey;
+    providerTypeRef.current = selectedProvider;
   }
 
   function sendMessage(text: string): void {
@@ -44,6 +51,7 @@ export function useChat(apiKey: string, selection: SelectionData | null): UseCha
       role: 'user',
       content: text.trim(),
       timestamp: new Date(),
+      selectionId: selection ? selection.id : undefined,
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -55,8 +63,8 @@ export function useChat(apiKey: string, selection: SelectionData | null): UseCha
     // Limit to last 20 messages for API
     const recentMessages = allMessages.slice(-20);
 
-    // Convert to Gemini format
-    const geminiMessages: ChatMessage[] = recentMessages.map((msg) => ({
+    // Convert to provider format — each provider handles role mapping internally
+    const chatMessages: ChatMessage[] = recentMessages.map((msg) => ({
       role: msg.role === 'assistant' ? 'model' : 'user',
       content: msg.content,
     }));
@@ -64,13 +72,14 @@ export function useChat(apiKey: string, selection: SelectionData | null): UseCha
     const systemPrompt = buildSystemPrompt(selection);
 
     providerRef.current!
-      .chat(geminiMessages, systemPrompt)
+      .chat(chatMessages, systemPrompt)
       .then((responseText) => {
         const assistantMessage: Message = {
           id: generateId(),
           role: 'assistant',
           content: responseText,
           timestamp: new Date(),
+          selectionId: selection ? selection.id : undefined,
         };
         setMessages((prev) => [...prev, assistantMessage]);
       })
@@ -82,6 +91,7 @@ export function useChat(apiKey: string, selection: SelectionData | null): UseCha
           role: 'assistant',
           content: `Sorry, I ran into an issue: ${errorText}`,
           timestamp: new Date(),
+          selectionId: selection ? selection.id : undefined,
         };
         setMessages((prev) => [...prev, errorMessage]);
       })
@@ -90,10 +100,22 @@ export function useChat(apiKey: string, selection: SelectionData | null): UseCha
       });
   }
 
+  function addMessage(role: 'user' | 'assistant', content: string, scanResult?: ScanResult, selectionId?: string): void {
+    const msg: Message = {
+      id: generateId(),
+      role,
+      content,
+      timestamp: new Date(),
+      scanResult,
+      selectionId,
+    };
+    setMessages(function (prev) { return prev.concat([msg]); });
+  }
+
   function clearChat(): void {
     setMessages([]);
     setError(null);
   }
 
-  return { messages, isLoading, error, sendMessage, clearChat };
+  return { messages, isLoading, error, sendMessage, addMessage, clearChat };
 }
