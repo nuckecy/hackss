@@ -1,5 +1,6 @@
 import { useState } from 'preact/hooks';
 import './Settings.css';
+import { t } from '../../i18n/i18n';
 
 interface SettingsProps {
   onApiKeySaved: (key: string) => void;
@@ -7,6 +8,14 @@ interface SettingsProps {
   currentKey?: string;
   currentProvider?: 'gemini' | 'claude';
   onProviderChange?: (provider: 'gemini' | 'claude') => void;
+  // Accessibility settings
+  fontSize: 'small' | 'medium' | 'large';
+  onFontSizeChange: (size: 'small' | 'medium' | 'large') => void;
+  // Localization
+  locale: 'en' | 'es' | 'de' | 'fr';
+  onLocaleChange: (locale: 'en' | 'es' | 'de' | 'fr') => void;
+  // Navigation
+  onClose?: () => void;
 }
 
 export function Settings({
@@ -14,7 +23,12 @@ export function Settings({
   onClearKey,
   currentKey,
   currentProvider = 'gemini',
-  onProviderChange
+  onProviderChange,
+  fontSize,
+  onFontSizeChange,
+  locale,
+  onLocaleChange,
+  onClose
 }: SettingsProps) {
   const [inputValue, setInputValue] = useState('');
   const [isEditing, setIsEditing] = useState(!currentKey && currentProvider === 'gemini');
@@ -31,15 +45,35 @@ export function Settings({
     }
   }
 
+  function getLanguageName(localeCode: string): string {
+    const names: Record<string, string> = {
+      en: 'English',
+      es: 'Español',
+      de: 'Deutsch',
+      fr: 'Français',
+    };
+    return names[localeCode] || localeCode;
+  }
+
+  function getLanguageFlag(localeCode: string): string {
+    const flags: Record<string, string> = {
+      en: '🇬🇧',
+      es: '🇪🇸',
+      de: '🇩🇪',
+      fr: '🇫🇷',
+    };
+    return flags[localeCode] || '';
+  }
+
   return (
     <div class="settings">
       <div class="settings-title">
-        {isFirstRun ? 'Welcome to UX Buddy' : 'Settings'}
+        {isFirstRun ? t('settings.welcome') : t('common.settings')}
       </div>
 
       {/* Provider Selection */}
       <div class="settings-section">
-        <div class="settings-label">AI Provider</div>
+        <div class="settings-label">{t('settings.aiProvider')}</div>
         <div class="settings-provider-options">
           <label class={`settings-provider-option ${currentProvider === 'gemini' ? 'active' : ''}`}>
             <input
@@ -64,11 +98,61 @@ export function Settings({
         </div>
       </div>
 
+      {/* Accessibility Settings */}
+      <div class="settings-section">
+        <div class="settings-label">{t('settings.accessibility')}</div>
+
+        {/* Font Size */}
+        <div class="settings-subsection">
+          <div class="settings-description">{t('settings.fontSize')}</div>
+          <div class="settings-font-size-options">
+            <button
+              class={`font-size-option ${fontSize === 'small' ? 'active' : ''}`}
+              onClick={() => onFontSizeChange('small')}
+              aria-label={t('settings.fontSizeSmall')}
+            >
+              A
+            </button>
+            <button
+              class={`font-size-option ${fontSize === 'medium' ? 'active' : ''}`}
+              onClick={() => onFontSizeChange('medium')}
+              aria-label={t('settings.fontSizeMedium')}
+            >
+              A
+            </button>
+            <button
+              class={`font-size-option ${fontSize === 'large' ? 'active' : ''}`}
+              onClick={() => onFontSizeChange('large')}
+              aria-label={t('settings.fontSizeLarge')}
+            >
+              A
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Language Settings */}
+      <div class="settings-section">
+        <div class="settings-label">{t('settings.language')}</div>
+        <div class="settings-language-options">
+          {(['en', 'es', 'de', 'fr'] as const).map((lang) => (
+            <button
+              key={lang}
+              class={`language-option ${locale === lang ? 'active' : ''}`}
+              onClick={() => onLocaleChange(lang)}
+              aria-label={getLanguageName(lang)}
+            >
+              {getLanguageFlag(lang)} {getLanguageName(lang)}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* API Key section - only for Gemini */}
       {currentProvider === 'gemini' && (
         <>
           <div class="settings-description">
-            Enter your Gemini API key to get started.
+            {t('settings.enterApiKey')}
           </div>
 
           <a
@@ -77,14 +161,14 @@ export function Settings({
             target="_blank"
             rel="noopener noreferrer"
           >
-            Get a free API key from Google AI Studio
+            {t('settings.getApiKey')}
           </a>
         </>
       )}
 
       {currentProvider === 'claude' && (
         <div class="settings-description">
-          Claude uses the backend API at localhost:3000. Make sure the server is running.
+          {t('settings.claudeInfo')}
         </div>
       )}
 
@@ -98,7 +182,7 @@ export function Settings({
                   class="settings-button-secondary"
                   onClick={() => setIsEditing(true)}
                 >
-                  Change Key
+                  {t('settings.changeKey')}
                 </button>
                 <button
                   class="settings-button-secondary"
@@ -106,7 +190,7 @@ export function Settings({
                     if (onClearKey) onClearKey();
                   }}
                 >
-                  Clear
+                  {t('settings.clearKey')}
                 </button>
               </div>
             </div>
@@ -115,7 +199,7 @@ export function Settings({
               <input
                 class="settings-input"
                 type="password"
-                placeholder="Paste your Gemini API key"
+                placeholder={t('settings.apiKeyPlaceholder')}
                 value={inputValue}
                 onInput={(e) => setInputValue((e.target as HTMLInputElement).value)}
                 onKeyDown={(e) => {
@@ -127,19 +211,31 @@ export function Settings({
                 onClick={handleSave}
                 disabled={!inputValue.trim()}
               >
-                Save Key
+                {t('settings.saveKey')}
               </button>
               {currentKey && (
                 <button
                   class="settings-button-secondary"
                   onClick={() => setIsEditing(false)}
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </button>
               )}
             </div>
           )}
         </>
+      )}
+
+      {/* Footer with Save button - only show when onClose is available (not first run) */}
+      {onClose && !isFirstRun && (
+        <div class="settings-footer">
+          <button
+            class="settings-button"
+            onClick={onClose}
+          >
+            {t('common.save')}
+          </button>
+        </div>
       )}
     </div>
   );

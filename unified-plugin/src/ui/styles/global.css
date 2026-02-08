@@ -1,3 +1,6 @@
+/* ── Import Response Styles ── */
+@import './responses.css';
+
 /* ── CSS Custom Properties ── */
 :root {
   /* Backgrounds */
@@ -48,12 +51,13 @@
 
   /* Typography */
   --font-family:        'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-size-xs:       10px;
-  --font-size-sm:       11px;
-  --font-size-base:     12px;
-  --font-size-md:       13px;
-  --font-size-lg:       14px;
-  --font-size-xl:       16px;
+  --base-font-scale:    1; /* Default: medium */
+  --font-size-xs:       calc(10px * var(--base-font-scale));
+  --font-size-sm:       calc(11px * var(--base-font-scale));
+  --font-size-base:     calc(12px * var(--base-font-scale));
+  --font-size-md:       calc(13px * var(--base-font-scale));
+  --font-size-lg:       calc(14px * var(--base-font-scale));
+  --font-size-xl:       calc(16px * var(--base-font-scale));
   --font-weight-regular:  400;
   --font-weight-medium:   500;
   --font-weight-semibold: 600;
@@ -335,4 +339,17 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* ── Font Size Accessibility ── */
+:root[data-font-size="small"] {
+  --base-font-scale: 0.85;
+}
+
+:root[data-font-size="medium"] {
+  --base-font-scale: 1;
+}
+
+:root[data-font-size="large"] {
+  --base-font-scale: 1.15;
 }

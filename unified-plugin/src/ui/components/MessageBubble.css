@@ -91,11 +91,75 @@
   font-size: var(--font-size-base);
 }
 
-/* Timestamp */
+/* Footer with timestamp and copy button */
+.message-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  gap: 8px;
+}
+
 .message-timestamp {
   font-size: var(--font-size-xs);
   color: var(--text-tertiary);
-  margin-top: 4px;
   letter-spacing: var(--tracking-wide);
-  text-align: right;
+}
+
+.message-copy-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  color: var(--text-tertiary);
+  transition: all 0.15s ease;
+  opacity: 0.6;
+}
+
+.message-copy-button:hover {
+  opacity: 1;
+  background: var(--bg-secondary);
+  color: var(--accent-primary);
+}
+
+.message-copy-button .material-symbols-outlined {
+  font-size: 14px;
+}
+
+/* Quick Actions */
+.message-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.quick-action-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--accent-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quick-action-button:hover {
+  background: var(--accent-hover-bg);
+  border-color: var(--accent-primary);
+}
+
+.quick-action-button .material-symbols-outlined {
+  font-size: 14px;
 }

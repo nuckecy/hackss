@@ -1,5 +1,6 @@
 import type { SelectionData } from '../../types/figma';
 import './EmptyState.css';
+import { t, tp } from '../../i18n/i18n';
 
 interface EmptyStateProps {
   selection: SelectionData | null;
@@ -12,14 +13,14 @@ interface Chip {
 }
 
 const GENERAL_STARTERS: Chip[] = [
-  { label: 'Alert vs Toast?', message: 'When should I use an Alert instead of a Toast notification?' },
-  { label: 'Spacing tokens', message: 'What spacing tokens are available and when should I use each one?' },
-  { label: 'Accessible forms', message: 'How do I make a form accessible following WCAG guidelines?' },
-  { label: 'Button variants', message: 'What button variants are available and when should I use each one?' },
-  { label: 'Color contrast', message: 'What are the color contrast requirements I need to follow?' },
-  { label: 'Typography scale', message: 'Can you walk me through the typography scale and when to use each size?' },
-  { label: 'Icon usage', message: 'What are the best practices for using icons in the design system?' },
-  { label: 'Responsive layout', message: 'How should I handle responsive layouts with the design system?' },
+  { label: t('chips.general.alertVsToast'), message: 'When should I use an Alert instead of a Toast notification?' },
+  { label: t('chips.general.spacingTokens'), message: 'What spacing tokens are available and when should I use each one?' },
+  { label: t('chips.general.accessibleForms'), message: 'How do I make a form accessible following WCAG guidelines?' },
+  { label: t('chips.general.buttonVariants'), message: 'What button variants are available and when should I use each one?' },
+  { label: t('chips.general.colorContrast'), message: 'What are the color contrast requirements I need to follow?' },
+  { label: t('chips.general.typographyScale'), message: 'Can you walk me through the typography scale and when to use each size?' },
+  { label: t('chips.general.iconUsage'), message: 'What are the best practices for using icons in the design system?' },
+  { label: t('chips.general.responsiveLayout'), message: 'How should I handle responsive layouts with the design system?' },
 ];
 
 function getSelectionChips(selection: SelectionData): Chip[] {
@@ -28,45 +29,45 @@ function getSelectionChips(selection: SelectionData): Chip[] {
 
   if (type === 'INSTANCE') {
     return [
-      { label: `Right use of ${name}?`, message: `Am I using ${name} correctly here? Does it follow the design system guidelines?` },
-      { label: 'Accessibility check', message: `Can you run an accessibility check on ${name} and flag any issues?` },
-      { label: 'Available variants?', message: `What variants does ${name} have and which one fits best here?` },
-      { label: 'Spacing review', message: `Does the spacing around ${name} look correct? Any token adjustments needed?` },
+      { label: tp('chips.instance.rightUse', { name }), message: `Am I using ${name} correctly here? Does it follow the design system guidelines?` },
+      { label: t('chips.instance.accessibilityCheck'), message: `Can you run an accessibility check on ${name} and flag any issues?` },
+      { label: t('chips.instance.availableVariants'), message: `What variants does ${name} have and which one fits best here?` },
+      { label: t('chips.instance.spacingReview'), message: `Does the spacing around ${name} look correct? Any token adjustments needed?` },
     ];
   }
 
   if (type === 'TEXT') {
     return [
-      { label: 'Text accessible?', message: `Is this text element "${name}" accessible? Check size, weight, and contrast.` },
-      { label: 'Contrast ratio', message: `Can you check the contrast ratio on "${name}" for WCAG AA compliance?` },
-      { label: 'Correct token?', message: `Am I using the right typography token for "${name}"?` },
-      { label: 'Font size review', message: `Is the font size on "${name}" appropriate for its context?` },
+      { label: t('chips.text.textAccessible'), message: `Is this text element "${name}" accessible? Check size, weight, and contrast.` },
+      { label: t('chips.text.contrastRatio'), message: `Can you check the contrast ratio on "${name}" for WCAG AA compliance?` },
+      { label: t('chips.text.correctToken'), message: `Am I using the right typography token for "${name}"?` },
+      { label: t('chips.text.fontSizeReview'), message: `Is the font size on "${name}" appropriate for its context?` },
     ];
   }
 
   if (type === 'FRAME' || type === 'GROUP' || type === 'SECTION') {
     return [
-      { label: 'Review layout', message: `Can you review the layout of "${name}" and suggest improvements?` },
-      { label: 'Check spacing', message: `Does the spacing inside "${name}" follow the design system tokens?` },
-      { label: 'Accessibility issues?', message: `Are there any accessibility concerns with the layout of "${name}"?` },
-      { label: 'Alignment check', message: `Can you check if the alignment in "${name}" is consistent and correct?` },
+      { label: t('chips.layout.reviewLayout'), message: `Can you review the layout of "${name}" and suggest improvements?` },
+      { label: t('chips.layout.checkSpacing'), message: `Does the spacing inside "${name}" follow the design system tokens?` },
+      { label: t('chips.layout.accessibilityIssues'), message: `Are there any accessibility concerns with the layout of "${name}"?` },
+      { label: t('chips.layout.alignmentCheck'), message: `Can you check if the alignment in "${name}" is consistent and correct?` },
     ];
   }
 
   if (type === 'COMPONENT' || type === 'COMPONENT_SET') {
     return [
-      { label: `How to use ${name}?`, message: `How should ${name} be used according to the design system guidelines?` },
-      { label: 'Accessibility reqs', message: `What accessibility requirements should ${name} meet?` },
-      { label: 'Token usage?', message: `What design tokens does ${name} use and are they applied correctly?` },
-      { label: 'Best practices', message: `What are the best practices for implementing ${name}?` },
+      { label: tp('chips.component.howToUse', { name }), message: `How should ${name} be used according to the design system guidelines?` },
+      { label: t('chips.component.accessibilityReqs'), message: `What accessibility requirements should ${name} meet?` },
+      { label: t('chips.component.tokenUsage'), message: `What design tokens does ${name} use and are they applied correctly?` },
+      { label: t('chips.component.bestPractices'), message: `What are the best practices for implementing ${name}?` },
     ];
   }
 
   return [
-    { label: `What is ${name}?`, message: `Can you tell me what "${name}" is and how it fits in the design system?` },
-    { label: 'Any issues?', message: `Are there any design or accessibility issues with "${name}"?` },
-    { label: 'How to improve?', message: `How can I improve "${name}" to better follow the design system?` },
-    { label: 'Accessibility check', message: `Can you run an accessibility check on "${name}" and flag any issues?` },
+    { label: tp('chips.default.whatIs', { name }), message: `Can you tell me what "${name}" is and how it fits in the design system?` },
+    { label: t('chips.default.anyIssues'), message: `Are there any design or accessibility issues with "${name}"?` },
+    { label: t('chips.default.howToImprove'), message: `How can I improve "${name}" to better follow the design system?` },
+    { label: t('chips.instance.accessibilityCheck'), message: `Can you run an accessibility check on "${name}" and flag any issues?` },
   ];
 }
 
@@ -80,8 +81,8 @@ export function EmptyState({ selection, onExampleClick }: EmptyStateProps) {
     <div class="empty-state">
       <p class="empty-state-primary">
         {hasSelection
-          ? 'I noticed you selected something. Want me to help?'
-          : 'Ask me anything about the Simple Design System.'}
+          ? t('emptyState.selectionNotice')
+          : t('emptyState.welcome')}
       </p>
       <div class="empty-state-cloud">
         {chips.map((chip) => (
@@ -96,7 +97,7 @@ export function EmptyState({ selection, onExampleClick }: EmptyStateProps) {
       </div>
       {!hasSelection && (
         <p class="empty-state-hint">
-          Or select a layer in Figma for contextual suggestions.
+          {t('emptyState.hint')}
         </p>
       )}
     </div>

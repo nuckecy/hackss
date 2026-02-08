@@ -12,14 +12,29 @@ import { useApiKey } from './hooks/useApiKey';
 import { useSelection } from './hooks/useSelection';
 import { useChat } from './hooks/useChat';
 import { useProvider } from './hooks/useProvider';
+import { useLocale } from './hooks/useLocale';
+import { useAccessibility } from './hooks/useAccessibility';
+import { setLocale, t } from '../i18n/i18n';
 
 function App() {
   const { apiKey, saveApiKey, clearApiKey, isLoading: keyLoading } = useApiKey();
   const { provider, setProvider, isLoading: providerLoading } = useProvider();
+  const { locale, updateLocale } = useLocale();
+  const { settings: accessibilitySettings, updateSettings: updateAccessibilitySettings } = useAccessibility();
   const [showSettings, setShowSettings] = useState(false);
 
   const needsApiKey = !keyLoading && !providerLoading && !apiKey && provider === 'gemini';
   const showSettingsScreen = needsApiKey || showSettings;
+
+  // Apply font size globally
+  useEffect(() => {
+    document.documentElement.setAttribute('data-font-size', accessibilitySettings.fontSize);
+  }, [accessibilitySettings.fontSize]);
+
+  // Apply locale globally
+  useEffect(() => {
+    setLocale(locale);
+  }, [locale]);
 
   // Loading state while fetching API key and provider
   if (keyLoading || providerLoading) {
@@ -28,7 +43,7 @@ function App() {
         <div class="app-header">
           <div class="app-header-title">
             <span class="app-header-icon">{'◆'}</span>
-            <span>UX Buddy</span>
+            <span>{t('common.appName')}</span>
           </div>
         </div>
       </div>
@@ -42,7 +57,7 @@ function App() {
         <div class="app-header">
           <div class="app-header-title">
             <span class="app-header-icon">{'◆'}</span>
-            <span>UX Buddy</span>
+            <span>{t('common.appName')}</span>
           </div>
         </div>
         <Settings
@@ -52,6 +67,10 @@ function App() {
             saveApiKey(key);
           }}
           onClearKey={clearApiKey}
+          fontSize={accessibilitySettings.fontSize}
+          onFontSizeChange={(size) => updateAccessibilitySettings({ fontSize: size })}
+          locale={locale}
+          onLocaleChange={updateLocale}
         />
       </div>
     );
@@ -65,7 +84,7 @@ function App() {
           <div class="app-header">
             <div class="app-header-title">
               <span class="app-header-icon">{'◆'}</span>
-              <span>UX Buddy</span>
+              <span>{t('common.appName')}</span>
             </div>
             <button
               class="app-header-settings"
@@ -84,6 +103,11 @@ function App() {
               setShowSettings(false);
             }}
             onClearKey={clearApiKey}
+            fontSize={accessibilitySettings.fontSize}
+            onFontSizeChange={(size) => updateAccessibilitySettings({ fontSize: size })}
+            locale={locale}
+            onLocaleChange={updateLocale}
+            onClose={() => setShowSettings(false)}
           />
         </div>
       )}
@@ -190,7 +214,90 @@ function ChatScreen({
     sendMessage(text);
   };
 
+  // Generate quick actions based on message content
+  const getQuickActions = (msg: any) => {
+    if (msg.role !== 'assistant') return undefined;
+
+    const actions = [];
+    const content = msg.content.toLowerCase();
+
+    // If message mentions a specific component, add "Place Component" action
+    const componentMatch = content.match(/(?:use|try|place)\s+(?:the\s+)?(\w+)(?:\s+component)?/i);
+    if (componentMatch && selection) {
+      const componentName = componentMatch[1];
+      actions.push({
+        label: `Place ${componentName}`,
+        icon: 'add_circle',
+        onClick: () => {
+          // Trigger component placement
+          parent.postMessage({
+            pluginMessage: {
+              type: 'place-component',
+              componentKey: componentName.toLowerCase(),
+              componentName: componentName,
+            }
+          }, '*');
+        }
+      });
+    }
+
+    // If message mentions variants, add "Show Variants" action
+    if (content.includes('variant') && selection?.componentName) {
+      actions.push({
+        label: 'Show Variants',
+        icon: 'tune',
+        onClick: () => {
+          sendMessage(`What variants does ${selection.componentName} have?`);
+        }
+      });
+    }
+
+    // If message mentions accessibility issues, add "Run Full Scan" action
+    if ((content.includes('accessibility') || content.includes('wcag')) && selection) {
+      actions.push({
+        label: 'Run Full Scan',
+        icon: 'fact_check',
+        onClick: () => {
+          parent.postMessage({ pluginMessage: { type: 'analyze-frame' } }, '*');
+        }
+      });
+    }
+
+    // If message mentions tokens or spacing, add "Check Tokens" action
+    if ((content.includes('token') || content.includes('spacing')) && selection) {
+      actions.push({
+        label: 'Check Tokens',
+        icon: 'format_paint',
+        onClick: () => {
+          sendMessage(`What design tokens should be used for ${selection.name}?`);
+        }
+      });
+    }
+
+    return actions.length > 0 ? actions : undefined;
+  };
+
   const hasMessages = allMessages.length > 0;
+
+  const handleExport = () => {
+    const markdown = allMessages
+      .map((msg) => {
+        const role = msg.role === 'user' ? t('chat.you') : t('common.appName');
+        const time = msg.timestamp.toLocaleString();
+        return `### ${role} (${time})\n\n${msg.content}\n\n---\n`;
+      })
+      .join('\n');
+
+    const blob = new Blob([`# ${t('chat.conversationTitle')}\n\n${markdown}`], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `system-sidekick-chat-${new Date().toISOString().slice(0, 10)}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div class="app-shell">
@@ -198,21 +305,31 @@ function ChatScreen({
       <div class="app-header">
         <div class="app-header-title">
           <span class="app-header-icon">{'◆'}</span>
-          <span>UX Buddy</span>
+          <span>{t('common.appName')}</span>
         </div>
         <div class="app-header-actions">
           {hasMessages && (
-            <button
-              class="app-header-settings"
-              aria-label="Clear chat"
-              onClick={clearChat}
-            >
-              <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>delete</span>
-            </button>
+            <>
+              <button
+                class="app-header-settings"
+                aria-label={t('chat.exportConversation')}
+                onClick={handleExport}
+                title={t('chat.exportConversation')}
+              >
+                <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>download</span>
+              </button>
+              <button
+                class="app-header-settings"
+                aria-label={t('chat.clearChat')}
+                onClick={clearChat}
+              >
+                <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>delete</span>
+              </button>
+            </>
           )}
           <button
             class="app-header-settings"
-            aria-label="Settings"
+            aria-label={t('common.settings')}
             onClick={onOpenSettings}
           >
             <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>settings</span>
@@ -244,6 +361,7 @@ function ChatScreen({
                     content={msg.content}
                     timestamp={msg.timestamp}
                     action={msg.action}
+                    quickActions={getQuickActions(msg)}
                   />
                 </div>
               );
