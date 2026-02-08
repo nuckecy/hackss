@@ -1,5 +1,6 @@
-import type { SelectionData } from './types/figma';
+import type { SelectionData, SelectionDataV2 } from './types/figma';
 import { handleComponentPlacement } from './placement/placement-handler';
+import { applyFix } from './fix/fix-registry';
 
 figma.showUI(__html__, { width: 414, height: 667 });
 
@@ -158,6 +159,168 @@ async function sendCurrentSelection(): Promise<void> {
   figma.ui.postMessage({ type: 'selection-changed', data });
 }
 
+// ── V2: Deep selection extraction for scan & fix ──
+
+const MAX_DEPTH = 3;
+const MAX_CHILDREN_PER_LEVEL = 20;
+const EXTRACTION_TIMEOUT_MS = 500;
+
+function resolveStyleName(styleId: string | typeof figma.mixed): string | undefined {
+  if (!styleId || styleId === figma.mixed) return undefined;
+  try {
+    const style = figma.getStyleById(styleId as string);
+    return style?.name;
+  } catch (_) {
+    return undefined;
+  }
+}
+
+async function extractDeepSelection(
+  node: SceneNode,
+  depth: number,
+  startTime: number
+): Promise<SelectionDataV2 | null> {
+  // Performance guard
+  if (Date.now() - startTime > EXTRACTION_TIMEOUT_MS) return null;
+
+  try {
+    // Start with all V1 fields
+    const base = await extractSelectionData(node);
+    if (!base) return null;
+
+    const data: SelectionDataV2 = { ...base };
+
+    // Opacity & visibility
+    data.opacity = node.opacity;
+    data.visible = node.visible;
+    data.locked = node.locked;
+
+    // Absolute position
+    if ('absoluteTransform' in node) {
+      const transform = node.absoluteTransform;
+      data.absoluteX = transform[0][2];
+      data.absoluteY = transform[1][2];
+    }
+
+    // Corner radius
+    if ('cornerRadius' in node) {
+      const r = (node as RectangleNode).cornerRadius;
+      if (r !== figma.mixed) {
+        data.cornerRadius = r;
+      } else if ('topLeftRadius' in node) {
+        const rn = node as RectangleNode;
+        data.cornerRadius = [
+          rn.topLeftRadius,
+          rn.topRightRadius,
+          rn.bottomRightRadius,
+          rn.bottomLeftRadius,
+        ];
+      }
+    }
+
+    // Constraints
+    if ('constraints' in node) {
+      const c = (node as FrameNode).constraints;
+      data.constraints = {
+        horizontal: c.horizontal,
+        vertical: c.vertical,
+      };
+    }
+
+    // Layout child properties
+    if ('layoutAlign' in node) {
+      data.layoutAlign = (node as FrameNode).layoutAlign as string;
+    }
+    if ('layoutGrow' in node) {
+      data.layoutGrow = (node as FrameNode).layoutGrow as number;
+    }
+
+    // Component metadata (instances)
+    if (node.type === 'INSTANCE') {
+      try {
+        const main = await node.getMainComponentAsync();
+        if (main) {
+          data.componentId = main.id;
+          data.componentDescription = main.description || undefined;
+          const parent = await main.getParentAsync();
+          if (parent && parent.type === 'COMPONENT_SET') {
+            data.componentSetName = parent.name;
+          }
+        }
+      } catch (_) {
+        // mainComponent may not be accessible
+      }
+    }
+
+    // Style references
+    if ('fillStyleId' in node) {
+      const id = (node as GeometryMixin & SceneNode).fillStyleId;
+      if (id && id !== figma.mixed) {
+        data.fillStyleId = id as string;
+        data.fillStyleName = resolveStyleName(id);
+      }
+    }
+    if ('strokeStyleId' in node) {
+      const id = (node as GeometryMixin & SceneNode).strokeStyleId;
+      if (id && id !== figma.mixed) {
+        data.strokeStyleId = id as string;
+        data.strokeStyleName = resolveStyleName(id);
+      }
+    }
+    if ('textStyleId' in node) {
+      const id = (node as TextNode).textStyleId;
+      if (id && id !== figma.mixed) {
+        data.textStyleId = id as string;
+        data.textStyleName = resolveStyleName(id);
+      }
+    }
+    if ('effectStyleId' in node) {
+      const id = (node as BlendMixin & SceneNode).effectStyleId;
+      if (id && id !== figma.mixed) {
+        data.effectStyleId = id as string;
+        data.effectStyleName = resolveStyleName(id);
+      }
+    }
+
+    // Recursive children
+    if ('children' in node && depth < MAX_DEPTH) {
+      const parentNode = node as FrameNode;
+      data.childCount = parentNode.children.length;
+      const childSlice = parentNode.children.slice(0, MAX_CHILDREN_PER_LEVEL);
+      const extractedChildren: SelectionDataV2[] = [];
+
+      for (const child of childSlice) {
+        if (Date.now() - startTime > EXTRACTION_TIMEOUT_MS) break;
+        const childData = await extractDeepSelection(child, depth + 1, startTime);
+        if (childData) {
+          extractedChildren.push(childData);
+        }
+      }
+
+      data.children = extractedChildren;
+    } else if ('children' in node) {
+      data.childCount = (node as FrameNode).children.length;
+    }
+
+    return data;
+  } catch (_) {
+    return null;
+  }
+}
+
+async function sendDeepSelection(): Promise<void> {
+  const selection = figma.currentPage.selection;
+
+  if (selection.length === 0) {
+    figma.ui.postMessage({ type: 'deep-selection-data', data: null });
+    return;
+  }
+
+  const startTime = Date.now();
+  const data = await extractDeepSelection(selection[0], 0, startTime);
+  figma.ui.postMessage({ type: 'deep-selection-data', data });
+}
+
 // Listen for selection changes
 figma.on('selectionchange', () => {
   sendCurrentSelection();
@@ -264,9 +427,14 @@ figma.ui.onmessage = async (msg: {
   componentKey?: string;
   componentName?: string;
   variant?: string | null;
+  nodeId?: string;
+  fixType?: string;
+  properties?: Record<string, unknown>;
 }) => {
   if (msg.type === 'request-selection') {
     sendCurrentSelection();
+  } else if (msg.type === 'request-deep-selection') {
+    sendDeepSelection();
   } else if (msg.type === 'get-api-key') {
     const key = await figma.clientStorage.getAsync('gemini-api-key');
     figma.ui.postMessage({ type: 'api-key-response', key: key || null });
@@ -282,6 +450,39 @@ figma.ui.onmessage = async (msg: {
   } else if (msg.type === 'save-provider' && msg.provider) {
     await figma.clientStorage.setAsync('ai-provider', msg.provider);
     figma.ui.postMessage({ type: 'provider-saved' });
+  } else if (msg.type === 'get-provider-settings') {
+    // Get selected provider and all API keys
+    const selectedProvider = await figma.clientStorage.getAsync('selected-provider');
+    const geminiKey = await figma.clientStorage.getAsync('api-key-gemini');
+    const claudeKey = await figma.clientStorage.getAsync('api-key-claude');
+    const gptKey = await figma.clientStorage.getAsync('api-key-gpt');
+
+    // Migration: check for old gemini-api-key and migrate if exists
+    if (!geminiKey) {
+      const oldKey = await figma.clientStorage.getAsync('gemini-api-key');
+      if (oldKey) {
+        await figma.clientStorage.setAsync('api-key-gemini', oldKey);
+        await figma.clientStorage.deleteAsync('gemini-api-key');
+      }
+    }
+
+    figma.ui.postMessage({
+      type: 'provider-settings-response',
+      selectedProvider: selectedProvider || 'gemini',
+      keys: {
+        gemini: (geminiKey || await figma.clientStorage.getAsync('api-key-gemini')) || null,
+        claude: claudeKey || null,
+        gpt: gptKey || null,
+      },
+    });
+  } else if (msg.type === 'save-provider-key' && msg.provider && msg.key) {
+    await figma.clientStorage.setAsync(`api-key-${msg.provider}`, msg.key);
+    figma.ui.postMessage({ type: 'provider-key-saved', provider: msg.provider });
+  } else if (msg.type === 'clear-provider-key' && msg.provider) {
+    await figma.clientStorage.deleteAsync(`api-key-${msg.provider}`);
+    figma.ui.postMessage({ type: 'provider-key-cleared', provider: msg.provider });
+  } else if (msg.type === 'set-selected-provider' && msg.provider) {
+    await figma.clientStorage.setAsync('selected-provider', msg.provider);
   } else if (msg.type === 'get-locale') {
     const locale = await figma.clientStorage.getAsync('user-locale');
     figma.ui.postMessage({ type: 'locale-response', locale: locale || 'en' });
@@ -299,6 +500,16 @@ figma.ui.onmessage = async (msg: {
     const settings = msg as any;
     await figma.clientStorage.setAsync('font-size', settings.fontSize);
     await figma.clientStorage.setAsync('screen-reader-mode', settings.screenReaderMode);
+  } else if (msg.type === 'apply-fix' && msg.nodeId && msg.fixType && msg.properties) {
+    // V2: Apply fix via fix registry
+    const result = await applyFix(msg.nodeId, msg.fixType, msg.properties);
+    figma.ui.postMessage({
+      type: 'fix-applied',
+      nodeId: msg.nodeId,
+      fixType: msg.fixType,
+      success: result.success,
+      error: result.error,
+    });
   } else if (msg.type === 'place-component') {
     // Component placement
     await handleComponentPlacement({

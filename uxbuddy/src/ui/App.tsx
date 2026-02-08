@@ -15,6 +15,7 @@ import { useSelection } from './hooks/useSelection';
 import { useChat } from './hooks/useChat';
 import { useScan } from './hooks/useScan';
 import { useCurrentUser } from './hooks/useCurrentUser';
+import { useAccessibility } from './hooks/useAccessibility';
 import { postToMain } from '../types/messages';
 import type { ProviderType } from '../ai/provider';
 
@@ -24,6 +25,12 @@ var SCAN_KEYWORDS = /\b(scan|check|review|audit)\b/i;
 function App() {
   const { selectedProvider, providerKeys, isLoading: settingsLoading, saveKey, clearKey, selectProvider } = useProviderSettings();
   const [showSettings, setShowSettings] = useState(false);
+  const { settings: accessibilitySettings } = useAccessibility();
+
+  // Apply font size to body element
+  useEffect(() => {
+    document.body.setAttribute('data-font-size', accessibilitySettings.fontSize);
+  }, [accessibilitySettings.fontSize]);
 
   const apiKey = providerKeys[selectedProvider];
   const needsApiKey = !settingsLoading && !apiKey;
@@ -249,6 +256,7 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
                       role={msg.role}
                       content={msg.content}
                       timestamp={msg.timestamp}
+                      action={msg.action}
                     />
                   </div>
                 );

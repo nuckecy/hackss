@@ -303,6 +303,30 @@
   border-color: var(--accent-primary);
 }
 
+/* Provider Key Sections */
+.settings-provider-key-section {
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-provider-key-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.settings-provider-key-header strong {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
 /* Settings Footer */
 .settings-footer {
   display: flex;

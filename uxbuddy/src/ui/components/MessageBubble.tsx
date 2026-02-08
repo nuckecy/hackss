@@ -1,11 +1,14 @@
 import { LoadingDots } from './LoadingDots';
+import { PlacementButton } from './PlacementButton';
 import './MessageBubble.css';
+import type { ComponentAction } from '../../types/messages';
 
 interface MessageBubbleProps {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
   isLoading?: boolean;
+  action?: ComponentAction;
 }
 
 function formatTime(date: Date): string {
@@ -134,7 +137,7 @@ export function renderMarkdown(text: string) {
   return parts;
 }
 
-export function MessageBubble({ role, content, timestamp, isLoading }: MessageBubbleProps) {
+export function MessageBubble({ role, content, timestamp, isLoading, action }: MessageBubbleProps) {
   const className = role === 'user' ? 'message message-user' : 'message message-assistant';
 
   return (
@@ -142,9 +145,12 @@ export function MessageBubble({ role, content, timestamp, isLoading }: MessageBu
       {isLoading ? (
         <LoadingDots />
       ) : (
-        <div class="message-content">
-          {renderMarkdown(content)}
-        </div>
+        <>
+          <div class="message-content">
+            {renderMarkdown(content)}
+          </div>
+          {action && <PlacementButton action={action} />}
+        </>
       )}
       {!isLoading && (
         <div class="message-timestamp">{formatTime(timestamp)}</div>

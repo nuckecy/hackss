@@ -1,9 +1,8 @@
 import { useState, useRef } from 'preact/hooks';
-import { GeminiProvider } from '../../ai/gemini-provider';
-import { ClaudeProvider } from '../../ai/claude-provider';
+import { createProvider } from '../../ai/ai-provider';
 import { buildSystemPrompt } from '../../ai/system-prompt';
 import { detectComponentAction } from '../../ai/action-detector';
-import type { AIProvider, ChatMessage } from '../../ai/ai-provider';
+import type { AIProvider, ChatMessage, ProviderType } from '../../ai/ai-provider';
 import type { SelectionData } from '../../types/figma';
 import type { ComponentAction } from '../../types';
 
@@ -31,22 +30,18 @@ function generateId(): string {
 export function useChat(
   apiKey: string,
   selection: SelectionData | null,
-  providerType: 'gemini' | 'claude' = 'gemini'
+  providerType: ProviderType = 'gemini'
 ): UseChatReturn {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const providerRef = useRef<AIProvider | null>(null);
   const apiKeyRef = useRef<string>(apiKey);
-  const providerTypeRef = useRef<string>(providerType);
+  const providerTypeRef = useRef<ProviderType>(providerType);
 
   // Recreate provider if API key or provider type changes
   if (!providerRef.current || apiKeyRef.current !== apiKey || providerTypeRef.current !== providerType) {
-    if (providerType === 'claude') {
-      providerRef.current = new ClaudeProvider();
-    } else {
-      providerRef.current = new GeminiProvider(apiKey);
-    }
+    providerRef.current = createProvider(providerType, apiKey);
     apiKeyRef.current = apiKey;
     providerTypeRef.current = providerType;
   }

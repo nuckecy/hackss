@@ -1,13 +1,14 @@
 import { useState } from 'preact/hooks';
 import './Settings.css';
 import { t } from '../../i18n/i18n';
+import type { ProviderType } from '../../ai/ai-provider';
 
 interface SettingsProps {
-  onApiKeySaved: (key: string) => void;
-  onClearKey?: () => void;
-  currentKey?: string;
-  currentProvider?: 'gemini' | 'claude';
-  onProviderChange?: (provider: 'gemini' | 'claude') => void;
+  selectedProvider: ProviderType;
+  providerKeys: Record<ProviderType, string | null>;
+  onProviderChange: (provider: ProviderType) => void;
+  onSaveKey: (provider: ProviderType, key: string) => void;
+  onClearKey: (provider: ProviderType) => void;
   // Accessibility settings
   fontSize: 'small' | 'medium' | 'large';
   onFontSizeChange: (size: 'small' | 'medium' | 'large') => void;
@@ -19,30 +20,62 @@ interface SettingsProps {
 }
 
 export function Settings({
-  onApiKeySaved,
-  onClearKey,
-  currentKey,
-  currentProvider = 'gemini',
+  selectedProvider,
+  providerKeys,
   onProviderChange,
+  onSaveKey,
+  onClearKey,
   fontSize,
   onFontSizeChange,
   locale,
   onLocaleChange,
   onClose
 }: SettingsProps) {
-  const [inputValue, setInputValue] = useState('');
-  const [isEditing, setIsEditing] = useState(!currentKey && currentProvider === 'gemini');
+  const [editingProvider, setEditingProvider] = useState<ProviderType | null>(null);
+  const [inputValues, setInputValues] = useState<Record<ProviderType, string>>({
+    gemini: '',
+    claude: '',
+    gpt: '',
+  });
 
-  const isFirstRun = !currentKey && currentProvider === 'gemini';
-  const maskedKey = currentKey ? currentKey.substring(0, 8) + '...' : '';
+  // Check if this is first run (no provider has a key and gemini is selected)
+  const hasAnyKey = Object.values(providerKeys).some(key => key !== null);
+  const isFirstRun = !hasAnyKey && selectedProvider === 'gemini';
 
-  function handleSave(): void {
-    const trimmed = inputValue.trim();
+  function handleSave(provider: ProviderType): void {
+    const trimmed = inputValues[provider].trim();
     if (trimmed) {
-      onApiKeySaved(trimmed);
-      setInputValue('');
-      setIsEditing(false);
+      onSaveKey(provider, trimmed);
+      setInputValues(prev => ({ ...prev, [provider]: '' }));
+      setEditingProvider(null);
     }
+  }
+
+  function handleClear(provider: ProviderType): void {
+    onClearKey(provider);
+    setEditingProvider(null);
+  }
+
+  function getProviderLabel(provider: ProviderType): string {
+    switch (provider) {
+      case 'gemini': return 'Gemini';
+      case 'claude': return 'Claude';
+      case 'gpt': return 'OpenAI (GPT)';
+      default: return provider;
+    }
+  }
+
+  function getProviderApiKeyLink(provider: ProviderType): string | null {
+    switch (provider) {
+      case 'gemini': return 'https://aistudio.google.com/apikey';
+      case 'gpt': return 'https://platform.openai.com/api-keys';
+      case 'claude': return null; // Claude uses backend
+      default: return null;
+    }
+  }
+
+  function needsApiKey(provider: ProviderType): boolean {
+    return provider !== 'claude'; // Claude doesn't need user-provided API key
   }
 
   function getLanguageName(localeCode: string): string {
@@ -65,6 +98,8 @@ export function Settings({
     return flags[localeCode] || '';
   }
 
+  const maskKey = (key: string) => key.substring(0, 8) + '...';
+
   return (
     <div class="settings">
       <div class="settings-title">
@@ -75,27 +110,133 @@ export function Settings({
       <div class="settings-section">
         <div class="settings-label">{t('settings.aiProvider')}</div>
         <div class="settings-provider-options">
-          <label class={`settings-provider-option ${currentProvider === 'gemini' ? 'active' : ''}`}>
+          <label class={`settings-provider-option ${selectedProvider === 'gemini' ? 'active' : ''}`}>
             <input
               type="radio"
               name="provider"
               value="gemini"
-              checked={currentProvider === 'gemini'}
-              onChange={() => onProviderChange?.('gemini')}
+              checked={selectedProvider === 'gemini'}
+              onChange={() => onProviderChange('gemini')}
             />
             <span>Gemini</span>
           </label>
-          <label class={`settings-provider-option ${currentProvider === 'claude' ? 'active' : ''}`}>
+          <label class={`settings-provider-option ${selectedProvider === 'claude' ? 'active' : ''}`}>
             <input
               type="radio"
               name="provider"
               value="claude"
-              checked={currentProvider === 'claude'}
-              onChange={() => onProviderChange?.('claude')}
+              checked={selectedProvider === 'claude'}
+              onChange={() => onProviderChange('claude')}
             />
             <span>Claude</span>
           </label>
+          <label class={`settings-provider-option ${selectedProvider === 'gpt' ? 'active' : ''}`}>
+            <input
+              type="radio"
+              name="provider"
+              value="gpt"
+              checked={selectedProvider === 'gpt'}
+              onChange={() => onProviderChange('gpt')}
+            />
+            <span>OpenAI</span>
+          </label>
         </div>
+      </div>
+
+      {/* API Keys Section - Per Provider */}
+      <div class="settings-section">
+        <div class="settings-label">API Keys</div>
+
+        {(['gemini', 'claude', 'gpt'] as ProviderType[]).map((provider) => {
+          const currentKey = providerKeys[provider];
+          const isEditing = editingProvider === provider;
+          const apiKeyLink = getProviderApiKeyLink(provider);
+          const requiresKey = needsApiKey(provider);
+
+          if (!requiresKey) {
+            // Claude doesn't need API key
+            return (
+              <div key={provider} class="settings-provider-key-section">
+                <div class="settings-provider-key-header">
+                  <strong>{getProviderLabel(provider)}</strong>
+                </div>
+                <div class="settings-description" style={{ fontSize: '12px', opacity: 0.7 }}>
+                  Uses backend API (no key required)
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div key={provider} class="settings-provider-key-section">
+              <div class="settings-provider-key-header">
+                <strong>{getProviderLabel(provider)}</strong>
+                {apiKeyLink && (
+                  <a
+                    class="settings-link"
+                    href={apiKeyLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: '12px' }}
+                  >
+                    Get API Key
+                  </a>
+                )}
+              </div>
+
+              {currentKey && !isEditing ? (
+                <div class="settings-current-key">
+                  <div class="settings-key-display">{maskKey(currentKey)}</div>
+                  <div class="settings-actions">
+                    <button
+                      class="settings-button-secondary"
+                      onClick={() => setEditingProvider(provider)}
+                    >
+                      Change
+                    </button>
+                    <button
+                      class="settings-button-secondary"
+                      onClick={() => handleClear(provider)}
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div class="settings-form">
+                  <input
+                    class="settings-input"
+                    type="password"
+                    placeholder={`Enter ${getProviderLabel(provider)} API key`}
+                    value={inputValues[provider]}
+                    onInput={(e) => setInputValues(prev => ({
+                      ...prev,
+                      [provider]: (e.target as HTMLInputElement).value
+                    }))}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleSave(provider);
+                    }}
+                  />
+                  <button
+                    class="settings-button"
+                    onClick={() => handleSave(provider)}
+                    disabled={!inputValues[provider].trim()}
+                  >
+                    Save
+                  </button>
+                  {currentKey && (
+                    <button
+                      class="settings-button-secondary"
+                      onClick={() => setEditingProvider(null)}
+                    >
+                      {t('common.cancel')}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Accessibility Settings */}
@@ -147,84 +288,6 @@ export function Settings({
           ))}
         </div>
       </div>
-
-      {/* API Key section - only for Gemini */}
-      {currentProvider === 'gemini' && (
-        <>
-          <div class="settings-description">
-            {t('settings.enterApiKey')}
-          </div>
-
-          <a
-            class="settings-link"
-            href="https://aistudio.google.com/apikey"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t('settings.getApiKey')}
-          </a>
-        </>
-      )}
-
-      {currentProvider === 'claude' && (
-        <div class="settings-description">
-          {t('settings.claudeInfo')}
-        </div>
-      )}
-
-      {currentProvider === 'gemini' && (
-        <>
-          {currentKey && !isEditing ? (
-            <div class="settings-current-key">
-              <div class="settings-key-display">{maskedKey}</div>
-              <div class="settings-actions">
-                <button
-                  class="settings-button-secondary"
-                  onClick={() => setIsEditing(true)}
-                >
-                  {t('settings.changeKey')}
-                </button>
-                <button
-                  class="settings-button-secondary"
-                  onClick={() => {
-                    if (onClearKey) onClearKey();
-                  }}
-                >
-                  {t('settings.clearKey')}
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div class="settings-form">
-              <input
-                class="settings-input"
-                type="password"
-                placeholder={t('settings.apiKeyPlaceholder')}
-                value={inputValue}
-                onInput={(e) => setInputValue((e.target as HTMLInputElement).value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleSave();
-                }}
-              />
-              <button
-                class="settings-button"
-                onClick={handleSave}
-                disabled={!inputValue.trim()}
-              >
-                {t('settings.saveKey')}
-              </button>
-              {currentKey && (
-                <button
-                  class="settings-button-secondary"
-                  onClick={() => setIsEditing(false)}
-                >
-                  {t('common.cancel')}
-                </button>
-              )}
-            </div>
-          )}
-        </>
-      )}
 
       {/* Footer with Save button - only show when onClose is available (not first run) */}
       {onClose && !isFirstRun && (
