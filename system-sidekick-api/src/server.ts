@@ -291,6 +291,68 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
+// POST /api/analyze-frame
+app.post("/api/analyze-frame", async (req, res) => {
+  try {
+    const { frameData } = req.body;
+
+    if (!frameData) {
+      return res.status(400).json({ error: "Frame data is required" });
+    }
+
+    const analysisPrompt = `You are a design system auditor analyzing a Figma frame for compliance with the Simple Design System (SDS).
+
+Analyze this frame data and provide a structured compliance report:
+
+Frame data:
+${JSON.stringify(frameData, null, 2)}
+
+Check for:
+1. **Spacing violations** - Should use 4px, 8px, 12px, 16px, 24px, 32px, 48px tokens
+2. **Color violations** - Should use SDS color tokens (check fills against design system)
+3. **Typography violations** - Should use DM Sans with defined sizes (12px, 14px, 16px, 18px, 20px, 24px, 32px)
+4. **Component usage** - Are SDS components used correctly? Are there custom components that should use SDS?
+5. **Hierarchy issues** - Proper nesting, spacing, and structure
+
+Provide your analysis in this format:
+
+## Overall Compliance: [X/5] ⭐
+
+## Violations Found
+
+### ❌ Critical Issues
+- List critical violations (e.g., incorrect components, missing accessibility)
+
+### ⚠️ Warnings
+- List warnings (e.g., non-standard spacing, minor color issues)
+
+### ℹ️ Suggestions
+- List improvement suggestions
+
+## Summary
+[Brief summary of the frame's compliance and key recommendations]
+
+Be specific - reference actual values from the frame data (colors, spacing, font sizes, component names).`;
+
+    const response = await anthropic.messages.create({
+      model: "claude-sonnet-4-5-20250929",
+      max_tokens: 2048,
+      messages: [{ role: "user", content: analysisPrompt }],
+    });
+
+    const analysis =
+      response.content[0].type === "text" ? response.content[0].text : "";
+
+    res.json({ analysis });
+  } catch (error: any) {
+    console.error("Analyze frame API error:", error);
+    res.status(500).json({
+      error: "Failed to analyze frame",
+      details: error.message,
+    });
+  }
+});
+
 // GET /health
 app.get("/health", (_req, res) => {
   res.json({

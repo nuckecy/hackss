@@ -7,6 +7,7 @@ import { SelectionIndicator } from './components/SelectionIndicator';
 import { EmptyState } from './components/EmptyState';
 import { Settings } from './components/Settings';
 import { SuggestionChips } from './components/SuggestionChips';
+import { ScanFrameButton } from './components/ScanFrameButton';
 import { useApiKey } from './hooks/useApiKey';
 import { useSelection } from './hooks/useSelection';
 import { useChat } from './hooks/useChat';
@@ -104,9 +105,13 @@ function ChatScreen({
 }) {
   const { selection } = useSelection();
   const { messages, isLoading, sendMessage, clearChat } = useChat(apiKey, selection, provider);
+  const [analysisMessages, setAnalysisMessages] = useState<any[]>([]);
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const prevSelectionId = useRef<string | null>(null);
+
+  // Combine regular messages with analysis messages
+  const allMessages = [...messages, ...analysisMessages];
 
   // Show suggestions when selection changes to a new element
   useEffect(() => {
@@ -124,7 +129,56 @@ function ChatScreen({
     if (chatAreaRef.current) {
       chatAreaRef.current.scrollTop = chatAreaRef.current.scrollHeight;
     }
-  }, [messages, isLoading]);
+  }, [allMessages, isLoading]);
+
+  // Handle frame analysis results
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const msg = event.data.pluginMessage;
+
+      if (msg.type === 'analysis-data') {
+        // Send frame data to backend for analysis
+        fetch('http://localhost:3000/api/analyze-frame', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ frameData: msg.data }),
+        })
+          .then((res) => res.json())
+          .then((result) => {
+            // Display analysis as assistant message
+            const analysisMessage = {
+              id: `analysis-${Date.now()}`,
+              role: 'assistant' as const,
+              content: `## Frame Analysis: ${msg.frameName}\n\n${result.analysis}`,
+              timestamp: new Date(),
+            };
+            setAnalysisMessages((prev) => [...prev, analysisMessage]);
+          })
+          .catch((error) => {
+            const errorMessage = {
+              id: `error-${Date.now()}`,
+              role: 'assistant' as const,
+              content: `Failed to analyze frame: ${error.message}. Make sure the backend server is running.`,
+              timestamp: new Date(),
+            };
+            setAnalysisMessages((prev) => [...prev, errorMessage]);
+          });
+      }
+
+      if (msg.type === 'analysis-error') {
+        const errorMessage = {
+          id: `error-${Date.now()}`,
+          role: 'assistant' as const,
+          content: msg.message,
+          timestamp: new Date(),
+        };
+        setAnalysisMessages((prev) => [...prev, errorMessage]);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
 
   const handleSuggestionClick = (text: string): void => {
     setShowSuggestions(false);
@@ -136,7 +190,7 @@ function ChatScreen({
     sendMessage(text);
   };
 
-  const hasMessages = messages.length > 0;
+  const hasMessages = allMessages.length > 0;
 
   return (
     <div class="app-shell">
@@ -169,12 +223,19 @@ function ChatScreen({
       {/* Selection Indicator */}
       <SelectionIndicator selection={selection} />
 
+      {/* Scan Frame Button - only show with Claude provider */}
+      {provider === 'claude' && selection && (
+        <div style={{ padding: '0 12px 8px' }}>
+          <ScanFrameButton />
+        </div>
+      )}
+
       {/* Chat Area */}
       <div class="chat-area" ref={chatAreaRef}>
         {hasMessages ? (
           <div class="chat-messages">
-            {messages.map((msg, i) => {
-              const prevMsg = messages[i - 1];
+            {allMessages.map((msg, i) => {
+              const prevMsg = allMessages[i - 1];
               const gapClass = prevMsg && prevMsg.role !== msg.role ? 'message-gap-lg' : 'message-gap-sm';
               return (
                 <div key={msg.id} class={i > 0 ? gapClass : ''}>
