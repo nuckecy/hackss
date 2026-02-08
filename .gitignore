@@ -1,7 +1,14 @@
 node_modules/
 dist/
 build/
-.env
 *.js.map
 .DS_Store
 .claude/
+
+# API keys and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
