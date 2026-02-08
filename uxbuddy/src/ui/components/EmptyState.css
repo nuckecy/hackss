@@ -20,8 +20,9 @@
 }
 
 .empty-state-logo-icon {
-  font-size: 28px;
-  color: var(--accent-primary);
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .empty-state-greeting {

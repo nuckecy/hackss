@@ -1,4 +1,5 @@
 import type { SelectionData } from '../../types/figma';
+import chatbotIcon from '../chatbot-icon.png';
 import './EmptyState.css';
 
 interface EmptyStateProps {
@@ -83,9 +84,9 @@ export function EmptyState({ selection, onExampleClick, userName }: EmptyStatePr
 
   return (
     <div class="empty-state">
-      {/* Logo placeholder */}
+      {/* Logo */}
       <div class="empty-state-logo">
-        <span class="material-symbols-outlined empty-state-logo-icon">auto_awesome</span>
+        <img src={chatbotIcon} alt="UX Buddy" class="empty-state-logo-icon" />
       </div>
 
       {/* Personalized greeting */}

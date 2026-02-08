@@ -18,6 +18,7 @@ import { useCurrentUser } from './hooks/useCurrentUser';
 import { useAccessibility } from './hooks/useAccessibility';
 import { postToMain } from '../types/messages';
 import type { ProviderType } from '../ai/provider';
+import chatbotIcon from './chatbot-icon.png';
 
 
 var SCAN_KEYWORDS = /\b(scan|check|review|audit)\b/i;
@@ -42,7 +43,7 @@ function App() {
       <div class="app-shell">
         <div class="app-header">
           <div class="app-header-title">
-            <span class="app-header-icon">{'◆'}</span>
+            <img src={chatbotIcon} alt="" class="app-header-icon" />
             <span>UX Buddy</span>
           </div>
         </div>
@@ -56,7 +57,7 @@ function App() {
       <div class="app-shell">
         <div class="app-header">
           <div class="app-header-title">
-            <span class="app-header-icon">{'◆'}</span>
+            <img src={chatbotIcon} alt="" class="app-header-icon" />
             <span>UX Buddy</span>
           </div>
         </div>
@@ -78,7 +79,7 @@ function App() {
         <div class="app-shell">
           <div class="app-header">
             <div class="app-header-title">
-              <span class="app-header-icon">{'◆'}</span>
+              <img src={chatbotIcon} alt="" class="app-header-icon" />
               <span>UX Buddy</span>
             </div>
             <button
@@ -191,7 +192,7 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
             <span class="material-symbols-outlined" style={{ fontSize: '18px' }}>menu</span>
           </button>
           <div class="app-header-title">
-            <span class="app-header-icon">{'◆'}</span>
+            <img src={chatbotIcon} alt="" class="app-header-icon" />
             <span>UX Buddy</span>
           </div>
         </div>
