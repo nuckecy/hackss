@@ -1,4 +1,4 @@
-# UX Buddy
+# System Sidekick
 
 A Figma plugin that provides conversational design system and accessibility guidance. Ask questions about the Simple Design System (SDS) components, WCAG accessibility rules, and design tokens — and get contextual answers powered by Gemini Flash, right inside Figma.
 

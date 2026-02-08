@@ -10,6 +10,6 @@ export interface KnowledgeBase {
 
 export interface ScanRule {
   id: string;
-  category: 'design-system' | 'accessibility' | 'structural';
+  category: 'design-system' | 'accessibility' | 'structural' | 'form-patterns';
   check: (node: SelectionDataV2, kb: KnowledgeBase) => ScanIssue[];
 }

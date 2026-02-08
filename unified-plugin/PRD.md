@@ -1,10 +1,10 @@
-# UX Buddy — Product Requirements Document (V1)
+# System Sidekick — Product Requirements Document (V1)
 
 ## Document Info
 
 | Field | Value |
 |-------|-------|
-| **Product Name** | UX Buddy |
+| **Product Name** | System Sidekick |
 | **Version** | 1.0 (Q&A Mode) |
 | **Author** | Otobong Okoko |
 | **Date** | February 2026 |
@@ -14,7 +14,7 @@
 
 ## 1. Overview
 
-UX Buddy is a Figma plugin that provides contextual, conversational design system and accessibility guidance directly inside the designer's workflow. Unlike linters that passively flag violations, UX Buddy acts as a knowledgeable colleague who explains the "why" behind every recommendation.
+System Sidekick is a Figma plugin that provides contextual, conversational design system and accessibility guidance directly inside the designer's workflow. Unlike linters that passively flag violations, System Sidekick acts as a knowledgeable colleague who explains the "why" behind every recommendation.
 
 V1 focuses exclusively on the **Q&A mode**: designers can ask questions about the Simple Design System (SDS) and WCAG accessibility guidelines, and receive contextual, actionable answers without leaving Figma.
 
@@ -72,7 +72,7 @@ Designers working with the Simple Design System face several recurring pain poin
 
 ### FR-01: Plugin Shell
 - Plugin launches in a side panel within Figma
-- Displays the UX Buddy branding and a chat interface
+- Displays the System Sidekick branding and a chat interface
 - Provides an API key input screen on first launch (stored in `figma.clientStorage`)
 
 ### FR-02: Chat Interface
@@ -137,7 +137,7 @@ Designers working with the Simple Design System face several recurring pain poin
 ### 7.1 Plugin Structure
 
 ```
-ux-buddy/
+system-sidekick/
 ├── manifest.json              # Figma plugin manifest
 ├── CLAUDE.md                  # Claude Code project rules
 ├── package.json

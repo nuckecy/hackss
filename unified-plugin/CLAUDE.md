@@ -1,8 +1,8 @@
-# CLAUDE.md - UX Buddy Figma Plugin
+# CLAUDE.md - System Sidekick Figma Plugin
 
 ## Project Overview
 
-UX Buddy is a Figma plugin that provides conversational design system and accessibility guidance. V1 implements Q&A mode only: designers ask questions about the Simple Design System (SDS) and WCAG guidelines, and receive contextual answers powered by Gemini Flash.
+System Sidekick is a Figma plugin that provides conversational design system and accessibility guidance. V1 implements Q&A mode only: designers ask questions about the Simple Design System (SDS) and WCAG guidelines, and receive contextual answers powered by Gemini Flash.
 
 Read `PRD.md` for full requirements. Read `CHATBOT_PERSONA.md` for the AI assistant's personality and tone. Read `UI_STYLE_GUIDE.md` for all visual design specifications (colors, typography, spacing, component styles). The style guide is the single source of truth for how the plugin looks.
 
@@ -24,7 +24,7 @@ Read `PRD.md` for full requirements. Read `CHATBOT_PERSONA.md` for the AI assist
 ## Project Structure
 
 ```
-ux-buddy/
+system-sidekick/
 ├── manifest.json              # Figma plugin manifest (editorType: figma)
 ├── CLAUDE.md                  # This file
 ├── PRD.md                     # Product requirements
@@ -91,8 +91,8 @@ window.onmessage = (event) => { const msg = event.data.pluginMessage; ... };
 ### manifest.json Format
 ```json
 {
-  "name": "UX Buddy",
-  "id": "ux-buddy-plugin-id",
+  "name": "System Sidekick",
+  "id": "system-sidekick-plugin-id",
   "api": "1.0.0",
   "main": "dist/main.js",
   "ui": "dist/ui.html",

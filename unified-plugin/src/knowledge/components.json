@@ -5,7 +5,7 @@
     "description": "Primary action trigger used for form submissions, CTAs, and key interactions. Available in multiple visual variants and sizes.",
     "category": "actions",
     "variants": {
-      "variant": ["filled", "outlined", "ghost", "danger"],
+      "variant": ["filled", "outlined", "ghost"],
       "size": ["sm", "md", "lg"]
     },
     "properties": {
@@ -43,7 +43,7 @@
         "Use filled variant for primary actions (one per section)",
         "Use outlined for secondary actions alongside a primary button",
         "Use ghost for low-emphasis tertiary actions",
-        "Use danger variant only for destructive actions like delete",
+        "For destructive actions like delete, use ButtonDanger component instead",
         "Always include a visible text label",
         "Place primary action on the right in button groups"
       ],
@@ -51,11 +51,63 @@
         "Don't use more than one filled button per section",
         "Don't use Button for navigation — use a link instead",
         "Don't disable without explaining why",
-        "Don't use danger variant for non-destructive actions",
+        "Don't use Button for destructive actions — use ButtonDanger instead",
         "Don't put too much text in the label — keep it to 1-3 words"
       ]
     },
-    "related_components": ["IconButton", "Badge"]
+    "related_components": ["IconButton", "Badge", "ButtonDanger"]
+  },
+  {
+    "id": "button-danger",
+    "name": "ButtonDanger",
+    "description": "Destructive action button used exclusively for delete, remove, and discard actions. Separate component from Button to ensure destructive actions have distinct visual treatment.",
+    "category": "actions",
+    "variants": {
+      "variant": ["danger-primary", "danger-subtle"],
+      "size": ["sm", "md", "lg"]
+    },
+    "properties": {
+      "label": { "type": "string", "required": true, "description": "Visible text label describing the destructive action" },
+      "variant": { "type": "enum", "required": false, "default": "danger-primary", "description": "Visual emphasis level for destructive action" },
+      "size": { "type": "enum", "required": false, "default": "md", "description": "Button size" },
+      "disabled": { "type": "boolean", "required": false, "default": false, "description": "Disables interaction" },
+      "onClick": { "type": "function", "required": false, "description": "Click handler callback" }
+    },
+    "tokens": {
+      "background-primary": "error.primary (#DC2626)",
+      "background-subtle": "transparent",
+      "text-primary": "text.inverse (#FFFFFF)",
+      "text-subtle": "error.primary (#DC2626)",
+      "border-radius": "radius.sm (4px)",
+      "height-sm": "28px",
+      "height-md": "36px",
+      "height-lg": "44px"
+    },
+    "accessibility": {
+      "role": "button",
+      "min_touch_target": "44x44px (use lg size or add padding)",
+      "contrast_ratio": "4.5:1 for label text against background",
+      "focus_indicator": "3px error ring",
+      "confirmation_required": "Always pair with confirmation Dialog for irreversible actions",
+      "keyboard": "Enter or Space to activate"
+    },
+    "usage": {
+      "do": [
+        "Use danger-primary for high-emphasis destructive actions (delete, remove permanently)",
+        "Use danger-subtle for low-emphasis or reversible destructive actions",
+        "Always pair with a confirmation Dialog for irreversible operations",
+        "Label must clearly describe what will be deleted (e.g., 'Delete project', not just 'Delete')",
+        "Provide undo functionality when possible",
+        "Use only for destructive actions - never for navigation or neutral operations"
+      ],
+      "dont": [
+        "Don't use ButtonDanger for non-destructive actions - use Button instead",
+        "Don't use danger-primary for reversible actions - use danger-subtle",
+        "Don't place next to primary Button without visual separation (spacing or divider)",
+        "Don't use without explaining consequences to the user"
+      ]
+    },
+    "related_components": ["Button", "Dialog"]
   },
   {
     "id": "icon-button",

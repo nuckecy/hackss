@@ -25,41 +25,53 @@ export async function handleComponentPlacement(
     let resolvedName = componentName;
 
     // Strategy 1: Import by key from the published library (most reliable)
+    // The componentKey may already be a variant-specific key (resolved by action-detector),
+    // but as a fallback we also try looking up the variant key from the mapper.
     if (componentKey && componentKey !== 'YOUR_KEY_HERE') {
+      // First, try importing the key we were given (may already be variant-specific)
       try {
         const imported =
           await figma.importComponentByKeyAsync(componentKey);
         instance = imported.createInstance();
         resolvedName = imported.name;
+      } catch (importErr) {
+        console.log('importComponentByKeyAsync failed for given key:', importErr);
+      }
 
-        // Apply variant if specified (e.g., "alert" for Notification)
-        if (variant && instance.componentProperties) {
-          try {
-            const props = instance.componentProperties;
+      // If we got an instance but a variant was requested, try to apply it
+      // via variant properties as a fallback (in case the key was the base key)
+      if (instance && variant) {
+        try {
+          const props = instance.componentProperties;
+          if (props) {
             for (const [propName, propValue] of Object.entries(props)) {
               if (propValue.type === 'VARIANT') {
-                // Check if this variant property has a matching value
-                const lowerVariant = variant.toLowerCase();
-                const lowerPropName = propName.toLowerCase();
-                if (
-                  lowerPropName === 'variant' ||
-                  lowerPropName.includes('variant') ||
-                  lowerPropName === 'type' ||
-                  lowerPropName === 'style'
-                ) {
-                  instance.setProperties({
-                    [propName]: variant.charAt(0).toUpperCase() + variant.slice(1)
-                  });
+                // Try setting the variant value with various capitalizations
+                const capitalizedVariant = variant.charAt(0).toUpperCase() + variant.slice(1);
+                try {
+                  instance.setProperties({ [propName]: capitalizedVariant });
                   break;
+                } catch {
+                  // Try lowercase
+                  try {
+                    instance.setProperties({ [propName]: variant.toLowerCase() });
+                    break;
+                  } catch {
+                    // Try as-is
+                    try {
+                      instance.setProperties({ [propName]: variant });
+                      break;
+                    } catch {
+                      // This property doesn't accept this variant value, try next property
+                    }
+                  }
                 }
               }
             }
-          } catch (variantErr) {
-            console.log('Could not set variant:', variantErr);
           }
+        } catch (variantErr) {
+          console.log('Could not set variant property:', variantErr);
         }
-      } catch (importErr) {
-        console.log('importComponentByKeyAsync failed:', importErr);
       }
     }
 

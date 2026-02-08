@@ -1,4 +1,4 @@
-# UX Buddy — Claude Code Build Prompts
+# System Sidekick — Claude Code Build Prompts
 
 ## How to Use This File
 
@@ -16,10 +16,10 @@ Before starting, make sure:
 ```
 Read CLAUDE.md and PRD.md first.
 
-Scaffold the UX Buddy Figma plugin project with this structure:
+Scaffold the System Sidekick Figma plugin project with this structure:
 
 1. Initialize npm project with:
-   - name: "ux-buddy"
+   - name: "system-sidekick"
    - private: true
 
 2. Install dependencies:
@@ -52,7 +52,7 @@ Scaffold the UX Buddy Figma plugin project with this structure:
 8. Create placeholder entry files:
    - src/main.ts with: figma.showUI(__html__, { width: 360, height: 580 }); and a console.log
    - src/ui/index.html with a basic HTML shell that loads App.tsx
-   - src/ui/App.tsx with a simple "UX Buddy is running" message
+   - src/ui/App.tsx with a simple "System Sidekick is running" message
 
 9. Create a .gitignore that excludes node_modules, dist, and .env
 
@@ -202,7 +202,7 @@ Build the settings/onboarding screen for API key entry.
 File: src/ui/components/Settings.tsx
 Props: { onApiKeySaved: (key: string) => void, currentKey?: string }
 - Show a clean form with:
-  - Title: "Welcome to UX Buddy" (on first run) or "Settings" (if key exists). Use --font-size-xl, --font-weight-semibold.
+  - Title: "Welcome to System Sidekick" (on first run) or "Settings" (if key exists). Use --font-size-xl, --font-weight-semibold.
   - Brief description: "Enter your Gemini API key to get started". Use --font-size-base, --text-secondary.
   - Link text: "Get a free API key from Google AI Studio" (link to https://aistudio.google.com/apikey). Use --font-size-sm, --text-link.
   - Password-type input: same styling as chat InputBar field (36px, 1px border, shadow-xs, focus ring)
@@ -310,7 +310,7 @@ Update src/ui/App.tsx:
 - Use useChat hook for chat state
 - Use useSelection hook for selection state
 - Layout (see "Visual Reference: Complete Layout" in UI_STYLE_GUIDE.md):
-  - Header bar: 36px, "◆ UX Buddy" title + gear icon for settings. Follow header spec in style guide.
+  - Header bar: 36px, "◆ System Sidekick" title + gear icon for settings. Follow header spec in style guide.
   - SelectionIndicator below header (if selection exists)
   - Chat messages area (scrollable, flex-grow)
   - EmptyState centered in chat area when no messages
@@ -454,7 +454,7 @@ Review all files in the project for:
    - Verify all imports resolve correctly
 
 5. Add a README.md with:
-   - What UX Buddy is (one paragraph)
+   - What System Sidekick is (one paragraph)
    - How to install (get API key, import manifest in Figma)
    - How to develop (clone, npm install, npm run dev)
    - How to build (npm run build)

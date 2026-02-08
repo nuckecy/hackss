@@ -95,9 +95,22 @@ export function detectComponentAction(text: string): ComponentAction | null {
 
       const variant = detectVariant(text, componentName);
 
+      // If a variant was detected and we have a specific key for it, use that key
+      // This ensures we import the exact variant (e.g., danger-primary) instead of the base component
+      let resolvedKey = data.componentKey;
+      if (variant && data.variantKeys) {
+        const variantLower = variant.toLowerCase();
+        for (const [vName, vKey] of Object.entries(data.variantKeys)) {
+          if (vName.toLowerCase() === variantLower) {
+            resolvedKey = vKey;
+            break;
+          }
+        }
+      }
+
       return {
         type: 'place_component',
-        componentKey: data.componentKey,
+        componentKey: resolvedKey,
         componentName: componentName,
         variant: variant,
       };

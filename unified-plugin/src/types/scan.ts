@@ -1,7 +1,7 @@
 export interface ScanIssue {
   id: string;
   severity: 'error' | 'warning' | 'info';
-  category: 'design-system' | 'accessibility' | 'structural';
+  category: 'design-system' | 'accessibility' | 'structural' | 'form-patterns';
   title: string;
   description: string;
   nodeId: string;

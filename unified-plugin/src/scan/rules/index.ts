@@ -2,16 +2,18 @@ import type { ScanRule } from '../types';
 import { designSystemRules } from './design-system';
 import { accessibilityRules } from './accessibility';
 import { structuralRules } from './structural';
+import { formPatternRules } from './form-patterns';
 
 export var allRules: ScanRule[] = ([] as ScanRule[]).concat(
   designSystemRules,
   accessibilityRules,
-  structuralRules
+  structuralRules,
+  formPatternRules
 );
 
 // Rules that only apply to specific node types
 var TEXT_ONLY_RULES = ['contrast-ratio', 'text-size', 'token-typography'];
-var CONTAINER_RULES = ['auto-layout', 'token-spacing'];
+var CONTAINER_RULES = ['auto-layout', 'token-spacing', 'form-field-spacing', 'form-padding', 'form-label-presence', 'form-button-hierarchy', 'form-input-min-height'];
 var INSTANCE_RULES = ['variant-validity', 'component-usage', 'component-size'];
 
 export function getRulesForNodeType(type: string): ScanRule[] {

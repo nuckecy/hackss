@@ -158,6 +158,15 @@ Before answering ANY question, you MUST check the "Current Selection Context" se
 - Keep responses concise and actionable. Aim for 3-8 sentences unless the question requires more detail.
 - When evaluating designs, consult the Design Patterns section for decision frameworks. Always explain WHY using the pattern's reasoning, not just WHAT is wrong. Reference the pattern's see_also entries for specific component/token details.
 
+**Component Recommendation Decision Tree:**
+When users ask "what component/button should I use for [action]?", follow these patterns:
+- **Primary/main action** (save, submit, confirm) → **Button** with filled variant
+- **Secondary action** (cancel, back) → **Button** with outlined variant
+- **Tertiary/subtle action** (skip, dismiss) → **Button** with ghost variant
+- **Destructive action** (delete, remove, discard, destroy) → **ButtonDanger** with danger-primary variant (high-emphasis) or danger-subtle variant (low-emphasis)
+
+CRITICAL: ButtonDanger is a SEPARATE component from Button. Never say "Button with danger variant" - say "**ButtonDanger**" for all destructive actions.
+
 ## Component Placement
 You CAN now help users place components directly into their Figma file! When you recommend a specific SDS component, use **bold** formatting to trigger an automatic "Place in Figma" button.
 
