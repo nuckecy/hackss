@@ -9,6 +9,7 @@ import { TokenResponse } from './responses/TokenResponse';
 import { ComparisonResponse } from './responses/ComparisonResponse';
 import { NotFoundResponse } from './responses/NotFoundResponse';
 import { DesignAnalysisResponse } from './responses/DesignAnalysisResponse';
+import { ActionButtons } from './responses/shared/ActionButtons';
 import './MessageBubble.css';
 
 interface QuickAction {
@@ -155,26 +156,31 @@ function renderMarkdown(text: string) {
 /**
  * Renders content with specialized response components or falls back to markdown
  */
-function renderContent(content: string): preact.JSX.Element | preact.JSX.Element[] {
+function renderContent(content: string, action?: ComponentAction, quickActions?: QuickAction[]): preact.JSX.Element | preact.JSX.Element[] {
   const { metadata, body } = parseResponse(content);
 
   // If we have a response type, render specialized component
   switch (metadata.type) {
     case 'component-lookup':
-      return <ComponentLookupResponse metadata={metadata} body={body} />;
+      return <ComponentLookupResponse metadata={metadata} body={body} action={action} quickActions={quickActions} />;
     case 'accessibility':
-      return <AccessibilityResponse metadata={metadata} body={body} />;
+      return <AccessibilityResponse metadata={metadata} body={body} action={action} quickActions={quickActions} />;
     case 'token':
-      return <TokenResponse metadata={metadata} body={body} />;
+      return <TokenResponse metadata={metadata} body={body} action={action} quickActions={quickActions} />;
     case 'comparison':
-      return <ComparisonResponse metadata={metadata} body={body} />;
+      return <ComparisonResponse metadata={metadata} body={body} action={action} quickActions={quickActions} />;
     case 'not-found':
-      return <NotFoundResponse metadata={metadata} body={body} />;
+      return <NotFoundResponse metadata={metadata} body={body} action={action} quickActions={quickActions} />;
     case 'design-analysis':
-      return <DesignAnalysisResponse metadata={metadata} body={body} />;
+      return <DesignAnalysisResponse metadata={metadata} body={body} action={action} quickActions={quickActions} />;
     default:
       // Fallback to standard markdown rendering
-      return <>{renderMarkdown(content)}</>;
+      return (
+        <>
+          <ActionButtons action={action} quickActions={quickActions} />
+          {renderMarkdown(content)}
+        </>
+      );
   }
 }
 
@@ -197,28 +203,9 @@ export function MessageBubble({ role, content, timestamp, isLoading, action, qui
       {isLoading ? (
         <LoadingDots />
       ) : (
-        <>
-          <div class="message-content">
-            {renderContent(content)}
-          </div>
-          {action && action.type === 'place_component' && (
-            <PlacementButton action={action} />
-          )}
-          {quickActions && quickActions.length > 0 && (
-            <div class="message-quick-actions">
-              {quickActions.map((qa, idx) => (
-                <button
-                  key={idx}
-                  class="quick-action-button"
-                  onClick={qa.onClick}
-                >
-                  {qa.icon && <span class="material-symbols-outlined">{qa.icon}</span>}
-                  {qa.label}
-                </button>
-              ))}
-            </div>
-          )}
-        </>
+        <div class="message-content">
+          {renderContent(content, action, quickActions)}
+        </div>
       )}
       {!isLoading && (
         <div class="message-footer">

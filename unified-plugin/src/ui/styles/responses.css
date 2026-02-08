@@ -792,6 +792,12 @@
   margin: 0;
 }
 
+/* ===== Action Buttons ===== */
+
+.response-action-buttons {
+  margin: var(--space-5) 0;
+}
+
 /* ===== Responsive Adjustments ===== */
 
 @media (max-width: 320px) {

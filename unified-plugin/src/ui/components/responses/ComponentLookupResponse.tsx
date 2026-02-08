@@ -4,6 +4,7 @@ import { Accordion } from './shared/Accordion';
 import { Badge } from './shared/Badge';
 import { Card } from './shared/Card';
 import { ActionButton } from './shared/ActionButton';
+import { ActionButtons } from './shared/ActionButtons';
 
 interface PropRow {
   prop: string;
@@ -110,7 +111,7 @@ function getDescription(body: string): string {
   return paragraphs.join(' ');
 }
 
-export function ComponentLookupResponse({ metadata, body }: ResponseComponentProps) {
+export function ComponentLookupResponse({ metadata, body, action, quickActions }: ResponseComponentProps) {
   const { componentName, status } = metadata;
   const { keyProps, allProps } = parsePropsTable(body);
   const accessibilityNotes = parseAccessibilityNotes(body);
@@ -127,58 +128,65 @@ export function ComponentLookupResponse({ metadata, body }: ResponseComponentPro
         </div>
       )}
 
-      {description && <p class="response-description">{description}</p>}
+      <ActionButtons action={action} quickActions={quickActions} />
+
+      {description && (
+        <Accordion summary="Overview" defaultExpanded={false}>
+          <p class="response-description">{description}</p>
+        </Accordion>
+      )}
 
       {keyProps.length > 0 && (
         <div class="response-props-section">
-          <h4 class="response-section-heading">Key Properties</h4>
-          <table class="response-table">
-            <thead>
-              <tr>
-                <th scope="col">Prop</th>
-                <th scope="col">Type</th>
-                <th scope="col">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {keyProps.map((prop, idx) => (
-                <tr key={idx}>
-                  <td><code>{prop.prop}</code></td>
-                  <td><code>{prop.type}</code></td>
-                  <td>{prop.description}</td>
+          <Accordion summary={`Properties (${keyProps.length})`} defaultExpanded={false}>
+            <table class="response-table">
+              <thead>
+                <tr>
+                  <th scope="col">Prop</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Description</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {allProps.length > keyProps.length && (
-            <Accordion summary={`Show all ${allProps.length} props`}>
-              <table class="response-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Prop</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Description</th>
+              </thead>
+              <tbody>
+                {keyProps.map((prop, idx) => (
+                  <tr key={idx}>
+                    <td><code>{prop.prop}</code></td>
+                    <td><code>{prop.type}</code></td>
+                    <td>{prop.description}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {allProps.slice(keyProps.length).map((prop, idx) => (
-                    <tr key={idx}>
-                      <td><code>{prop.prop}</code></td>
-                      <td><code>{prop.type}</code></td>
-                      <td>{prop.description}</td>
+                ))}
+              </tbody>
+            </table>
+
+            {allProps.length > keyProps.length && (
+              <Accordion summary={`Show all ${allProps.length} props`} defaultExpanded={false}>
+                <table class="response-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Prop</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Description</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </Accordion>
-          )}
+                  </thead>
+                  <tbody>
+                    {allProps.slice(keyProps.length).map((prop, idx) => (
+                      <tr key={idx}>
+                        <td><code>{prop.prop}</code></td>
+                        <td><code>{prop.type}</code></td>
+                        <td>{prop.description}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Accordion>
+            )}
+          </Accordion>
         </div>
       )}
 
       {accessibilityNotes.length > 0 && (
         <div class="response-accessibility-section">
-          <Accordion summary={`Accessibility (${accessibilityNotes.length} notes)`}>
+          <Accordion summary={`Accessibility (${accessibilityNotes.length} notes)`} defaultExpanded={false}>
             <ul class="response-checklist">
               {accessibilityNotes.map((note, idx) => (
                 <li key={idx}>{note}</li>

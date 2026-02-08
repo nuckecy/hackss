@@ -2,6 +2,7 @@ import { h } from 'preact';
 import type { ResponseComponentProps } from '../../../types/responses';
 import { Badge } from './shared/Badge';
 import { Accordion } from './shared/Accordion';
+import { ActionButtons } from './shared/ActionButtons';
 
 function parseComponentList(body: string): string[] {
   const lines = body.split('\n');
@@ -82,7 +83,7 @@ function getSummary(body: string): string {
   return paragraphs.join(' ');
 }
 
-export function AccessibilityResponse({ metadata, body }: ResponseComponentProps) {
+export function AccessibilityResponse({ metadata, body, action, quickActions }: ResponseComponentProps) {
   const { criterion, level } = metadata;
   const components = parseComponentList(body);
   const { dos, donts } = parseExamples(body);
@@ -97,21 +98,28 @@ export function AccessibilityResponse({ metadata, body }: ResponseComponentProps
         </div>
       )}
 
-      {summary && <p class="response-summary">{summary}</p>}
+      <ActionButtons action={action} quickActions={quickActions} />
+
+      {summary && (
+        <Accordion summary="Overview" defaultExpanded={false}>
+          <p class="response-summary">{summary}</p>
+        </Accordion>
+      )}
 
       {components.length > 0 && (
         <div class="response-components-section">
-          <h4 class="response-section-heading">SDS Components That Satisfy This</h4>
-          <div class="response-component-chips">
-            {components.map((comp, idx) => (
-              <span key={idx} class="response-chip">{comp}</span>
-            ))}
-          </div>
+          <Accordion summary={`Components (${components.length})`} defaultExpanded={false}>
+            <div class="response-component-chips">
+              {components.map((comp, idx) => (
+                <span key={idx} class="response-chip">{comp}</span>
+              ))}
+            </div>
+          </Accordion>
         </div>
       )}
 
       {(dos.length > 0 || donts.length > 0) && (
-        <Accordion summary="Do/Don't Examples" defaultExpanded={false}>
+        <Accordion summary="Examples" defaultExpanded={false}>
           <div class="response-examples">
             {dos.length > 0 && (
               <div class="response-example-do">
