@@ -1,0 +1,93 @@
+{
+  "common": {
+    "appName": "System Sidekick",
+    "settings": "Paramètres",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "done": "Terminé"
+  },
+  "settings": {
+    "welcome": "Bienvenue sur System Sidekick",
+    "aiProvider": "Fournisseur d'IA",
+    "apiKey": "Clé API",
+    "apiKeyPlaceholder": "Collez votre clé API Gemini",
+    "enterApiKey": "Entrez votre clé API Gemini pour commencer",
+    "getApiKey": "Obtenez une clé API gratuite de Google AI Studio",
+    "claudeInfo": "Claude utilise l'API backend sur localhost:3000. Assurez-vous que le serveur est en cours d'exécution.",
+    "changeKey": "Modifier la Clé",
+    "clearKey": "Effacer",
+    "saveKey": "Enregistrer la Clé",
+    "accessibility": "Accessibilité",
+    "fontSize": "Taille de Police",
+    "fontSizeSmall": "Petit",
+    "fontSizeMedium": "Moyen",
+    "fontSizeLarge": "Grand",
+    "screenReaderMode": "Étiquettes améliorées pour les lecteurs d'écran",
+    "language": "Langue"
+  },
+  "chat": {
+    "placeholder": "Posez des questions sur les composants, les tokens ou l'accessibilité...",
+    "exportConversation": "Exporter la conversation",
+    "clearChat": "Effacer le chat",
+    "copyMessage": "Copier dans le presse-papiers",
+    "you": "Vous",
+    "conversationTitle": "Conversation System Sidekick",
+    "sendMessage": "Envoyer le message"
+  },
+  "errors": {
+    "selectFrame": "Veuillez sélectionner un cadre à analyser",
+    "selectFrameInstance": "Veuillez sélectionner un cadre, un composant, une section ou une instance"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Español",
+    "de": "Deutsch",
+    "fr": "Français"
+  },
+  "emptyState": {
+    "welcome": "Posez-moi n'importe quelle question sur le Simple Design System.",
+    "selectionNotice": "J'ai remarqué que vous avez sélectionné quelque chose. Voulez-vous de l'aide?",
+    "hint": "Ou sélectionnez un calque dans Figma pour des suggestions contextuelles."
+  },
+  "chips": {
+    "general": {
+      "alertVsToast": "Alerte vs Toast?",
+      "spacingTokens": "Tokens d'espacement",
+      "accessibleForms": "Formulaires accessibles",
+      "buttonVariants": "Variantes de boutons",
+      "colorContrast": "Contraste des couleurs",
+      "typographyScale": "Échelle typographique",
+      "iconUsage": "Utilisation des icônes",
+      "responsiveLayout": "Mise en page responsive"
+    },
+    "instance": {
+      "rightUse": "Bonne utilisation de {name}?",
+      "accessibilityCheck": "Vérification d'accessibilité",
+      "availableVariants": "Variantes disponibles?",
+      "spacingReview": "Révision de l'espacement"
+    },
+    "text": {
+      "textAccessible": "Texte accessible?",
+      "contrastRatio": "Ratio de contraste",
+      "correctToken": "Token correct?",
+      "fontSizeReview": "Révision de taille de police"
+    },
+    "layout": {
+      "reviewLayout": "Réviser la mise en page",
+      "checkSpacing": "Vérifier l'espacement",
+      "accessibilityIssues": "Problèmes d'accessibilité?",
+      "alignmentCheck": "Vérifier l'alignement"
+    },
+    "component": {
+      "howToUse": "Comment utiliser {name}?",
+      "accessibilityReqs": "Exigences d'accessibilité",
+      "tokenUsage": "Utilisation des tokens?",
+      "bestPractices": "Meilleures pratiques"
+    },
+    "default": {
+      "whatIs": "Qu'est-ce que {name}?",
+      "anyIssues": "Des problèmes?",
+      "howToImprove": "Comment améliorer?"
+    }
+  }
+}
