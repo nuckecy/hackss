@@ -41,7 +41,7 @@ function App() {
   // Loading state while fetching provider settings
   if (settingsLoading) {
     return (
-      <div class="app-shell">
+      <div class="app-shell" key={locale}>
         <div class="app-header">
           <div class="app-header-title">
             <span class="app-header-icon">{'◆'}</span>
@@ -55,7 +55,7 @@ function App() {
   // First run: no key yet, show settings only
   if (needsApiKey) {
     return (
-      <div class="app-shell">
+      <div class="app-shell" key={locale}>
         <div class="app-header">
           <div class="app-header-title">
             <span class="app-header-icon">{'◆'}</span>
@@ -81,7 +81,7 @@ function App() {
   return (
     <>
       {showSettings && (
-        <div class="app-shell">
+        <div class="app-shell" key={`settings-${locale}`}>
           <div class="app-header">
             <div class="app-header-title">
               <span class="app-header-icon">{'◆'}</span>
@@ -109,7 +109,7 @@ function App() {
           />
         </div>
       )}
-      <div style={{ display: showSettings ? 'none' : 'contents' }}>
+      <div style={{ display: showSettings ? 'none' : 'contents' }} key={`chat-${locale}`}>
         <ChatScreen apiKey={currentApiKey || ''} provider={selectedProvider} onOpenSettings={() => setShowSettings(true)} />
       </div>
     </>
@@ -308,24 +308,23 @@ function ChatScreen({
           <span>{t('common.appName')}</span>
         </div>
         <div class="app-header-actions">
+          <button
+            class="app-header-settings"
+            aria-label={t('chat.newChat') || 'New chat'}
+            onClick={() => { clearChat(); setAnalysisMessages([]); }}
+            title={t('chat.newChat') || 'New chat'}
+          >
+            <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>add</span>
+          </button>
           {hasMessages && (
-            <>
-              <button
-                class="app-header-settings"
-                aria-label={t('chat.exportConversation')}
-                onClick={handleExport}
-                title={t('chat.exportConversation')}
-              >
-                <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>download</span>
-              </button>
-              <button
-                class="app-header-settings"
-                aria-label={t('chat.clearChat')}
-                onClick={clearChat}
-              >
-                <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>delete</span>
-              </button>
-            </>
+            <button
+              class="app-header-settings"
+              aria-label={t('chat.exportConversation')}
+              onClick={handleExport}
+              title={t('chat.exportConversation')}
+            >
+              <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>download</span>
+            </button>
           )}
           <button
             class="app-header-settings"

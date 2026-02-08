@@ -289,8 +289,8 @@ export function Settings({
         </div>
       </div>
 
-      {/* Footer with Save button - only show when onClose is available (not first run) */}
-      {onClose && !isFirstRun && (
+      {/* Footer with Save button - show when onClose is available */}
+      {onClose && (
         <div class="settings-footer">
           <button
             class="settings-button"

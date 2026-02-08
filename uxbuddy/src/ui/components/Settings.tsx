@@ -11,6 +11,7 @@ interface SettingsProps {
   onSaveKey: (provider: ProviderType, key: string) => void;
   onDeleteKey: (provider: ProviderType) => void;
   onSelectProvider: (provider: ProviderType) => void;
+  onClose?: () => void;
 }
 
 const PROVIDER_CONFIG: Record<ProviderType, {
@@ -49,7 +50,7 @@ const PROVIDER_CONFIG: Record<ProviderType, {
 
 const PROVIDERS: ProviderType[] = ['gemini', 'claude', 'gpt'];
 
-export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKey, onSelectProvider }: SettingsProps) {
+export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKey, onSelectProvider, onClose }: SettingsProps) {
   const [inputValue, setInputValue] = useState('');
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [testMessage, setTestMessage] = useState('');
@@ -288,6 +289,18 @@ export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKe
           </button>
         ))}
       </div>
+
+      {/* Footer with Save button - show when onClose is available */}
+      {onClose && (
+        <div class="settings-footer">
+          <button
+            class="settings-btn-save"
+            onClick={onClose}
+          >
+            {t('common.save')}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

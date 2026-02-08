@@ -93,7 +93,9 @@ function App() {
             providerKeys={providerKeys}
             selectedProvider={selectedProvider}
             onSaveKey={saveKey}
+            onDeleteKey={clearKey}
             onSelectProvider={selectProvider}
+            onClose={() => setShowSettings(false)}
           />
         </div>
       )}

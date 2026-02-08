@@ -382,3 +382,12 @@
     border-color: #818CF8;
   }
 }
+
+/* Settings Footer */
+.settings-footer {
+  display: flex;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-default);
+}

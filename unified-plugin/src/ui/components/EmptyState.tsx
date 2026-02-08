@@ -12,16 +12,18 @@ interface Chip {
   message: string;
 }
 
-const GENERAL_STARTERS: Chip[] = [
-  { label: t('chips.general.alertVsToast'), message: 'When should I use an Alert instead of a Toast notification?' },
-  { label: t('chips.general.spacingTokens'), message: 'What spacing tokens are available and when should I use each one?' },
-  { label: t('chips.general.accessibleForms'), message: 'How do I make a form accessible following WCAG guidelines?' },
-  { label: t('chips.general.buttonVariants'), message: 'What button variants are available and when should I use each one?' },
-  { label: t('chips.general.colorContrast'), message: 'What are the color contrast requirements I need to follow?' },
-  { label: t('chips.general.typographyScale'), message: 'Can you walk me through the typography scale and when to use each size?' },
-  { label: t('chips.general.iconUsage'), message: 'What are the best practices for using icons in the design system?' },
-  { label: t('chips.general.responsiveLayout'), message: 'How should I handle responsive layouts with the design system?' },
-];
+function getGeneralStarters(): Chip[] {
+  return [
+    { label: t('chips.general.alertVsToast'), message: 'When should I use an Alert instead of a Toast notification?' },
+    { label: t('chips.general.spacingTokens'), message: 'What spacing tokens are available and when should I use each one?' },
+    { label: t('chips.general.accessibleForms'), message: 'How do I make a form accessible following WCAG guidelines?' },
+    { label: t('chips.general.buttonVariants'), message: 'What button variants are available and when should I use each one?' },
+    { label: t('chips.general.colorContrast'), message: 'What are the color contrast requirements I need to follow?' },
+    { label: t('chips.general.typographyScale'), message: 'Can you walk me through the typography scale and when to use each size?' },
+    { label: t('chips.general.iconUsage'), message: 'What are the best practices for using icons in the design system?' },
+    { label: t('chips.general.responsiveLayout'), message: 'How should I handle responsive layouts with the design system?' },
+  ];
+}
 
 function getSelectionChips(selection: SelectionData): Chip[] {
   const name = selection.componentName || selection.name;
@@ -75,7 +77,7 @@ export function EmptyState({ selection, onExampleClick }: EmptyStateProps) {
   const hasSelection = !!selection;
   const chips = hasSelection
     ? getSelectionChips(selection)
-    : GENERAL_STARTERS;
+    : getGeneralStarters();
 
   return (
     <div class="empty-state">
