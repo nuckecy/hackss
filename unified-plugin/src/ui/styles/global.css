@@ -1,0 +1,355 @@
+/* ── Import Response Styles ── */
+@import './responses.css';
+
+/* ── CSS Custom Properties ── */
+:root {
+  /* Backgrounds */
+  --bg-primary:         #FFFFFF;
+  --bg-secondary:       #F8F7FA;
+  --bg-tertiary:        #F0EDF4;
+  --bg-inverse:         #0E050F;
+
+  /* Text */
+  --text-primary:       #0E050F;
+  --text-secondary:     #4A3F5C;
+  --text-tertiary:      #6D6480;
+  --text-inverse:       #FFFFFF;
+  --text-link:          #4A2D8C;
+
+  /* Accent */
+  --accent-primary:     #341948;
+  --accent-hover:       #170B3B;
+  --accent-subtle:      #EDE8F4;
+  --accent-text:        #341948;
+
+  /* Borders */
+  --border-default:     #DDD8E6;
+  --border-strong:      #C5BFCF;
+  --border-subtle:      #EBE7F0;
+
+  /* Severity */
+  --severity-error:     #DF1B41;
+  --severity-error-bg:  #FFF0F1;
+  --severity-warning:   #D97706;
+  --severity-warning-bg:#FFFBEB;
+  --severity-success:   #1B8F5A;
+  --severity-success-bg:#F0FDF4;
+  --severity-info:      #4A2D8C;
+  --severity-info-bg:   #EDE8F4;
+
+  /* Chat */
+  --msg-user-bg:        #F8F7FA;
+  --msg-user-border:    #DDD8E6;
+  --msg-assistant-bg:   #FFFFFF;
+  --msg-assistant-border:#DDD8E6;
+
+  /* Shadows */
+  --shadow-xs:          0 1px 2px rgba(14, 5, 15, 0.05);
+  --shadow-sm:          0 1px 3px rgba(14, 5, 15, 0.07), 0 1px 2px rgba(14, 5, 15, 0.05);
+  --shadow-md:          0 4px 8px rgba(14, 5, 15, 0.07), 0 0 1px rgba(14, 5, 15, 0.10);
+  --shadow-focus:       0 0 0 3px rgba(52, 25, 72, 0.16);
+
+  /* Typography */
+  --font-family:        'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --base-font-scale:    1; /* Default: medium */
+  --font-size-xs:       calc(10px * var(--base-font-scale));
+  --font-size-sm:       calc(11px * var(--base-font-scale));
+  --font-size-base:     calc(12px * var(--base-font-scale));
+  --font-size-md:       calc(13px * var(--base-font-scale));
+  --font-size-lg:       calc(14px * var(--base-font-scale));
+  --font-size-xl:       calc(16px * var(--base-font-scale));
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --line-height-tight:    1.2;
+  --line-height-base:     1.5;
+  --line-height-relaxed:  1.6;
+  --tracking-tight:     -0.01em;
+  --tracking-normal:     0;
+  --tracking-wide:       0.02em;
+
+  /* Spacing */
+  --space-0:    0;
+  --space-1:    2px;
+  --space-2:    4px;
+  --space-3:    6px;
+  --space-4:    8px;
+  --space-5:    12px;
+  --space-6:    16px;
+  --space-8:    24px;
+  --space-10:   32px;
+
+  /* Radius */
+  --radius-none:  0;
+  --radius-xs:    2px;
+  --radius-sm:    4px;
+  --radius-md:    6px;
+  --radius-lg:    8px;
+  --radius-full:  9999px;
+
+  /* Transitions */
+  --transition-fast:    0.1s ease;
+  --transition-base:    0.15s ease;
+  --transition-slow:    0.2s ease;
+}
+
+/* ── Dark Mode ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary:         #0E050F;
+    --bg-secondary:       #170B3B;
+    --bg-tertiary:        #341948;
+    --bg-inverse:         #F8F7FA;
+
+    --text-primary:       #EDE8F4;
+    --text-secondary:     #9388A2;
+    --text-tertiary:      #8A80A0;
+    --text-inverse:       #0E050F;
+    --text-link:          #B8A8E0;
+
+    --accent-primary:     #9388A2;
+    --accent-hover:       #A89DC0;
+    --accent-subtle:      #1E1035;
+    --accent-text:        #B8A8E0;
+
+    --border-default:     #2A1950;
+    --border-strong:      #3D2B60;
+    --border-subtle:      #1E1035;
+
+    --severity-error:     #FF6B7A;
+    --severity-error-bg:  #2D1519;
+    --severity-warning:   #FBBF24;
+    --severity-warning-bg:#2D2410;
+    --severity-success:   #34D399;
+    --severity-success-bg:#0D261B;
+    --severity-info:      #B8A8E0;
+    --severity-info-bg:   #1E1035;
+
+    --msg-user-bg:        #170B3B;
+    --msg-user-border:    #2A1950;
+    --msg-assistant-bg:   #0E050F;
+    --msg-assistant-border:#2A1950;
+
+    --shadow-xs:          0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-sm:          0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md:          0 4px 8px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.5);
+    --shadow-focus:       0 0 0 3px rgba(147, 136, 162, 0.24);
+  }
+}
+
+/* ── Base Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  line-height: var(--line-height-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern' 1, 'liga' 1;
+}
+
+/* ── Material Symbols ── */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* ── App Shell ── */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+  padding: 0 12px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.app-header-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-tight);
+}
+
+.app-header-icon {
+  font-size: 12px;
+  color: var(--accent-primary);
+}
+
+.app-header-settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.app-header-settings:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+
+.app-header-settings:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.app-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* ── Chat Area ── */
+.chat-area {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Message gaps */
+.message-gap-sm {
+  margin-top: 2px;
+}
+
+.message-gap-lg {
+  margin-top: 8px;
+}
+
+/* ── Placement Button ── */
+.placement-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  margin-top: 8px;
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.placement-button:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.placement-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.placement-button svg {
+  flex-shrink: 0;
+}
+
+.placement-button .spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--text-inverse);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Font Size Accessibility ── */
+:root[data-font-size="small"] {
+  --base-font-scale: 0.85;
+}
+
+:root[data-font-size="medium"] {
+  --base-font-scale: 1;
+}
+
+:root[data-font-size="large"] {
+  --base-font-scale: 1.15;
+}
