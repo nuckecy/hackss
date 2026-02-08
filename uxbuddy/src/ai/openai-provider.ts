@@ -1,29 +1,21 @@
+import type { ChatMessage } from './gemini-provider';
 import type { AIProvider } from './provider';
 
-export interface ChatMessage {
-  role: 'user' | 'model';
+interface OpenAIMessage {
+  role: 'system' | 'user' | 'assistant';
   content: string;
 }
 
-interface GeminiContent {
-  role: string;
-  parts: Array<{ text: string }>;
-}
-
-interface GeminiResponse {
-  candidates?: Array<{
-    content: {
-      parts: Array<{ text: string }>;
-    };
+interface OpenAIResponse {
+  choices?: Array<{
+    message: { role: string; content: string };
   }>;
-  error?: {
-    message: string;
-  };
+  error?: { message: string };
 }
 
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const API_URL = 'https://api.openai.com/v1/chat/completions';
 
-export class GeminiProvider implements AIProvider {
+export class OpenAIProvider implements AIProvider {
   private apiKey: string;
 
   constructor(apiKey: string) {
@@ -55,28 +47,29 @@ export class GeminiProvider implements AIProvider {
   }
 
   private async makeRequest(messages: ChatMessage[], systemPrompt: string): Promise<string> {
-    const contents: GeminiContent[] = messages.map((msg) => ({
-      role: msg.role,
-      parts: [{ text: msg.content }],
-    }));
+    const openaiMessages: OpenAIMessage[] = [
+      { role: 'system', content: systemPrompt },
+      ...messages.map((msg): OpenAIMessage => ({
+        role: msg.role === 'model' ? 'assistant' : 'user',
+        content: msg.content,
+      })),
+    ];
 
     const body = {
-      contents,
-      systemInstruction: {
-        parts: [{ text: systemPrompt }],
-      },
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 1024,
-        topP: 0.9,
-      },
+      model: 'gpt-4o-mini',
+      messages: openaiMessages,
+      temperature: 0.7,
+      max_tokens: 1024,
     };
 
     let response: Response;
     try {
-      response = await fetch(`${API_URL}?key=${this.apiKey}`, {
+      response = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.apiKey,
+        },
         body: JSON.stringify(body),
       });
     } catch (_) {
@@ -92,20 +85,20 @@ export class GeminiProvider implements AIProvider {
     }
 
     if (response.status >= 500) {
-      throw new Error('Gemini service error');
+      throw new Error('OpenAI service error');
     }
 
     if (!response.ok) {
-      throw new Error(`Request failed (${response.status})`);
+      throw new Error('Request failed (' + response.status + ')');
     }
 
-    const data: GeminiResponse = await response.json();
+    const data: OpenAIResponse = await response.json();
 
-    if (!data.candidates || data.candidates.length === 0) {
+    if (!data.choices || data.choices.length === 0) {
       throw new Error('No response generated');
     }
 
-    const text = data.candidates[0]?.content?.parts?.[0]?.text;
+    const text = data.choices[0].message.content;
     if (!text) {
       throw new Error('No response generated');
     }

@@ -1,4 +1,5 @@
 import type { SelectionData } from '../types/figma';
+import type { ScanIssue } from '../types/scan';
 import componentsKB from '../knowledge/components.json';
 import accessibilityKB from '../knowledge/accessibility.json';
 import tokensKB from '../knowledge/tokens.json';
@@ -123,6 +124,92 @@ export function buildSystemPrompt(selection: SelectionData | null): string {
 - If the user asks you to perform an action on the canvas (e.g., "add a button", "change the color", "move this element"), clearly tell them that you can only provide guidance and recommendations — you cannot make changes directly.
 - Instead of pretending to help with the action, redirect: explain HOW they can do it themselves in Figma, and offer relevant design system advice for the task.
 - You are a Q&A assistant only. You answer questions, review designs, and give recommendations. You do not execute changes.`);
+
+  return sections.join('\n\n');
+}
+
+export function buildScanFormatPrompt(
+  issues: ScanIssue[],
+  passed: string[],
+  nodeName: string,
+  nodeType: string
+): string {
+  var sections: string[] = [];
+
+  // 1. Persona
+  sections.push(PERSONA);
+
+  // 2. Scan formatting rules
+  sections.push(
+    '---\n## Scan Result Formatting Instructions\n\n' +
+    'You are formatting scan results from an automated design review. ' +
+    'Convert the raw scan data below into a friendly, conversational design review message.\n\n' +
+    '### Structure\n' +
+    'IMPORTANT: Do NOT include an opening summary line. The summary is shown separately. ' +
+    'Start directly with the issues.\n' +
+    '1. Group issues by severity: errors first, then warnings, then info\n' +
+    '2. For each issue, use exactly this format:\n\n' +
+    '**[Severity]** \u00b7 [Title]\n' +
+    '[1-2 sentence explanation of what\'s wrong and why it matters]\n' +
+    'Current: `[current value]` \u2192 Expected: `[expected value]`\n' +
+    '\u2192FIX:[issue_id]\n\n' +
+    '3. Only include the \u2192FIX:[id] marker for fixable issues (marked "Fixable: Yes" in the data). ' +
+    'Non-fixable issues should NOT have a fix marker.\n' +
+    '4. Close with passing checks: list up to 3 as "\u2713 [check name]"\n' +
+    '5. End with a brief encouraging closing remark\n\n' +
+    '### Critical Rules\n' +
+    '- Use the \u2192FIX:[id] marker EXACTLY as shown in the issue data. ' +
+    'The UI will parse these markers and replace them with interactive fix buttons.\n' +
+    '- Place each \u2192FIX:[id] marker on its own line, immediately after the issue it belongs to.\n' +
+    '- NEVER invent issues beyond what\'s in the scan data below.\n' +
+    '- Keep each issue explanation to 1-2 sentences maximum.\n' +
+    '- Use specific token names, WCAG criteria, and pixel values from the scan data.\n' +
+    '- Maintain the friendly colleague tone — this is a design review, not an audit report.\n' +
+    '- If current/expected values are missing for an issue, omit the "Current → Expected" line.'
+  );
+
+  // 3. Raw scan data
+  var dataLines: string[] = [];
+  dataLines.push('---\n## Raw Scan Data\n');
+  dataLines.push('Node: "' + nodeName + '" (' + nodeType + ')');
+  dataLines.push('');
+
+  if (issues.length === 0) {
+    dataLines.push('No issues found.');
+  } else {
+    var errors = issues.filter(function (i) { return i.severity === 'error'; });
+    var warnings = issues.filter(function (i) { return i.severity === 'warning'; });
+    var infos = issues.filter(function (i) { return i.severity === 'info'; });
+
+    dataLines.push('Total: ' + issues.length + ' issues (' +
+      errors.length + ' errors, ' + warnings.length + ' warnings, ' + infos.length + ' info)');
+    dataLines.push('');
+
+    // List each issue with structured data
+    for (var idx = 0; idx < issues.length; idx++) {
+      var issue = issues[idx];
+      dataLines.push('Issue ' + (idx + 1) + ':');
+      dataLines.push('  ID: ' + issue.id);
+      dataLines.push('  Severity: ' + issue.severity.toUpperCase());
+      dataLines.push('  Category: ' + issue.category);
+      dataLines.push('  Title: ' + issue.title);
+      dataLines.push('  Description: ' + issue.description);
+      if (issue.currentValue) {
+        dataLines.push('  Current value: ' + issue.currentValue);
+      }
+      if (issue.expectedValue) {
+        dataLines.push('  Expected value: ' + issue.expectedValue);
+      }
+      dataLines.push('  Fixable: ' + (issue.fixable ? 'Yes (include \u2192FIX:' + issue.id + ' marker)' : 'No'));
+      dataLines.push('');
+    }
+  }
+
+  if (passed.length > 0) {
+    dataLines.push('Passed checks: ' + passed.join(', '));
+  }
+
+  sections.push(dataLines.join('\n'));
 
   return sections.join('\n\n');
 }
