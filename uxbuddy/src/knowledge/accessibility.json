@@ -13,7 +13,13 @@
       "Disabled state text that is too faint to read",
       "Colored text on colored backgrounds (e.g., white on light blue)"
     ],
-    "applies_to": ["Button", "Input", "Alert", "Badge", "Toast", "Select", "Checkbox"]
+    "applies_to": ["Button", "Input", "Alert", "Badge", "Toast", "Select", "Checkbox"],
+    "check_config": {
+      "check_type": "contrast_ratio",
+      "thresholds": { "normal_text": 4.5, "large_text": 3 },
+      "applies_to_types": ["TEXT"],
+      "severity": "error"
+    }
   },
   {
     "id": "non-text-contrast",
@@ -29,7 +35,13 @@
       "Focus indicators that blend into the background",
       "Chart elements without sufficient contrast"
     ],
-    "applies_to": ["Input", "Checkbox", "Select", "IconButton", "Button"]
+    "applies_to": ["Input", "Checkbox", "Select", "IconButton", "Button"],
+    "check_config": {
+      "check_type": "contrast_ratio",
+      "thresholds": { "ratio": 3 },
+      "applies_to_types": ["FRAME", "INSTANCE", "COMPONENT"],
+      "severity": "warning"
+    }
   },
   {
     "id": "touch-target",
@@ -45,7 +57,13 @@
       "Dense lists of links or buttons with tiny tap targets",
       "Checkbox/radio inputs without clickable label area"
     ],
-    "applies_to": ["Button", "IconButton", "Checkbox", "Select", "Input"]
+    "applies_to": ["Button", "IconButton", "Checkbox", "Select", "Input"],
+    "check_config": {
+      "check_type": "min_size",
+      "thresholds": { "min_width": 44, "min_height": 44 },
+      "applies_to_types": ["INSTANCE"],
+      "severity": "error"
+    }
   },
   {
     "id": "focus-visible",
@@ -61,7 +79,13 @@
       "Custom components that don't receive or show focus",
       "Modal content that cannot be focused or tabbed through"
     ],
-    "applies_to": ["Button", "IconButton", "Input", "Checkbox", "Select"]
+    "applies_to": ["Button", "IconButton", "Input", "Checkbox", "Select"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "warning"
+    }
   },
   {
     "id": "name-role-value",
@@ -77,7 +101,13 @@
       "Toggle switches without aria-checked state",
       "Dynamic content changes not announced via aria-live"
     ],
-    "applies_to": ["IconButton", "Select", "Checkbox", "Button", "Alert", "Toast"]
+    "applies_to": ["IconButton", "Select", "Checkbox", "Button", "Alert", "Toast"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "error"
+    }
   },
   {
     "id": "error-identification",
@@ -93,7 +123,13 @@
       "Error messages not associated with their input field",
       "Errors only shown on form submit, not inline"
     ],
-    "applies_to": ["Input", "Select", "Checkbox"]
+    "applies_to": ["Input", "Select", "Checkbox"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "warning"
+    }
   },
   {
     "id": "labels-instructions",
@@ -109,7 +145,13 @@
       "Required fields not indicated visually or programmatically",
       "Date/phone inputs without format hints"
     ],
-    "applies_to": ["Input", "Select", "Checkbox"]
+    "applies_to": ["Input", "Select", "Checkbox"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "warning"
+    }
   },
   {
     "id": "keyboard",
@@ -125,7 +167,13 @@
       "Modals that don't trap focus or allow Escape to close",
       "Drag-and-drop without keyboard alternative"
     ],
-    "applies_to": ["Button", "IconButton", "Input", "Checkbox", "Select"]
+    "applies_to": ["Button", "IconButton", "Input", "Checkbox", "Select"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE"],
+      "severity": "error"
+    }
   },
   {
     "id": "use-of-color",
@@ -141,7 +189,13 @@
       "Links distinguished from body text only by color",
       "Chart data series differentiated only by color"
     ],
-    "applies_to": ["Alert", "Badge", "Input", "Toast"]
+    "applies_to": ["Alert", "Badge", "Input", "Toast"],
+    "check_config": {
+      "check_type": "has_property",
+      "thresholds": {},
+      "applies_to_types": ["INSTANCE", "FRAME"],
+      "severity": "warning"
+    }
   },
   {
     "id": "reflow",
@@ -157,6 +211,12 @@
       "Images or embeds that don't scale down",
       "Absolute positioning that causes overlap at small widths"
     ],
-    "applies_to": ["Alert", "Input", "Select", "Button"]
+    "applies_to": ["Alert", "Input", "Select", "Button"],
+    "check_config": {
+      "check_type": "min_size",
+      "thresholds": { "min_width": 320 },
+      "applies_to_types": ["FRAME", "COMPONENT"],
+      "severity": "warning"
+    }
   }
 ]

@@ -1,56 +1,117 @@
-# UX Buddy
+# UX Buddy — Document Package
 
-A Figma plugin that provides conversational design system and accessibility guidance. Ask questions about the Simple Design System (SDS) components, WCAG accessibility rules, and design tokens — and get contextual answers powered by Gemini Flash, right inside Figma.
+This folder contains everything you need to build UX Buddy using Claude Code in VSCode.
 
-## Install
+**Start here:** Read `QUICKSTART.md` for the full step-by-step walkthrough.
 
-1. Get a free Gemini API key from [Google AI Studio](https://aistudio.google.com/apikey)
-2. In Figma Desktop, go to **Plugins > Development > Import plugin from manifest**
-3. Select `uxbuddy/manifest.json` from this repo
-4. Run the plugin and enter your API key on first launch
+---
 
-## Develop
+## Files Overview
 
-```bash
-git clone https://github.com/nuckecy/hackss.git
-cd hackss/uxbuddy
-npm install
-npm run dev
+### Core Documents (V1 + V2)
+
+| File | Purpose | When to Use |
+|------|---------|-------------|
+| **QUICKSTART.md** | Step-by-step build walkthrough | Follow this from start to finish |
+| **CLAUDE.md** | Claude Code project rules (V1 + V2) | Copy to project root. Claude Code reads this automatically. |
+| **UI_STYLE_GUIDE.md** | Visual design specifications | Stripe-inspired colors, typography, spacing, component specs. |
+| **CHATBOT_PERSONA.md** | AI personality definition | Referenced by CLAUDE.md and embedded in the Gemini system prompt. |
+| **GEMINI_SYSTEM_PROMPT.md** | Template for the Gemini system prompt | Reference for how the system prompt is constructed at runtime. |
+| **KNOWLEDGE_BASE_SCHEMA.md** | JSON schema for knowledge base files | Reference when building or extending the knowledge base. |
+| **extract-knowledge.js** | Node.js extraction script | Run locally against a cloned SDS repo to generate component data. |
+
+### V1 (Q&A Mode)
+
+| File | Purpose |
+|------|---------|
+| **PRD.md** | V1 product requirements (Q&A mode) |
+| **BUILD_PROMPTS.md** | 10 sequential prompts for Claude Code |
+
+### V2 (Scan & Fix Mode)
+
+| File | Purpose |
+|------|---------|
+| **PRD_V2.md** | V2 product requirements (scan, fix, smart prompts) |
+| **BUILD_PROMPTS_V2.md** | 7 sequential prompts for Claude Code (extends V1) |
+
+---
+
+## Getting Started
+
+See **QUICKSTART.md** for the full walkthrough, including workspace setup, build sequence, and testing instructions.
+
+**Quick version:**
+1. Create a workspace with the plugin project and SDS repo side by side
+2. Copy the doc files into the project root
+3. Open Claude Code, paste prompts from BUILD_PROMPTS.md (V1), then BUILD_PROMPTS_V2.md (V2)
+4. Test in Figma Desktop
+
+---
+
+## Architecture Summary
+
+```
+┌──────────────────────────────────────────┐
+│              FIGMA MAIN THREAD           │
+│  main.ts                                 │
+│  - Detects selection changes             │
+│  - Extracts node properties (V1)         │
+│  - Deep recursive extraction (V2)        │
+│  - Applies fixes to nodes (V2)           │
+│  - Manages API key storage               │
+│  - Sends data to UI via postMessage      │
+└────────────────┬─────────────────────────┘
+                 │ postMessage
+┌────────────────▼─────────────────────────┐
+│              PLUGIN UI (iframe)          │
+│                                          │
+│  ┌──────────────────────────────────┐    │
+│  │  App.tsx                         │    │
+│  │  ├─ Settings (API key entry)     │    │
+│  │  ├─ SelectionIndicator + Chips   │    │
+│  │  ├─ Chat (messages + scan results│    │
+│  │  │       + fix buttons)          │    │
+│  │  └─ InputBar (text + send)       │    │
+│  └──────────────────────────────────┘    │
+│                                          │
+│  ┌──────────────────────────────────┐    │
+│  │  Scan Engine (V2)               │    │
+│  │  - Local rules (no API)          │    │
+│  │  - Token matching                │    │
+│  │  - Contrast calculation          │    │
+│  │  - Spacing validation            │    │
+│  └──────────────────────────────────┘    │
+│                                          │
+│  ┌──────────────────────────────────┐    │
+│  │  Gemini Provider                 │    │
+│  │  - Builds system prompt from:    │    │
+│  │    • Persona (CHATBOT_PERSONA)   │    │
+│  │    • Knowledge Base (3 JSONs)    │    │
+│  │    • Current selection context   │    │
+│  │  - Calls Gemini Flash API        │    │
+│  │  - Formats scan results (V2)     │    │
+│  └──────────────────────────────────┘    │
+└──────────────────────────────────────────┘
 ```
 
-`npm run dev` watches for file changes and rebuilds automatically.
+---
 
-## Build
+## Scope Summary
 
-```bash
-npm run build
-```
+### V1 — Q&A Mode
+- ✅ Ask questions about SDS components and accessibility
+- ✅ Context-aware answers (knows what's selected)
+- ✅ Conversational, persona-driven responses
 
-Outputs `dist/main.js` and `dist/ui.html`. The root `manifest.json` points to these.
+### V2 — Scan & Fix Mode (builds on V1)
+- ✅ Button-triggered scan of selected layers
+- ✅ Smart prompt chips on selection (contextual suggestions)
+- ✅ Design system compliance checks (tokens, spacing, variants, typography)
+- ✅ Accessibility checks (contrast, touch targets, text size)
+- ✅ One-click fixes for mechanical issues
+- ✅ Results in chat (conversational, not a linter panel)
 
-## Extract Knowledge Base
-
-To extract component data from a cloned SDS repo:
-
-```bash
-git clone https://github.com/figma/sds.git ../sds
-node scripts/extract-knowledge.js ../sds
-```
-
-Output goes to `src/knowledge/components-extracted.json`. Review and enrich manually before using.
-
-## Architecture
-
-| Layer | Technology |
-|-------|-----------|
-| Build | Vite + esbuild |
-| UI | Preact + TypeScript |
-| Styling | Vanilla CSS with custom properties |
-| Main thread | TypeScript (Figma Plugin API) |
-| AI backend | Gemini Flash (called from UI iframe) |
-
-The plugin has two threads: the **main thread** (`src/main.ts`) accesses the Figma API for selection detection and API key storage, while the **UI iframe** (`src/ui/`) renders the chat interface and calls Gemini directly.
-
-## Documentation
-
-See [PRD.md](PRD.md) for full product requirements and [CLAUDE.md](CLAUDE.md) for architecture details.
+### V3 — Future
+- ❌ Custom design system support (user provides their own KB)
+- ❌ Multi-selection / page-level scanning
+- ❌ Persistent issue tracking

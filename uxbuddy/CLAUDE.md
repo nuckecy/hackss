@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-UX Buddy is a Figma plugin that provides conversational design system and accessibility guidance. V1 implements Q&A mode only: designers ask questions about the Simple Design System (SDS) and WCAG guidelines, and receive contextual answers powered by Gemini Flash.
+UX Buddy is a Figma plugin that provides conversational design system and accessibility guidance. V1 implements Q&A mode: designers ask questions about the Simple Design System (SDS) and WCAG guidelines. V2 adds Scan & Fix mode: the plugin proactively detects issues and offers one-click fixes.
 
-Read `PRD.md` for full requirements. Read `CHATBOT_PERSONA.md` for the AI assistant's personality and tone. Read `UI_STYLE_GUIDE.md` for all visual design specifications (colors, typography, spacing, component styles). The style guide is the single source of truth for how the plugin looks.
+Read `PRD.md` for V1 requirements. Read `PRD_V2.md` for V2 requirements. Read `CHATBOT_PERSONA.md` for the AI assistant's personality and tone. Read `UI_STYLE_GUIDE.md` for all visual design specifications (colors, typography, spacing, component styles). The style guide is the single source of truth for how the plugin looks.
 
 ---
 
@@ -27,7 +27,8 @@ Read `PRD.md` for full requirements. Read `CHATBOT_PERSONA.md` for the AI assist
 ux-buddy/
 ├── manifest.json              # Figma plugin manifest (editorType: figma)
 ├── CLAUDE.md                  # This file
-├── PRD.md                     # Product requirements
+├── PRD.md                     # V1 product requirements
+├── PRD_V2.md                  # V2 product requirements (scan & fix)
 ├── CHATBOT_PERSONA.md         # AI persona definition
 ├── UI_STYLE_GUIDE.md          # Visual design specs (colors, typography, spacing, components)
 ├── package.json
@@ -44,6 +45,14 @@ ux-buddy/
 │   ├── ai/
 │   │   ├── gemini-provider.ts # Gemini Flash integration
 │   │   └── system-prompt.ts   # Builds the system prompt from persona + KB
+│   ├── scan/                  # V2: Scan engine
+│   │   ├── scan-engine.ts     # Orchestrates: extract → check → format
+│   │   ├── checks/            # Contrast, token matching, spacing validation
+│   │   ├── rules/             # Design system, accessibility, structural rules
+│   │   └── types.ts           # ScanResult, ScanIssue interfaces
+│   ├── fix/                   # V2: Fix handler
+│   │   ├── fix-handler.ts     # Main thread: applies fixes
+│   │   └── fix-registry.ts    # Maps fix types to handler functions
 │   ├── knowledge/
 │   │   ├── components.json    # SDS component specs
 │   │   ├── accessibility.json # WCAG 2.1 AA rules
@@ -51,6 +60,7 @@ ux-buddy/
 │   └── types/
 │       ├── figma.ts
 │       ├── messages.ts
+│       ├── scan.ts            # V2: Scan and fix types
 │       └── knowledge.ts
 └── scripts/
     └── extract-knowledge.js   # Node script to extract KB from SDS repo
@@ -319,13 +329,70 @@ npm run build
 
 ---
 
+## V2 Architecture (Scan & Fix)
+
+V2 extends V1 with scan, fix, and smart prompt capabilities. Read `PRD_V2.md` for full requirements and `BUILD_PROMPTS_V2.md` for implementation prompts.
+
+### Key V2 Principles
+
+- **Scan rules run locally in the UI thread** (no API call). Fast, deterministic, testable.
+- **Gemini is used only for formatting** scan results into conversational messages. The AI never decides what's an issue; rules do.
+- **Fixes run in the main thread** (they need Figma API access). They modify the original node directly.
+- **All fixes must be undoable** via Cmd+Z. Single-property changes only.
+- **V1 Q&A mode must continue working unchanged.** V2 adds features; it doesn't replace V1.
+
+### V2 File Structure
+
+```
+src/
+├── scan/
+│   ├── scan-engine.ts            # Orchestrates: extract → check → format
+│   ├── checks/
+│   │   ├── contrast.ts           # WCAG contrast ratio calculator
+│   │   ├── token-matcher.ts      # Matches hex/px values to known tokens
+│   │   └── spacing-validator.ts  # Validates against spacing scale
+│   ├── rules/
+│   │   ├── index.ts              # Rule registry
+│   │   ├── design-system.ts      # Token, spacing, variant, typography rules
+│   │   ├── accessibility.ts      # Contrast, touch target, text size rules
+│   │   └── structural.ts         # Auto-layout, naming, hidden layers rules
+│   └── types.ts                  # ScanResult, ScanIssue interfaces
+├── fix/
+│   ├── fix-handler.ts            # Main thread: applies fixes
+│   └── fix-registry.ts           # Maps fix types to handler functions
+```
+
+### V2 Message Flow
+
+```
+Scan: UI → 'request-deep-selection' → Main → extracts → 'deep-selection-data' → UI
+      UI runs rules locally → formats via Gemini → renders in chat
+
+Fix:  UI → 'apply-fix' → Main → modifies node → 'fix-applied' → UI updates button
+```
+
+### V2 Thread Boundaries
+
+| Operation | Thread | Why |
+|-----------|--------|-----|
+| Deep selection extraction | Main | Needs figma.currentPage.selection |
+| Scan rule evaluation | UI | Pure functions, no Figma API needed |
+| Token matching | UI | Map lookups against bundled JSON |
+| Contrast calculation | UI | Math only |
+| Gemini formatting call | UI | fetch() only available in UI |
+| Applying fixes | Main | Needs node.property = value |
+
+---
+
 ## Important Reminders
 
-1. Always read this file and PRD.md before starting any task
+1. Always read this file and PRD.md (or PRD_V2.md for V2 work) before starting any task
 2. The plugin has TWO entry points: `src/main.ts` and `src/ui/index.html`
 3. Network calls (Gemini API) happen ONLY in the UI iframe
 4. Figma API calls happen ONLY in main.ts
 5. Communication between the two is ONLY via postMessage
 6. The knowledge base is bundled, not fetched at runtime
-7. Keep the UI compact and Figma-native in appearance
+7. Keep the UI compact and follow `UI_STYLE_GUIDE.md` for all visual design
 8. Follow the persona in CHATBOT_PERSONA.md for all AI responses
+9. V2 scan rules are local (no API). Gemini is for formatting only.
+10. V2 fixes are single-property, undoable operations in the main thread.
