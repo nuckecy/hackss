@@ -1,0 +1,1072 @@
+{
+  "fileId": "J0KLPKXiONDRssXD1AX9Oi",
+  "communityUrl": "https://www.figma.com/community/file/1380235722331273046/simple-design-system",
+  "primitives": {
+    "Button": {
+      "figmaNode": "4185-3778",
+      "componentKey": "d72e7ae1b702a65e4ea705232e89ca98c671a2f0",
+      "category": "action",
+      "purpose": "Triggers an action or event. Can render as <button> or <a> via href prop.",
+      "variants": {
+        "primary": "High-emphasis CTA. Use for the single most important action on the page.",
+        "neutral": "Medium-emphasis. Use for secondary actions that complement the primary.",
+        "subtle": "Low-emphasis. Use for tertiary actions or when visual weight should be minimal."
+      },
+      "sizes": [
+        "small",
+        "medium"
+      ],
+      "defaultSize": "medium",
+      "tokens": {
+        "background": "--sds-color-brand-500",
+        "text": "--sds-color-text-on-color",
+        "radius": "--sds-size-radius-200",
+        "paddingX": "--sds-size-space-400",
+        "paddingY": "--sds-size-space-200"
+      },
+      "accessibility": [
+        "Use descriptive button text \u2014 avoid 'Click here' or 'Submit'",
+        "Ensure 4.5:1 contrast ratio for text",
+        "Support keyboard activation (Enter and Space)",
+        "Include visible focus ring"
+      ],
+      "antiPatterns": [
+        "Don't use more than one primary button per section",
+        "Don't use Button for navigation \u2014 use Link or NavigationPill instead",
+        "Don't disable buttons without explaining why"
+      ],
+      "variantKeys": {
+        "primary": "9e8eed03d5200a72a7a9dbb397d3d7347c6cd1d5",
+        "neutral": "08f4d07d0bbe269381c594476527cbea63d967b8",
+        "subtle": "0c53cc748328c5da4fa9dc4f834c9b3b7cb93647"
+      }
+    },
+    "ButtonDanger": {
+      "figmaNode": "185-852",
+      "componentKey": "73b8f333bf0814740cfa0f5f82d65183608676b0",
+      "category": "action",
+      "purpose": "Destructive actions only \u2014 delete, remove, discard. Separate component from Button.",
+      "variants": {
+        "danger-primary": "High-emphasis destructive action. Red background, white text.",
+        "danger-subtle": "Low-emphasis destructive. Red text, transparent background."
+      },
+      "sizes": [
+        "small",
+        "medium"
+      ],
+      "defaultSize": "medium",
+      "tokens": {
+        "background": "--sds-color-red-500",
+        "text": "--sds-color-text-on-color",
+        "radius": "--sds-size-radius-200"
+      },
+      "accessibility": [
+        "Always pair with a confirmation step (Dialog or inline confirm)",
+        "Label must clearly describe the destructive action (e.g., 'Delete project')",
+        "Provide an undo option when possible"
+      ],
+      "antiPatterns": [
+        "Never use for non-destructive actions",
+        "Don't use danger-primary for reversible actions \u2014 use danger-subtle",
+        "Don't place next to primary Button without visual separation"
+      ],
+      "variantKeys": {
+        "primary": "c7e0193f1cf5b64269eb1dc4bb87cf386a5a5fbb",
+        "subtle": "3bd01938347b6e01f05c328038b77f9a9c4f5de3"
+      }
+    },
+    "ButtonGroup": {
+      "figmaNode": "2072-9432",
+      "componentKey": "feb4c5b566da3601ff73485543fa33cfbb787298",
+      "category": "action",
+      "purpose": "Groups related buttons together with consistent spacing and alignment.",
+      "alignOptions": [
+        "start",
+        "end",
+        "center",
+        "justify",
+        "stack"
+      ],
+      "tokens": {
+        "gap": "--sds-size-space-200"
+      },
+      "accessibility": [
+        "Group related actions logically",
+        "Place primary action on the right (LTR) or bottom (stacked)"
+      ],
+      "antiPatterns": [
+        "Don't group more than 3-4 buttons",
+        "Don't mix more than one primary variant in a group"
+      ]
+    },
+    "IconButton": {
+      "figmaNode": "11-11508",
+      "componentKey": "05670b0d437de2180f4dbc295af04eaa945839f5",
+      "category": "action",
+      "purpose": "Icon-only button for compact UI areas. Always requires aria-label.",
+      "tokens": {
+        "size": "2rem",
+        "radius": "--sds-size-radius-200"
+      },
+      "accessibility": [
+        "MUST have aria-label \u2014 icon buttons have no visible text",
+        "Tooltip should match aria-label content",
+        "Ensure icon is recognizable without text context"
+      ],
+      "antiPatterns": [
+        "Never use without aria-label",
+        "Don't use for primary CTAs \u2014 text buttons are clearer",
+        "Don't use obscure or ambiguous icons"
+      ]
+    },
+    "Accordion": {
+      "figmaNode": "7753-4779",
+      "componentKey": "d5adcd9237650b14a72657a7ff2945336baa429b",
+      "category": "content",
+      "purpose": "Expandable content sections. Built on React Aria DisclosureGroup.",
+      "relatedComponents": {
+        "AccordionItem": {
+          "figmaNode": "7753-4634",
+          "componentKey": "5c65f4b9df2b8cb67db1d7ce683fb95658672a04"
+        }
+      },
+      "tokens": {
+        "border": "--sds-color-border-default",
+        "padding": "--sds-size-space-400"
+      },
+      "accessibility": [
+        "Headers are focusable and toggle with Enter/Space",
+        "Uses aria-expanded to communicate state",
+        "Content is hidden from screen readers when collapsed"
+      ],
+      "antiPatterns": [
+        "Don't nest accordions inside accordions",
+        "Don't use for critical content that must always be visible",
+        "Don't use if there's only one section \u2014 just show the content"
+      ]
+    },
+    "Avatar": {
+      "figmaNode": "9762:1103",
+      "componentKey": "a770fe89cf686c9733d5c425d28e9dfb5b6c5efd",
+      "category": "identity",
+      "purpose": "Displays a user's photo or initials in a circular or square shape.",
+      "sizes": [
+        "small",
+        "medium",
+        "large"
+      ],
+      "shapes": [
+        "circle",
+        "square"
+      ],
+      "defaultShape": "circle",
+      "contentTypes": [
+        "image (src)",
+        "initials"
+      ],
+      "relatedComponents": {
+        "AvatarBlock": {
+          "figmaNode": "2010-15581",
+          "componentKey": "ef341bfac0bcee5ba57ae027359810eb73388bdd",
+          "purpose": "Avatar + title + description. Use for user cards, comment headers."
+        },
+        "AvatarGroup": {
+          "figmaNode": "56-15608",
+          "componentKey": "b3fc976e1fb92ed1ec73aeea033c36635b30a231",
+          "purpose": "Multiple overlapping avatars with max count and overflow indicator."
+        }
+      },
+      "tokens": {
+        "sizeSmall": "1.5rem",
+        "sizeMedium": "2.5rem",
+        "sizeLarge": "4rem",
+        "border": "--sds-color-border-default"
+      },
+      "accessibility": [
+        "Image avatars need meaningful alt text",
+        "Initials should have aria-label with full name",
+        "AvatarGroup overflow count should be announced"
+      ],
+      "antiPatterns": [
+        "Don't use large avatars in dense layouts",
+        "Don't show more than 5 avatars in a group without overflow"
+      ]
+    },
+    "Card": {
+      "figmaNode": "2142-11380",
+      "componentKey": "726fd1da462ad0af8f0a784cdc83882b93046ed0",
+      "category": "content",
+      "purpose": "Generic content container with consistent padding, border, and radius.",
+      "tokens": {
+        "background": "--sds-color-background-default",
+        "border": "--sds-color-border-default",
+        "radius": "--sds-size-radius-400",
+        "padding": "--sds-size-space-600",
+        "shadow": "--sds-size-effect-drop-shadow-100"
+      },
+      "accessibility": [
+        "If the entire card is clickable, use a single <a> or <button> wrapper",
+        "Don't put too many interactive elements inside one card"
+      ],
+      "antiPatterns": [
+        "Don't nest cards inside cards",
+        "Don't use cards for single-line content \u2014 use a list instead"
+      ]
+    },
+    "CheckboxField": {
+      "figmaNode": "9762:1441",
+      "componentKey": "89155e29f413b7964ac260f5b28d5c55218ec10a",
+      "category": "input",
+      "purpose": "Single checkbox with label, description, and error message support.",
+      "relatedComponents": {
+        "CheckboxGroup": {
+          "figmaNode": "9762:1426",
+          "componentKey": "YOUR_KEY_HERE",
+          "purpose": "Group of checkboxes for multi-select scenarios."
+        }
+      },
+      "props": [
+        "label",
+        "description",
+        "errorMessage",
+        "isSelected",
+        "isIndeterminate"
+      ],
+      "tokens": {
+        "checkSize": "1.25rem",
+        "gap": "--sds-size-space-200",
+        "accentColor": "--sds-color-brand-500"
+      },
+      "accessibility": [
+        "Always provide a visible label",
+        "Error messages are linked via aria-describedby",
+        "Supports keyboard toggle with Space"
+      ],
+      "antiPatterns": [
+        "Don't use for mutually exclusive options \u2014 use RadioGroup",
+        "Don't use a single checkbox for on/off settings \u2014 use Switch"
+      ]
+    },
+    "Dialog": {
+      "figmaNode": "192-31534",
+      "componentKey": "7ad171159873c58ade61e67c0dee97c2823c5198",
+      "category": "overlay",
+      "purpose": "Modal overlay for focused tasks. Traps focus and blocks background interaction.",
+      "variants": {
+        "card": "Standard centered dialog. Use for confirmations, forms, and alerts.",
+        "sheet": "Slide-out panel from the edge. Use for side panels, detail views, settings."
+      },
+      "subcomponents": [
+        "DialogTrigger",
+        "DialogModal",
+        "DialogTitle",
+        "DialogDescription",
+        "DialogBody",
+        "DialogClose",
+        "DialogButton"
+      ],
+      "tokens": {
+        "background": "--sds-color-background-default",
+        "overlay": "rgba(0, 0, 0, 0.5)",
+        "radius": "--sds-size-radius-400",
+        "padding": "--sds-size-space-600",
+        "shadow": "--sds-size-effect-drop-shadow-600"
+      },
+      "accessibility": [
+        "Focus is trapped inside the dialog",
+        "Escape key closes the dialog",
+        "Must have DialogTitle for screen readers",
+        "Return focus to trigger element on close"
+      ],
+      "antiPatterns": [
+        "Don't use for simple notifications \u2014 use Notification instead",
+        "Don't stack multiple dialogs",
+        "Don't use sheet variant for small confirmations"
+      ]
+    },
+    "InputField": {
+      "figmaNode": "2136-2263",
+      "componentKey": "9264ea73dbdcd1d415eeb033912fd677c15188ba",
+      "category": "input",
+      "purpose": "Single-line text input with label, description, and error message wrapper.",
+      "props": [
+        "label",
+        "description",
+        "errorMessage",
+        "placeholder",
+        "type",
+        "isDisabled",
+        "isRequired"
+      ],
+      "tokens": {
+        "border": "--sds-color-border-default",
+        "borderFocus": "--sds-color-brand-500",
+        "borderError": "--sds-color-red-500",
+        "radius": "--sds-size-radius-200",
+        "padding": "--sds-size-space-300"
+      },
+      "accessibility": [
+        "Label is always required \u2014 use aria-label if visually hidden",
+        "Error messages are linked via aria-describedby",
+        "Required fields should use isRequired prop (not just asterisk)"
+      ],
+      "antiPatterns": [
+        "Don't use placeholder as a replacement for label",
+        "Don't use for multi-line content \u2014 use TextareaField"
+      ]
+    },
+    "Menu": {
+      "figmaNode": "9762:720",
+      "componentKey": "c8e4991748ed29ebc64a30617c19ab1833936d42",
+      "category": "navigation",
+      "purpose": "Dropdown action menu triggered by a button.",
+      "subcomponents": {
+        "MenuHeader": {
+          "figmaNode": "9762:728",
+          "componentKey": "3447064842b5f61be614803922cd79d4101cdf59"
+        },
+        "MenuHeading": {
+          "figmaNode": "9762:760",
+          "componentKey": "c25a224bbd8fa6565fcb8720e38cdd1800fc45ab"
+        },
+        "MenuItem": {
+          "figmaNode": "9762:743",
+          "componentKey": "ad162f6276556c72eb627e47ed06f18a5e2b2436"
+        },
+        "MenuSeparator": {
+          "figmaNode": "9762:731",
+          "componentKey": "6609b83d126d52eda5b0afb82bb834fedd995cdb"
+        },
+        "MenuShortcut": {
+          "figmaNode": "9762:739",
+          "componentKey": "YOUR_KEY_HERE"
+        }
+      },
+      "tokens": {
+        "background": "--sds-color-background-default",
+        "border": "--sds-color-border-default",
+        "radius": "--sds-size-radius-200",
+        "shadow": "--sds-size-effect-drop-shadow-200",
+        "itemPadding": "--sds-size-space-200 --sds-size-space-300"
+      },
+      "accessibility": [
+        "Uses role='menu' and role='menuitem' pattern",
+        "Arrow keys navigate between items",
+        "Enter/Space activates the focused item",
+        "Escape closes the menu"
+      ],
+      "antiPatterns": [
+        "Don't use for navigation \u2014 use NavigationPillList or NavigationButtonList",
+        "Don't put more than 10 items without grouping via MenuHeading"
+      ]
+    },
+    "NavigationPill": {
+      "figmaNode": "7768-19970",
+      "componentKey": "9b88b999ad04f284bc54ac0501395c39a213d045",
+      "category": "navigation",
+      "purpose": "Pill-style navigation item with isSelected state.",
+      "props": [
+        "isSelected"
+      ],
+      "relatedComponents": {
+        "NavigationPillList": {
+          "figmaNode": "2194-14984",
+          "componentKey": "5f1060be1e8a4b1256b5028a07a681896e9da4ed"
+        }
+      },
+      "tokens": {
+        "backgroundSelected": "--sds-color-background-secondary",
+        "radius": "--sds-size-radius-full"
+      },
+      "accessibility": [
+        "Use aria-current='page' for the active item",
+        "Wrap in a <nav> landmark"
+      ],
+      "antiPatterns": [
+        "Don't mix with NavigationButton in the same nav"
+      ]
+    },
+    "NavigationButton": {
+      "figmaNode": "515-5459",
+      "componentKey": "ec9b420fc21adec46b99f7fc3a437000d47ca9fd",
+      "category": "navigation",
+      "purpose": "Button-style navigation with icon support. Supports column and row direction.",
+      "sizes": [
+        "small",
+        "medium"
+      ],
+      "direction": [
+        "column",
+        "row"
+      ],
+      "relatedComponents": {
+        "NavigationButtonList": {
+          "figmaNode": "524-503",
+          "componentKey": "6c800f7602d37dab368ca1a4092e55d6fedc6ce6"
+        }
+      },
+      "accessibility": [
+        "Icons must have aria-label if used without text",
+        "Use aria-current for active state"
+      ],
+      "antiPatterns": [
+        "Don't mix with NavigationPill in the same nav"
+      ]
+    },
+    "Notification": {
+      "figmaNode": "124-8256",
+      "componentKey": "a0d0b1cd002900f9c584908d985e58bdccab2189",
+      "category": "feedback",
+      "purpose": "Persistent callout for information or warnings. Stays visible until dismissed.",
+      "variants": {
+        "message": "Informational callout. Neutral styling. Use for tips, updates, general info.",
+        "alert": "Warning/error callout. Use for important warnings, errors, or critical information."
+      },
+      "props": [
+        "isDismissible",
+        "icon"
+      ],
+      "tokens": {
+        "background": "--sds-color-background-secondary",
+        "border": "--sds-color-border-default",
+        "radius": "--sds-size-radius-200",
+        "padding": "--sds-size-space-400"
+      },
+      "accessibility": [
+        "Alert variant should use role='alert' for screen reader announcement",
+        "Dismissible notifications need an accessible close button",
+        "Don't auto-dismiss important alerts"
+      ],
+      "antiPatterns": [
+        "Don't use for transient messages \u2014 those need a toast pattern",
+        "Don't use message variant for errors \u2014 use alert",
+        "Don't stack more than 2-3 notifications"
+      ],
+      "variantKeys": {
+        "message": "a0d0b1cd002900f9c584908d985e58bdccab2189",
+        "alert": "671e92b52679bfae30655138ac646219b541ced2"
+      }
+    },
+    "Pagination": {
+      "figmaNode": "9762:899",
+      "componentKey": "a3f9f6ede6e02f732dedbce5092633b00a8335e5",
+      "category": "navigation",
+      "purpose": "Page navigation for paginated content.",
+      "subcomponents": {
+        "PaginationList": {
+          "figmaNode": "9762:903",
+          "componentKey": "3a87daffac207e52837860524f90d194317e8745"
+        },
+        "PaginationPage": {
+          "figmaNode": "9762:890",
+          "componentKey": "9f4f4092a3872985e8966af1baf215fdb2b16dad"
+        },
+        "PaginationPrevious": {
+          "figmaNode": "9762:880",
+          "componentKey": "498247ecdcd07a1aa3588be55e82a57421f50a1b"
+        },
+        "PaginationNext": {
+          "figmaNode": "9762:870",
+          "componentKey": "8da884cd3874e9a3c77c03604292a66345886ba0"
+        },
+        "PaginationGap": {
+          "figmaNode": "9762:868",
+          "componentKey": "55723bf9280ba5e2bd3d2a0582c2ce55cf4da1be"
+        }
+      },
+      "accessibility": [
+        "Wrap in <nav> with aria-label='Pagination'",
+        "Current page uses aria-current='page'",
+        "Previous/Next buttons have clear labels"
+      ],
+      "antiPatterns": [
+        "Don't show all pages \u2014 use PaginationGap for large sets",
+        "Don't use for infinite scroll"
+      ]
+    },
+    "RadioField": {
+      "figmaNode": "9762:1412",
+      "componentKey": "205efad084489d9f7115a22dfb775746d4552d25",
+      "category": "input",
+      "purpose": "Single radio option with label and description.",
+      "relatedComponents": {
+        "RadioGroup": {
+          "figmaNode": "624-23642",
+          "componentKey": "YOUR_KEY_HERE",
+          "purpose": "Group of radio fields for mutually exclusive selection."
+        }
+      },
+      "accessibility": [
+        "RadioGroup must have a visible group label",
+        "Arrow keys navigate between options",
+        "Space selects the focused option"
+      ],
+      "antiPatterns": [
+        "Don't use for more than 5-7 options \u2014 use SelectField instead",
+        "Don't use for multi-select \u2014 use CheckboxGroup"
+      ]
+    },
+    "Search": {
+      "figmaNode": "2236-14989",
+      "componentKey": "28d576e9f1e4d0463f4ed86259d57f30929ae52d",
+      "category": "input",
+      "purpose": "Dedicated search input with search icon and clear button.",
+      "tokens": {
+        "border": "--sds-color-border-default",
+        "radius": "--sds-size-radius-200"
+      },
+      "accessibility": [
+        "Uses role='search' landmark",
+        "Clear button has aria-label",
+        "Submit on Enter key"
+      ],
+      "antiPatterns": [
+        "Don't use InputField for search \u2014 use the dedicated Search component"
+      ]
+    },
+    "SelectField": {
+      "figmaNode": "2136-2336",
+      "componentKey": "ea4bff47441e0b34f7d6ffe9dca1b6ecbcd2173e",
+      "category": "input",
+      "purpose": "Dropdown selection with label, description, and error message support.",
+      "props": [
+        "label",
+        "description",
+        "errorMessage",
+        "placeholder"
+      ],
+      "tokens": {
+        "border": "--sds-color-border-default",
+        "radius": "--sds-size-radius-200"
+      },
+      "accessibility": [
+        "Label is always required",
+        "Supports keyboard navigation (arrow keys, type-ahead)",
+        "Error messages linked via aria-describedby"
+      ],
+      "antiPatterns": [
+        "Don't use for fewer than 3 options \u2014 use RadioGroup",
+        "Don't use for actions \u2014 use Menu"
+      ]
+    },
+    "SliderField": {
+      "figmaNode": "589-17676",
+      "componentKey": "e8478f8e821416f5b72f2ff2af56c0cc3e55286e",
+      "category": "input",
+      "purpose": "Range input for selecting numeric values within a defined range.",
+      "tokens": {
+        "trackColor": "--sds-color-border-default",
+        "fillColor": "--sds-color-brand-500",
+        "thumbSize": "1.25rem"
+      },
+      "accessibility": [
+        "Must have visible label",
+        "Supports arrow key adjustment",
+        "Announce current value to screen readers"
+      ],
+      "antiPatterns": [
+        "Don't use for precise numeric input \u2014 use InputField with type='number'",
+        "Don't use without showing the current value"
+      ]
+    },
+    "SwitchField": {
+      "figmaNode": "9762:1902",
+      "componentKey": "92a6d5162012a7acf2e949dfb16e7eefd242f7f0",
+      "category": "input",
+      "purpose": "On/off toggle for settings and preferences. Takes effect immediately.",
+      "tokens": {
+        "trackWidth": "2.5rem",
+        "trackHeight": "1.5rem",
+        "activeColor": "--sds-color-brand-500"
+      },
+      "accessibility": [
+        "Must have visible label",
+        "Uses role='switch' with aria-checked",
+        "Toggled with Space key"
+      ],
+      "antiPatterns": [
+        "Don't use for form submissions \u2014 use Checkbox instead",
+        "Don't use if the change requires a save action \u2014 Switch implies immediate effect"
+      ]
+    },
+    "Tab": {
+      "figmaNode": "3729-12963",
+      "componentKey": "2a04ac3453ba1da55f08a167c3430e50060521da",
+      "category": "navigation",
+      "purpose": "Individual tab within a Tabs container.",
+      "relatedComponents": {
+        "Tabs": {
+          "figmaNode": "3729-13362",
+          "componentKey": "11bcdb54cd0017a144c9e6889a8bce6e3e8e158f",
+          "purpose": "Tabbed content container. Manages tab selection and panel visibility."
+        }
+      },
+      "accessibility": [
+        "Uses role='tablist', role='tab', and role='tabpanel'",
+        "Arrow keys navigate between tabs",
+        "Selected tab uses aria-selected='true'"
+      ],
+      "antiPatterns": [
+        "Don't use for navigation between pages \u2014 use NavigationPill",
+        "Don't use more than 6 tabs \u2014 consider a different pattern"
+      ]
+    },
+    "Table": {
+      "componentKey": "00e2945866244dedeaef2b3f6d04aba30329912f",
+      "category": "content",
+      "purpose": "Data display in rows and columns.",
+      "accessibility": [
+        "Use proper <th> elements with scope attributes",
+        "Include a caption or aria-label for the table",
+        "Sortable columns should use aria-sort"
+      ],
+      "antiPatterns": [
+        "Don't use for layout \u2014 use CSS Grid or Flexbox",
+        "Don't use for non-tabular data"
+      ]
+    },
+    "Tag": {
+      "figmaNode": "56-8830",
+      "componentKey": "68cb7af5468d6c7952d3eb2b394ca0b0af214618",
+      "category": "feedback",
+      "purpose": "Status indicators, labels, and categories.",
+      "schemes": {
+        "brand": "Default brand color. Use for branded categories.",
+        "danger": "Red. Use for errors, failures, critical status.",
+        "positive": "Green. Use for success, active, completed status.",
+        "warning": "Yellow. Use for caution, pending, in-progress status.",
+        "neutral": "Gray. Use for inactive, archived, default status."
+      },
+      "variants": {
+        "primary": "Filled background. Higher visual emphasis.",
+        "secondary": "Outlined/subtle. Lower visual emphasis."
+      },
+      "relatedComponents": {
+        "TagToggle": {
+          "figmaNode": "157-10316",
+          "componentKey": "e7c0cb0873768cb6d42bd5ec214b2a25c3b675e5",
+          "purpose": "Toggleable tag \u2014 acts like a chip/filter."
+        },
+        "TagToggleGroup": {
+          "figmaNode": "157-10352",
+          "componentKey": "9616c133a8e8ccfaf260bf0bb4b7df1cb6707475",
+          "purpose": "Group of toggleable tags for filter UI."
+        }
+      },
+      "tokens": {
+        "radius": "--sds-size-radius-full",
+        "paddingX": "--sds-size-space-200",
+        "paddingY": "--sds-size-space-100",
+        "fontSize": "0.75rem"
+      },
+      "accessibility": [
+        "Use meaningful label text \u2014 not just color",
+        "TagToggle needs aria-pressed state"
+      ],
+      "antiPatterns": [
+        "Don't use tags as buttons \u2014 they indicate status, not actions",
+        "Don't rely on color alone \u2014 always include text"
+      ],
+      "variantKeys": {
+        "primary": "5e79c596becb27b953bfedb730e7f198c1fcaff0",
+        "secondary": "bc14761d0adc32e4dee70e5c4e4fad6733358c3d"
+      }
+    },
+    "Text": {
+      "figmaNode": "2087-8487",
+      "componentKey": "75dea6ef9d07f886808e545562dddb68ac88d731",
+      "category": "typography",
+      "purpose": "Base text component with semantic variants for all typography needs.",
+      "variants": {
+        "Heading": {
+          "figmaNode": "2087-8488",
+          "componentKey": "f499c94c6c25821fd78d3df8fc393359fec53fca"
+        },
+        "Subheading": {
+          "figmaNode": "2103-22303",
+          "componentKey": "2657310946e6a904d22ce66ab0bba246e36bcd81"
+        },
+        "Subtitle": {
+          "figmaNode": "2103-22298",
+          "componentKey": "0202e6b45024d89fe0806dbfcdf5d65a392d06ff"
+        },
+        "TitleHero": {
+          "figmaNode": "2087-8491",
+          "componentKey": "4cef768088a99d9163570317030764895f131f07"
+        },
+        "TitlePage": {
+          "figmaNode": "2087-8490",
+          "componentKey": "2757724bdee8759e167b5c8111c2dfdf568795ae"
+        },
+        "Strong": {
+          "figmaNode": "2087-8486",
+          "componentKey": "78ce677dcd01f9947049708ff683dac7c4124058"
+        },
+        "Emphasis": {
+          "figmaNode": "2087-8485",
+          "componentKey": "40c68b7ddc1c26480bef0a76d4169b3b92438331"
+        },
+        "Small": {
+          "figmaNode": "2087-8484",
+          "componentKey": "0857768e8b53cc5eaab7a8f3821c67ac116f928d"
+        },
+        "Code": {
+          "figmaNode": "2104-22325",
+          "componentKey": "4de3e19c4080ec55359d7d0eb109a6c6d67b4b35"
+        },
+        "Link": {
+          "figmaNode": "2087-8483",
+          "componentKey": "e89427cff8b3557019d2f603d057da0c7823dc7a"
+        },
+        "Price": {
+          "figmaNode": "1443-10386",
+          "componentKey": "d1c7c61fa7b286ca5b025a9940c3f286bd22097c"
+        }
+      },
+      "relatedComponents": {
+        "TextContentHeading": {
+          "figmaNode": "2153-7834",
+          "componentKey": "321c8b0a4b8d9a456c42dabb6248fe295ef84348"
+        },
+        "TextContentTitle": {
+          "figmaNode": "2153-7838",
+          "componentKey": "f4060b320fae01cf8fca8d0ae6b8f9a8a3b36eee"
+        },
+        "TextList": {
+          "figmaNode": "480-6149",
+          "componentKey": "990d97865237a5294e128bf841540fa1514510ce"
+        },
+        "TextLinkList": {
+          "figmaNode": "322-9321",
+          "componentKey": "d16f2caddb42e0bece28bdaafc8ef11aad13adb0"
+        }
+      },
+      "accessibility": [
+        "Use semantic heading levels (h1-h6) \u2014 don't skip levels",
+        "Link text should be descriptive \u2014 not 'click here'",
+        "Ensure minimum 4.5:1 contrast for body text, 3:1 for large text"
+      ],
+      "antiPatterns": [
+        "Don't use Heading for visual styling \u2014 use the right semantic level",
+        "Don't use TitleHero for non-hero contexts"
+      ]
+    },
+    "TextareaField": {
+      "figmaNode": "9762-3088",
+      "componentKey": "4b36255852ccd4e259376661d1bc38d9d154d09a",
+      "category": "input",
+      "purpose": "Multi-line text input with label, description, and error message support.",
+      "props": [
+        "label",
+        "description",
+        "errorMessage",
+        "placeholder",
+        "rows"
+      ],
+      "tokens": {
+        "border": "--sds-color-border-default",
+        "radius": "--sds-size-radius-200",
+        "padding": "--sds-size-space-300",
+        "minHeight": "6rem"
+      },
+      "accessibility": [
+        "Label is always required",
+        "Error messages linked via aria-describedby",
+        "Supports keyboard resize"
+      ],
+      "antiPatterns": [
+        "Don't use for single-line input \u2014 use InputField",
+        "Don't set rows too small for expected content"
+      ]
+    },
+    "Tooltip": {
+      "figmaNode": "315-32700",
+      "componentKey": "31bcbbfed397daf6d93ac6e442ed0fef3fd2024b",
+      "category": "feedback",
+      "purpose": "Contextual hint shown on hover/focus. Non-interactive.",
+      "tokens": {
+        "background": "--sds-color-background-tertiary",
+        "text": "--sds-color-text-on-color",
+        "radius": "--sds-size-radius-100",
+        "padding": "--sds-size-space-100 --sds-size-space-200",
+        "fontSize": "0.75rem"
+      },
+      "accessibility": [
+        "Triggered by both hover AND focus",
+        "Uses role='tooltip' and aria-describedby",
+        "Content must be plain text \u2014 no interactive elements",
+        "Escape key should dismiss"
+      ],
+      "antiPatterns": [
+        "Don't put critical information in tooltips \u2014 not all users can access them",
+        "Don't use for complex content \u2014 use a Popover or Dialog instead",
+        "Keep tooltip text short \u2014 one sentence max"
+      ]
+    }
+  },
+  "compositions": {
+    "cards": {
+      "PricingCard": {
+        "figmaNode": "1444-11846",
+        "componentKey": "3f2cdb52939e947605f3504c9641f02cdb85aef6",
+        "purpose": "Pricing tier display with features list and CTA."
+      },
+      "ProductInfoCard": {
+        "figmaNode": "7753-4465",
+        "componentKey": "82ec58756a8e443944871a36fea2b8f66c7951f0",
+        "purpose": "Product display with image, title, description, price."
+      },
+      "ReviewCard": {
+        "figmaNode": "2236-16106",
+        "componentKey": "d07c0a8433a319d96e0fbf40c955880b3e269d40",
+        "purpose": "User review with rating, text, and author."
+      },
+      "StatsCard": {
+        "figmaNode": "2236-15082",
+        "componentKey": "73b1d451cd5b15b5b15641415e7621c0a8f4cb80",
+        "purpose": "Metric display with value, label, and optional trend."
+      },
+      "TestimonialCard": {
+        "figmaNode": "7717-3946",
+        "componentKey": "5096510f79bbcde2d134e8f3be91ae69344f0643",
+        "purpose": "Customer testimonial with quote and attribution."
+      }
+    },
+    "forms": {
+      "Contact": {
+        "figmaNode": "197:19741",
+        "componentKey": "4159325d7657a2276f02c35d9e0466c0e1dedc98",
+        "purpose": "Contact form with name, email, message fields."
+      },
+      "ForgotPassword": {
+        "figmaNode": "197:19744",
+        "componentKey": "f986f57aa6541eb84a3b50117cc68040dd2b0e28",
+        "purpose": "Password reset request form."
+      },
+      "LogIn": {
+        "figmaNode": "197:19740",
+        "componentKey": "d16f170d8b5c19ee5e9dfad1e96a31a94807d096",
+        "purpose": "Login form with email and password."
+      },
+      "Newsletter": {
+        "figmaNode": "197:19743",
+        "componentKey": "821e38c8f5ab900594c35a7fb6ba8ca53ad53118",
+        "purpose": "Email newsletter signup form."
+      },
+      "Register": {
+        "figmaNode": "197:19742",
+        "componentKey": "9eeb1d35a6761aca762b938ee380c65eb18ac546",
+        "purpose": "User registration form."
+      },
+      "Shipping": {
+        "figmaNode": "197:23153",
+        "componentKey": "5c1d687e3da6fdc828622521ae197735c8ef7502",
+        "purpose": "Shipping address form."
+      }
+    },
+    "headers": {
+      "Header": {
+        "figmaNode": "2287-22651",
+        "componentKey": "e761d0b3cd1d3004c18aaeff9b50b287b69dd430",
+        "purpose": "Main site header with logo and navigation."
+      },
+      "HeaderAuth": {
+        "figmaNode": "18-9389",
+        "componentKey": "04e56023ff0986600b4aa5cacef23397583c26aa",
+        "purpose": "Header with authentication actions (login/signup)."
+      }
+    },
+    "footers": {
+      "Footer": {
+        "figmaNode": "321-11357",
+        "componentKey": "ca81ca73760c7dae3a24a8a9a76fdf09e3950bcc",
+        "purpose": "Site footer with links and copyright."
+      }
+    },
+    "sections": {
+      "HeroBasic": {
+        "figmaNode": "348-15896",
+        "componentKey": "fa6266726d72629da44b68d377670d8c065e7be5",
+        "purpose": "Simple hero with headline and subtext."
+      },
+      "HeroActions": {
+        "figmaNode": "348-15901",
+        "componentKey": "e3d0a7cd544b1774a8a7ca41baf0cbaedee24c1d",
+        "purpose": "Hero with CTA buttons."
+      },
+      "HeroImage": {
+        "figmaNode": "348-15970",
+        "componentKey": "c43401483acc0024f055500b29ed1b63b375b5e3",
+        "purpose": "Hero with featured image."
+      },
+      "HeroForm": {
+        "figmaNode": "348-15933",
+        "componentKey": "722d4f351990aafaf1b2b0a12b3f2215b9ea38ec",
+        "purpose": "Hero with embedded form."
+      },
+      "HeroNewsletter": {
+        "figmaNode": "348-15919",
+        "componentKey": "b72a2fcdf7ac7fcaac121b75caea88cb62196853",
+        "purpose": "Hero with newsletter signup."
+      },
+      "PanelImageContent": {
+        "figmaNode": "348-13474",
+        "componentKey": "71e1c545644500540f4e9d5f3321221318fc9d0c",
+        "purpose": "Image + content side-by-side panel."
+      },
+      "PanelImageContentReverse": {
+        "figmaNode": "348-15101",
+        "componentKey": "82b46a3cea04e8c523c54fab8e959aa9f40f7dde",
+        "purpose": "Content + image side-by-side panel (reversed)."
+      },
+      "PanelImageDouble": {
+        "figmaNode": "348-13470",
+        "componentKey": "7a256f5da5767e8d581d41365979e61af7a47e82",
+        "purpose": "Two images side-by-side panel."
+      },
+      "PanelImage": {
+        "figmaNode": "348-15098",
+        "componentKey": "e1fe01bb5a9fe6d1f3fbaf50f37ce4e605695448",
+        "purpose": "Full-width image panel."
+      },
+      "CardGridContentList": {
+        "figmaNode": "348:13407",
+        "componentKey": "5ca53a5d7c342fa158eaca70e8e7e76ea0152f3d",
+        "purpose": "Grid of content cards."
+      },
+      "CardGridIcon": {
+        "figmaNode": "348:13221",
+        "componentKey": "90896c126f7c332b48e55434ae68e54156afbebc",
+        "purpose": "Grid of icon feature cards."
+      },
+      "CardGridImage": {
+        "figmaNode": "348:14431",
+        "componentKey": "f89e3aa1e12399a6dbf7b8bc6e03b911fc023cd8",
+        "purpose": "Grid of image cards."
+      },
+      "CardGridPricing": {
+        "figmaNode": "348:14983",
+        "componentKey": "2c246de73b84d952332b44043fc6f83f78b70841",
+        "purpose": "Pricing comparison grid."
+      },
+      "CardGridReviews": {
+        "figmaNode": "348:15213",
+        "componentKey": "81ccbaf785c63fad2471ae7b4e34aaba1302cb61",
+        "purpose": "Grid of review cards."
+      },
+      "CardGridTestimonials": {
+        "figmaNode": "348:13347",
+        "componentKey": "2cd46917a24cf3128fe5478078c57aa04d8b4afb",
+        "purpose": "Grid of testimonial cards."
+      },
+      "PageAccordion": {
+        "figmaNode": "348:13173",
+        "componentKey": "df8d5110b5cf6c69fab81b213a15c8dbd9fcba95",
+        "purpose": "FAQ-style page with accordion sections."
+      },
+      "PageNewsletter": {
+        "figmaNode": "348:15133",
+        "componentKey": "b786931f1b9c25ee411a08a9a6c974ce23fb046c",
+        "purpose": "Newsletter-focused landing section."
+      },
+      "PageProduct": {
+        "figmaNode": "348:15147",
+        "componentKey": "029f520457d1855a6b902c06a20b6d701412711e",
+        "purpose": "Product detail page section."
+      },
+      "PageProductResults": {
+        "figmaNode": "348:13517",
+        "componentKey": "c31413259fa83f8bb7e1c652a84629b49cc8084d",
+        "purpose": "Product listing/results page section."
+      }
+    }
+  },
+  "tokens": {
+    "spacing": {
+      "description": "CSS custom properties for spacing (--sds-size-space-*)",
+      "scale": {
+        "0": "0",
+        "25": "0.0625rem",
+        "50": "0.125rem",
+        "100": "0.25rem",
+        "200": "0.5rem",
+        "300": "0.75rem",
+        "400": "1rem",
+        "500": "1.25rem",
+        "600": "1.5rem",
+        "700": "1.75rem",
+        "800": "2rem",
+        "1000": "2.5rem",
+        "1200": "3rem",
+        "1600": "4rem",
+        "2000": "5rem",
+        "2400": "6rem",
+        "3200": "8rem",
+        "4000": "10rem"
+      }
+    },
+    "radius": {
+      "100": "0.25rem",
+      "200": "0.5rem",
+      "400": "1rem",
+      "full": "9999px"
+    },
+    "typography": {
+      "families": {
+        "sans": "Inter",
+        "serif": "Noto Serif",
+        "mono": "Roboto Mono"
+      },
+      "weights": {
+        "100": "Thin",
+        "200": "ExtraLight",
+        "300": "Light",
+        "400": "Regular",
+        "500": "Medium",
+        "600": "SemiBold",
+        "700": "Bold",
+        "800": "ExtraBold",
+        "900": "Black"
+      }
+    },
+    "colors": {
+      "semantic": {
+        "background": [
+          "default",
+          "hover",
+          "secondary",
+          "tertiary",
+          "disabled"
+        ],
+        "border": [
+          "default",
+          "secondary",
+          "tertiary"
+        ],
+        "text": [
+          "default",
+          "secondary",
+          "tertiary",
+          "on-color"
+        ],
+        "icon": [
+          "default",
+          "secondary",
+          "tertiary",
+          "on-color"
+        ]
+      },
+      "scales": {
+        "brand": "100-1000",
+        "red": "100-1000 (danger)",
+        "green": "100-1000 (positive)",
+        "yellow": "100-1000 (warning)",
+        "slate": "100-1000 (neutral)"
+      }
+    },
+    "shadows": {
+      "dropShadow": "100-600 (--sds-size-effect-drop-shadow-*)",
+      "innerShadow": "100-600 (--sds-size-effect-inner-shadow-*)"
+    }
+  }
+}
