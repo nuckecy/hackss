@@ -8,22 +8,24 @@ import { EmptyState } from './components/EmptyState';
 import { Settings } from './components/Settings';
 import { SuggestionChips } from './components/SuggestionChips';
 import { ScanFrameButton } from './components/ScanFrameButton';
-import { useApiKey } from './hooks/useApiKey';
 import { useSelection } from './hooks/useSelection';
 import { useChat } from './hooks/useChat';
-import { useProvider } from './hooks/useProvider';
+import { useProviderSettings } from './hooks/useProviderSettings';
 import { useLocale } from './hooks/useLocale';
 import { useAccessibility } from './hooks/useAccessibility';
 import { setLocale, t } from '../i18n/i18n';
 
 function App() {
-  const { apiKey, saveApiKey, clearApiKey, isLoading: keyLoading } = useApiKey();
-  const { provider, setProvider, isLoading: providerLoading } = useProvider();
+  const { selectedProvider, providerKeys, isLoading: settingsLoading, saveKey, clearKey, selectProvider } = useProviderSettings();
   const { locale, updateLocale } = useLocale();
   const { settings: accessibilitySettings, updateSettings: updateAccessibilitySettings } = useAccessibility();
   const [showSettings, setShowSettings] = useState(false);
 
-  const needsApiKey = !keyLoading && !providerLoading && !apiKey && provider === 'gemini';
+  // Get the API key for the currently selected provider
+  const currentApiKey = providerKeys[selectedProvider];
+
+  // Check if we need an API key for the selected provider (Claude doesn't need one)
+  const needsApiKey = !settingsLoading && !currentApiKey && selectedProvider !== 'claude';
   const showSettingsScreen = needsApiKey || showSettings;
 
   // Apply font size globally
@@ -36,8 +38,8 @@ function App() {
     setLocale(locale);
   }, [locale]);
 
-  // Loading state while fetching API key and provider
-  if (keyLoading || providerLoading) {
+  // Loading state while fetching provider settings
+  if (settingsLoading) {
     return (
       <div class="app-shell">
         <div class="app-header">
@@ -61,12 +63,11 @@ function App() {
           </div>
         </div>
         <Settings
-          currentProvider={provider}
-          onProviderChange={setProvider}
-          onApiKeySaved={(key) => {
-            saveApiKey(key);
-          }}
-          onClearKey={clearApiKey}
+          selectedProvider={selectedProvider}
+          providerKeys={providerKeys}
+          onProviderChange={selectProvider}
+          onSaveKey={saveKey}
+          onClearKey={clearKey}
           fontSize={accessibilitySettings.fontSize}
           onFontSizeChange={(size) => updateAccessibilitySettings({ fontSize: size })}
           locale={locale}
@@ -95,14 +96,11 @@ function App() {
             </button>
           </div>
           <Settings
-            currentKey={apiKey || undefined}
-            currentProvider={provider}
-            onProviderChange={setProvider}
-            onApiKeySaved={(key) => {
-              saveApiKey(key);
-              setShowSettings(false);
-            }}
-            onClearKey={clearApiKey}
+            selectedProvider={selectedProvider}
+            providerKeys={providerKeys}
+            onProviderChange={selectProvider}
+            onSaveKey={saveKey}
+            onClearKey={clearKey}
             fontSize={accessibilitySettings.fontSize}
             onFontSizeChange={(size) => updateAccessibilitySettings({ fontSize: size })}
             locale={locale}
@@ -112,11 +110,13 @@ function App() {
         </div>
       )}
       <div style={{ display: showSettings ? 'none' : 'contents' }}>
-        <ChatScreen apiKey={apiKey!} provider={provider} onOpenSettings={() => setShowSettings(true)} />
+        <ChatScreen apiKey={currentApiKey || ''} provider={selectedProvider} onOpenSettings={() => setShowSettings(true)} />
       </div>
     </>
   );
 }
+
+import type { ProviderType } from '../ai/ai-provider';
 
 function ChatScreen({
   apiKey,
@@ -124,7 +124,7 @@ function ChatScreen({
   onOpenSettings
 }: {
   apiKey: string;
-  provider: 'gemini' | 'claude';
+  provider: ProviderType;
   onOpenSettings: () => void;
 }) {
   const { selection } = useSelection();

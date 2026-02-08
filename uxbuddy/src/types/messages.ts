@@ -1,5 +1,13 @@
 import type { SelectionData, SelectionDataV2 } from './figma';
 
+// Component action types
+export interface ComponentAction {
+  type: 'place_component';
+  componentKey: string;
+  componentName: string;
+  variant: string | null;
+}
+
 // Main → UI messages
 interface SelectionChangedMessage {
   type: 'selection-changed';
@@ -55,6 +63,34 @@ interface ProviderKeySavedMessage {
 interface ProviderKeyClearedMessage {
   type: 'provider-key-cleared';
   provider: string;
+}
+
+interface PlacementResultMessage {
+  type: 'placement-result';
+  success: boolean;
+  message: string;
+  componentName?: string;
+}
+
+interface LocaleResponseMessage {
+  type: 'locale-response';
+  locale: string;
+}
+
+interface AccessibilitySettingsResponseMessage {
+  type: 'accessibility-settings-response';
+  fontSize: string;
+}
+
+interface AnalysisDataMessage {
+  type: 'analysis-data';
+  data: any;
+  frameName: string;
+}
+
+interface AnalysisErrorMessage {
+  type: 'analysis-error';
+  message: string;
 }
 
 // UI → Main messages
@@ -122,6 +158,35 @@ interface ClearSelectionMessage {
   type: 'clear-selection';
 }
 
+interface PlaceComponentMessage {
+  type: 'place-component';
+  componentKey: string;
+  componentName: string;
+  variant: string | null;
+}
+
+interface GetLocaleMessage {
+  type: 'get-locale';
+}
+
+interface SaveLocaleMessage {
+  type: 'save-locale';
+  locale: string;
+}
+
+interface GetAccessibilitySettingsMessage {
+  type: 'get-accessibility-settings';
+}
+
+interface SaveAccessibilitySettingsMessage {
+  type: 'save-accessibility-settings';
+  fontSize: string;
+}
+
+interface AnalyzeFrameMessage {
+  type: 'analyze-frame';
+}
+
 export type MainToUIMessage =
   | SelectionChangedMessage
   | PluginReadyMessage
@@ -133,7 +198,12 @@ export type MainToUIMessage =
   | CurrentUserMessage
   | ProviderSettingsResponseMessage
   | ProviderKeySavedMessage
-  | ProviderKeyClearedMessage;
+  | ProviderKeyClearedMessage
+  | PlacementResultMessage
+  | LocaleResponseMessage
+  | AccessibilitySettingsResponseMessage
+  | AnalysisDataMessage
+  | AnalysisErrorMessage;
 
 export type UIToMainMessage =
   | RequestSelectionMessage
@@ -149,7 +219,13 @@ export type UIToMainMessage =
   | SaveProviderKeyMessage
   | ClearProviderKeyMessage
   | SetSelectedProviderMessage
-  | ClearSelectionMessage;
+  | ClearSelectionMessage
+  | PlaceComponentMessage
+  | GetLocaleMessage
+  | SaveLocaleMessage
+  | GetAccessibilitySettingsMessage
+  | SaveAccessibilitySettingsMessage
+  | AnalyzeFrameMessage;
 
 export function postToUI(msg: MainToUIMessage): void {
   figma.ui.postMessage(msg);

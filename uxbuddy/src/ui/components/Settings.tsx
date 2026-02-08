@@ -1,5 +1,8 @@
 import { useState } from 'preact/hooks';
 import type { ProviderType } from '../../ai/provider';
+import { useLocale } from '../hooks/useLocale';
+import { useAccessibility, type FontSize } from '../hooks/useAccessibility';
+import { t } from '../../i18n/i18n';
 import './Settings.css';
 
 interface SettingsProps {
@@ -51,6 +54,9 @@ export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKe
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [testMessage, setTestMessage] = useState('');
 
+  const { locale, updateLocale } = useLocale();
+  const { settings: accessibilitySettings, updateSettings: updateAccessibilitySettings } = useAccessibility();
+
   const config = PROVIDER_CONFIG[selectedProvider];
   const currentKey = providerKeys[selectedProvider];
 
@@ -69,6 +75,20 @@ export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKe
     setInputValue('');
     setTestStatus('idle');
     setTestMessage('');
+  }
+
+  function getLanguageName(localeCode: string): string {
+    const names: Record<string, string> = {
+      en: 'English',
+      es: 'Español',
+      de: 'Deutsch',
+      fr: 'Français',
+    };
+    return names[localeCode] || localeCode;
+  }
+
+  function handleFontSizeChange(size: FontSize): void {
+    updateAccessibilitySettings({ fontSize: size });
   }
 
   async function handleTestConnection(): Promise<void> {
@@ -226,6 +246,48 @@ export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKe
 
       {/* Privacy note */}
       <div class="settings-privacy">{config.privacyText}</div>
+
+      {/* Accessibility Settings */}
+      <div class="settings-section-label">{t('settings.accessibility').toUpperCase()}</div>
+      <div class="settings-privacy" style="margin-top: -4px">{t('settings.fontSize')}</div>
+      <div class="settings-font-size-options">
+        <button
+          class={`font-size-option ${accessibilitySettings.fontSize === 'small' ? 'active' : ''}`}
+          onClick={() => handleFontSizeChange('small')}
+          aria-label={t('settings.fontSizeSmall')}
+        >
+          A
+        </button>
+        <button
+          class={`font-size-option ${accessibilitySettings.fontSize === 'medium' ? 'active' : ''}`}
+          onClick={() => handleFontSizeChange('medium')}
+          aria-label={t('settings.fontSizeMedium')}
+        >
+          A
+        </button>
+        <button
+          class={`font-size-option ${accessibilitySettings.fontSize === 'large' ? 'active' : ''}`}
+          onClick={() => handleFontSizeChange('large')}
+          aria-label={t('settings.fontSizeLarge')}
+        >
+          A
+        </button>
+      </div>
+
+      {/* Language Settings */}
+      <div class="settings-section-label">{t('settings.language').toUpperCase()}</div>
+      <div class="settings-language-options">
+        {(['en', 'es', 'de', 'fr'] as const).map((lang) => (
+          <button
+            key={lang}
+            class={`language-option ${locale === lang ? 'active' : ''}`}
+            onClick={() => updateLocale(lang)}
+            aria-label={getLanguageName(lang)}
+          >
+            {getLanguageName(lang)}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

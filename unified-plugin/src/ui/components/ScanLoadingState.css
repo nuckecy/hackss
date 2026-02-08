@@ -1,0 +1,17 @@
+.scan-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 2px 0;
+}
+
+.scan-loading-title {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.scan-loading-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+}

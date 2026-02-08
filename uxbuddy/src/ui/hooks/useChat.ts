@@ -5,6 +5,8 @@ import { buildSystemPrompt } from '../../ai/system-prompt';
 import type { ChatMessage } from '../../ai/gemini-provider';
 import type { SelectionData } from '../../types/figma';
 import type { ScanResult } from '../../types/scan';
+import type { ComponentAction } from '../../types/messages';
+import { detectComponentAction } from '../../ai/action-detector';
 
 export interface Message {
   id: string;
@@ -13,6 +15,7 @@ export interface Message {
   timestamp: Date;
   scanResult?: ScanResult;
   selectionId?: string;
+  action?: ComponentAction;
 }
 
 interface UseChatReturn {
@@ -74,12 +77,16 @@ export function useChat(apiKey: string, selectedProvider: ProviderType, selectio
     providerRef.current!
       .chat(chatMessages, systemPrompt)
       .then((responseText) => {
+        // Detect component placement actions in the response
+        const action = detectComponentAction(responseText);
+
         const assistantMessage: Message = {
           id: generateId(),
           role: 'assistant',
           content: responseText,
           timestamp: new Date(),
           selectionId: selection ? selection.id : undefined,
+          action: action || undefined,
         };
         setMessages((prev) => [...prev, assistantMessage]);
       })

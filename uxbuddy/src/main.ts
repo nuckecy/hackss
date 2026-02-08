@@ -1,6 +1,7 @@
 import type { SelectionData } from './types/figma';
 import type { SelectionDataV2 } from './types/figma';
 import { applyFix } from './fix/fix-registry';
+import { handleComponentPlacement } from './placement/placement-handler';
 
 figma.showUI(__html__, { width: 414, height: 667 });
 
@@ -292,6 +293,113 @@ function extractDeepSelection(
   }
 }
 
+// ── Frame data extraction for analysis ──
+
+async function extractFrameData(node: SceneNode): Promise<any> {
+  const data: any = {
+    id: node.id,
+    name: node.name,
+    type: node.type,
+  };
+
+  // Extract dimensions and position
+  if ('width' in node && 'height' in node) {
+    data.width = node.width;
+    data.height = node.height;
+  }
+
+  if ('absoluteTransform' in node) {
+    const transform = node.absoluteTransform;
+    data.x = transform[0][2];
+    data.y = transform[1][2];
+  }
+
+  // Component instance properties
+  if (node.type === 'INSTANCE') {
+    try {
+      const main = node.mainComponent;
+      if (main) {
+        data.componentName = main.name;
+      }
+      const variantProps = node.variantProperties;
+      if (variantProps) {
+        data.variantProperties = variantProps;
+      }
+    } catch (_) {
+      // mainComponent may not be accessible
+    }
+  }
+
+  // Text properties
+  if (node.type === 'TEXT') {
+    try {
+      const fontSize = node.fontSize;
+      if (typeof fontSize === 'number') {
+        data.fontSize = fontSize;
+      }
+      const fontName = node.fontName;
+      if (fontName && typeof fontName === 'object' && 'family' in fontName) {
+        data.fontName = {
+          family: (fontName as FontName).family,
+          style: (fontName as FontName).style,
+        };
+      }
+      data.characters = node.characters.substring(0, 200);
+    } catch (_) {
+      // Mixed values throw errors
+    }
+  }
+
+  // Fills
+  if ('fills' in node) {
+    try {
+      const fills = node.fills;
+      if (Array.isArray(fills)) {
+        data.fills = fills
+          .filter((f): f is SolidPaint => f.type === 'SOLID')
+          .map((f) => ({
+            type: f.type,
+            color: {
+              r: f.color.r,
+              g: f.color.g,
+              b: f.color.b,
+            },
+            opacity: f.opacity,
+          }));
+      }
+    } catch (_) {
+      // Skip if fills not accessible
+    }
+  }
+
+  // Auto-layout properties
+  if ('layoutMode' in node) {
+    try {
+      const layoutNode = node as FrameNode;
+      data.layoutMode = layoutNode.layoutMode;
+      if (layoutNode.layoutMode !== 'NONE') {
+        data.itemSpacing = layoutNode.itemSpacing;
+        data.paddingTop = layoutNode.paddingTop;
+        data.paddingRight = layoutNode.paddingRight;
+        data.paddingBottom = layoutNode.paddingBottom;
+        data.paddingLeft = layoutNode.paddingLeft;
+      }
+    } catch (_) {
+      // Skip layout props if not accessible
+    }
+  }
+
+  // Recursively process children (limit depth to avoid huge payloads)
+  if ('children' in node && node.children.length > 0) {
+    const childrenPromises = node.children
+      .slice(0, 50) // Limit to 50 children per node
+      .map((child) => extractFrameData(child));
+    data.children = await Promise.all(childrenPromises);
+  }
+
+  return data;
+}
+
 // ── Selection sending ──
 
 function sendCurrentSelection(): void {
@@ -334,6 +442,9 @@ figma.ui.onmessage = async (msg: {
   nodeId?: string;
   fixType?: string;
   properties?: Record<string, unknown>;
+  componentKey?: string;
+  componentName?: string;
+  variant?: string | null;
 }) => {
   if (msg.type === 'request-selection') {
     sendCurrentSelection();
@@ -385,6 +496,62 @@ figma.ui.onmessage = async (msg: {
       fixType: msg.fixType,
       success: result.success,
       error: result.error,
+    });
+  } else if (msg.type === 'place-component') {
+    // Component placement
+    await handleComponentPlacement({
+      componentKey: msg.componentKey || '',
+      componentName: msg.componentName || '',
+      variant: msg.variant || null,
+    });
+  } else if (msg.type === 'get-locale') {
+    const locale = await figma.clientStorage.getAsync('user-locale');
+    figma.ui.postMessage({ type: 'locale-response', locale: locale || 'en' });
+  } else if (msg.type === 'save-locale' && (msg as any).locale) {
+    await figma.clientStorage.setAsync('user-locale', (msg as any).locale);
+  } else if (msg.type === 'get-accessibility-settings') {
+    const fontSize = await figma.clientStorage.getAsync('font-size');
+    figma.ui.postMessage({
+      type: 'accessibility-settings-response',
+      fontSize: fontSize || 'medium',
+    });
+  } else if (msg.type === 'save-accessibility-settings') {
+    const settings = msg as any;
+    await figma.clientStorage.setAsync('font-size', settings.fontSize);
+  } else if (msg.type === 'analyze-frame') {
+    // Frame scanning for design system compliance
+    const selection = figma.currentPage.selection;
+
+    if (selection.length === 0) {
+      figma.ui.postMessage({
+        type: 'analysis-error',
+        message: 'Please select a frame to analyze',
+      });
+      return;
+    }
+
+    const node = selection[0];
+
+    // Validate that selection is a frame, component, section, or instance
+    if (
+      node.type !== 'FRAME' &&
+      node.type !== 'COMPONENT' &&
+      node.type !== 'INSTANCE' &&
+      node.type !== 'SECTION'
+    ) {
+      figma.ui.postMessage({
+        type: 'analysis-error',
+        message: 'Please select a frame, component, section, or instance',
+      });
+      return;
+    }
+
+    const frameData = await extractFrameData(node);
+
+    figma.ui.postMessage({
+      type: 'analysis-data',
+      data: frameData,
+      frameName: node.name,
     });
   }
 };
