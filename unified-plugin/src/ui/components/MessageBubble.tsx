@@ -1,7 +1,21 @@
+import { useState } from 'preact/hooks';
 import { LoadingDots } from './LoadingDots';
 import { PlacementButton } from './PlacementButton';
 import type { ComponentAction } from '../../types';
+import { parseResponse } from './ResponseParser';
+import { ComponentLookupResponse } from './responses/ComponentLookupResponse';
+import { AccessibilityResponse } from './responses/AccessibilityResponse';
+import { TokenResponse } from './responses/TokenResponse';
+import { ComparisonResponse } from './responses/ComparisonResponse';
+import { NotFoundResponse } from './responses/NotFoundResponse';
+import { DesignAnalysisResponse } from './responses/DesignAnalysisResponse';
 import './MessageBubble.css';
+
+interface QuickAction {
+  label: string;
+  onClick: () => void;
+  icon?: string;
+}
 
 interface MessageBubbleProps {
   role: 'user' | 'assistant';
@@ -9,6 +23,7 @@ interface MessageBubbleProps {
   timestamp: Date;
   isLoading?: boolean;
   action?: ComponentAction;
+  quickActions?: QuickAction[];
 }
 
 function formatTime(date: Date): string {
@@ -137,8 +152,45 @@ function renderMarkdown(text: string) {
   return parts;
 }
 
-export function MessageBubble({ role, content, timestamp, isLoading, action }: MessageBubbleProps) {
+/**
+ * Renders content with specialized response components or falls back to markdown
+ */
+function renderContent(content: string): preact.JSX.Element | preact.JSX.Element[] {
+  const { metadata, body } = parseResponse(content);
+
+  // If we have a response type, render specialized component
+  switch (metadata.type) {
+    case 'component-lookup':
+      return <ComponentLookupResponse metadata={metadata} body={body} />;
+    case 'accessibility':
+      return <AccessibilityResponse metadata={metadata} body={body} />;
+    case 'token':
+      return <TokenResponse metadata={metadata} body={body} />;
+    case 'comparison':
+      return <ComparisonResponse metadata={metadata} body={body} />;
+    case 'not-found':
+      return <NotFoundResponse metadata={metadata} body={body} />;
+    case 'design-analysis':
+      return <DesignAnalysisResponse metadata={metadata} body={body} />;
+    default:
+      // Fallback to standard markdown rendering
+      return <>{renderMarkdown(content)}</>;
+  }
+}
+
+export function MessageBubble({ role, content, timestamp, isLoading, action, quickActions }: MessageBubbleProps) {
+  const [copied, setCopied] = useState(false);
   const className = role === 'user' ? 'message message-user' : 'message message-assistant';
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   return (
     <div class={className}>
@@ -147,15 +199,43 @@ export function MessageBubble({ role, content, timestamp, isLoading, action }: M
       ) : (
         <>
           <div class="message-content">
-            {renderMarkdown(content)}
+            {renderContent(content)}
           </div>
           {action && action.type === 'place_component' && (
             <PlacementButton action={action} />
           )}
+          {quickActions && quickActions.length > 0 && (
+            <div class="message-quick-actions">
+              {quickActions.map((qa, idx) => (
+                <button
+                  key={idx}
+                  class="quick-action-button"
+                  onClick={qa.onClick}
+                >
+                  {qa.icon && <span class="material-symbols-outlined">{qa.icon}</span>}
+                  {qa.label}
+                </button>
+              ))}
+            </div>
+          )}
         </>
       )}
       {!isLoading && (
-        <div class="message-timestamp">{formatTime(timestamp)}</div>
+        <div class="message-footer">
+          <div class="message-timestamp">{formatTime(timestamp)}</div>
+          {role === 'assistant' && (
+            <button
+              class="message-copy-button"
+              onClick={handleCopy}
+              aria-label="Copy message"
+              title="Copy to clipboard"
+            >
+              <span class="material-symbols-outlined">
+                {copied ? 'check' : 'content_copy'}
+              </span>
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

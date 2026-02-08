@@ -1,0 +1,154 @@
+[
+  {
+    "id": "button-hierarchy",
+    "title": "Button Hierarchy in Action Groups",
+    "category": "component-usage",
+    "rule": "One filled (primary action) button per action group. The forward-progress action gets filled; alternatives get outlined or ghost.",
+    "decision_framework": {
+      "steps": [
+        "Identify the user's forward-progress goal for this screen (e.g., Next, Submit, Save)",
+        "Assign filled variant to that single forward action",
+        "Assign outlined to important but non-primary actions (e.g., Save Draft, Save & Exit)",
+        "Assign ghost to dismissive or low-commitment actions (e.g., Cancel, Back)",
+        "If destructive, use danger variant instead of filled"
+      ]
+    },
+    "flow_context": {
+      "multi_step_flow": "Forward action is always filled (e.g., Next, Continue). Back is ghost.",
+      "modal_dialog": "Confirm action is filled. Cancel is ghost. Never two filled buttons in a modal.",
+      "form_submission": "Submit is filled. Reset or Cancel is ghost."
+    },
+    "reasoning": [
+      "flow_progression: filled draws the eye to the intended next step",
+      "decision_clarity: hierarchy reduces time to find the right action",
+      "cognitive_load: consistent hierarchy lets users scan without reading every label"
+    ],
+    "common_violations": [
+      "Multiple filled buttons in one group (e.g., Save and Submit both filled)",
+      "Cancel styled as outlined instead of ghost, competing with secondary actions",
+      "Danger action styled as filled instead of danger variant"
+    ],
+    "guidance_approach": "Recommend hierarchy using variant names (filled/outlined/ghost/danger). Explain which action should be filled and why based on flow context. Don't auto-fix.",
+    "see_also": ["Button.usage", "Button.variants"]
+  },
+  {
+    "id": "layout-spacing",
+    "title": "Layout Spacing Consistency",
+    "category": "layout",
+    "rule": "Use consistent spacing tokens for each layout context. Same structural role = same token.",
+    "decision_framework": {
+      "context_to_token": {
+        "between_form_fields": "space.4 — gap between label-input pairs in a form",
+        "between_form_sections": "space.8 — gap between grouped sections of a form",
+        "within_card_padding": "space.6 — internal padding of cards and containers",
+        "between_inline_elements": "space.2 — gap between icons, badges, inline items",
+        "between_related_text": "space.1 — gap between tightly coupled text (e.g., label and helper)"
+      }
+    },
+    "how_to_detect": [
+      "Compare spacing between elements that share the same structural role",
+      "Look for mixed pixel values where a single token should be used",
+      "Check if section gaps use a larger token than field gaps within that section"
+    ],
+    "reasoning": [
+      "scanability: consistent rhythm lets users scan content predictably",
+      "visual_hierarchy: larger gaps signal section breaks, smaller gaps signal grouping",
+      "polish: inconsistent spacing is one of the most visible signs of unfinished work"
+    ],
+    "common_violations": [
+      "Form fields using mixed spacing (e.g., some rows at space.4, others at space.2)",
+      "Section gaps matching field gaps (no visual hierarchy between groups)",
+      "Card padding varying across similar cards on the same page"
+    ],
+    "guidance_approach": "Be specific: name the exact elements, the current spacing, and the expected token. Only flag inconsistent areas, not all spacing.",
+    "see_also": ["tokens.json spacing entries"]
+  },
+  {
+    "id": "component-selection-input-types",
+    "title": "Choosing Between Input and Select",
+    "category": "component-usage",
+    "rule": "If the value comes from a finite, known set, use Select. If the value is free-form text, use Input.",
+    "decision_framework": {
+      "tree": {
+        "is_value_from_finite_known_set": "Yes → Select (or Radio for 2 options, Checkbox for multi-select)",
+        "is_value_free_form_text": "Yes → Input",
+        "is_set_very_large_50_plus": "Yes → Autocomplete/Combobox instead of Select"
+      }
+    },
+    "key_heuristic": "Ask: 'Could this field be answered with a dropdown?' If yes, it should probably be a Select. Common example: a State/Province field using a text Input when the values are a fixed list of 50 states.",
+    "reasoning": [
+      "data_integrity: Select constrains input to valid values, eliminating typos and format variance",
+      "consistency: predefined options ensure uniform data across users",
+      "user_confidence: seeing all valid options reduces uncertainty about what to enter"
+    ],
+    "common_violations": [
+      "Text Input for country, state, or status fields (finite known sets)",
+      "Select for fields requiring custom or unique values (e.g., name, email)"
+    ],
+    "guidance_approach": "Frame as a data-type decision, not personal preference. Explain why the field's data characteristics favor one component over another.",
+    "see_also": ["Select.usage", "Input.usage"]
+  },
+  {
+    "id": "token-strategy-brand-vs-system",
+    "title": "Brand Colors vs System Action Colors",
+    "category": "token-strategy",
+    "rule": "Brand colors and system action colors serve different purposes. They can overlap but don't need to match exactly.",
+    "key_distinction": {
+      "brand_colors": "Represent the company's visual identity. Used in logos, marketing, brand moments.",
+      "system_action_colors": "Communicate interactive affordance and state. Used for buttons, links, focus rings, selection. Defined as accent.primary in the token system."
+    },
+    "decision_framework": {
+      "steps": [
+        "Check if the brand color meets accessibility requirements at 4.5:1 contrast for text and 3:1 for UI elements",
+        "If it passes, it can be used directly as accent.primary",
+        "If it fails, derive an adjusted shade that passes contrast while staying in the brand hue family",
+        "System tokens (severity.error, severity.success, etc.) should never be overridden with brand colors"
+      ]
+    },
+    "reasoning": [
+      "accessibility: action colors must meet contrast ratios; brand colors may not",
+      "reusability: system tokens need to work across all contexts, not just brand-heavy ones",
+      "long_term_consistency: decoupling brand from system allows brand refreshes without UI regression"
+    ],
+    "common_misconceptions": [
+      "Brand primary and accent.primary must be the same hex value — they don't, they serve different roles",
+      "Changing brand color means all buttons must change — only if the design system intentionally couples them",
+      "Semantic colors (error, warning) should match brand — they should not, they follow universal conventions"
+    ],
+    "guidance_approach": "Explain the different roles. Suggest deriving an accessible action color from the brand hue if they don't match. Don't frame as pass/fail."
+  },
+  {
+    "id": "flow-aware-validation",
+    "title": "Flow-Aware UX Validation",
+    "category": "flow-design",
+    "rule": "Evaluate screens in the context of their user flow, not in isolation. Primary actions should align with forward progress.",
+    "evaluation_framework": {
+      "steps": [
+        "Identify where this screen sits in the flow (beginning, middle, end)",
+        "Determine what forward progress means at this step",
+        "Check: does the primary (filled) action match the forward-progress goal?",
+        "Check: do secondary actions support without derailing momentum?",
+        "Check: does the content prepare the user for the action they're about to take?"
+      ]
+    },
+    "flow_types": {
+      "onboarding": "User is committing gradually. Early steps should feel low-effort. Primary = Continue/Next.",
+      "configuration_wizard": "User is making decisions. Each step should confirm the previous choice. Primary = Next/Apply.",
+      "data_entry_form": "User is investing effort. Primary = Save/Submit. Protect against accidental loss."
+    },
+    "reasoning": [
+      "intent_alignment: the primary action should match what the user came to this screen to do",
+      "commitment_levels: actions should reflect the weight of the decision (low commitment early, higher later)",
+      "progression_clarity: users should always know where they are and what happens next",
+      "momentum_vs_friction: secondary actions like 'Save & Exit' should support, not interrupt, flow"
+    ],
+    "common_flow_issues": [
+      "Primary action doesn't match forward progress (e.g., 'Save' is filled but 'Next' is outlined in a wizard)",
+      "Too many actions competing for attention at a decision point",
+      "No clear indication of flow position (missing progress indicator or step label)",
+      "Destructive action (Delete, Cancel) too prominent in a creation/setup flow"
+    ],
+    "guidance_approach": "Frame observations as flow considerations. Explain the impact on user momentum and clarity. Reference the user's likely mindset at this step. Don't redesign the flow or add/remove steps.",
+    "see_also": ["button-hierarchy"]
+  }
+]

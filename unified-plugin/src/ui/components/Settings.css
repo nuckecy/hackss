@@ -201,3 +201,113 @@
   outline: none;
   box-shadow: var(--shadow-focus);
 }
+
+/* Accessibility Settings */
+.settings-subsection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-font-size-options {
+  display: flex;
+  gap: 8px;
+}
+
+.font-size-option {
+  flex: 1;
+  padding: 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.font-size-option:nth-child(1) {
+  font-size: 12px;
+}
+
+.font-size-option:nth-child(2) {
+  font-size: 14px;
+}
+
+.font-size-option:nth-child(3) {
+  font-size: 18px;
+}
+
+.font-size-option:hover {
+  background: var(--bg-primary);
+  border-color: var(--border-strong);
+}
+
+.font-size-option.active {
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+  border-color: var(--accent-primary);
+}
+
+.settings-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.settings-checkbox span {
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+}
+
+/* Language Settings */
+.settings-language-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.language-option {
+  width: 100%;
+  padding: 10px 12px;
+  text-align: left;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+}
+
+.language-option:hover {
+  background: var(--bg-primary);
+  border-color: var(--border-strong);
+}
+
+.language-option.active {
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+  border-color: var(--accent-primary);
+}
+
+/* Settings Footer */
+.settings-footer {
+  display: flex;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-default);
+}

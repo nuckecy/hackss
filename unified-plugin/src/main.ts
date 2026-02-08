@@ -282,6 +282,23 @@ figma.ui.onmessage = async (msg: {
   } else if (msg.type === 'save-provider' && msg.provider) {
     await figma.clientStorage.setAsync('ai-provider', msg.provider);
     figma.ui.postMessage({ type: 'provider-saved' });
+  } else if (msg.type === 'get-locale') {
+    const locale = await figma.clientStorage.getAsync('user-locale');
+    figma.ui.postMessage({ type: 'locale-response', locale: locale || 'en' });
+  } else if (msg.type === 'save-locale' && (msg as any).locale) {
+    await figma.clientStorage.setAsync('user-locale', (msg as any).locale);
+  } else if (msg.type === 'get-accessibility-settings') {
+    const fontSize = await figma.clientStorage.getAsync('font-size');
+    const screenReaderMode = await figma.clientStorage.getAsync('screen-reader-mode');
+    figma.ui.postMessage({
+      type: 'accessibility-settings-response',
+      fontSize: fontSize || 'medium',
+      screenReaderMode: screenReaderMode || false,
+    });
+  } else if (msg.type === 'save-accessibility-settings') {
+    const settings = msg as any;
+    await figma.clientStorage.setAsync('font-size', settings.fontSize);
+    await figma.clientStorage.setAsync('screen-reader-mode', settings.screenReaderMode);
   } else if (msg.type === 'place-component') {
     // Component placement
     await handleComponentPlacement({

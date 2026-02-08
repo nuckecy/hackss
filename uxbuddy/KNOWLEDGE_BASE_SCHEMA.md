@@ -194,6 +194,64 @@ An array of `TokenEntry` objects, organized by category.
 
 ---
 
+## 4. patterns.json
+
+An array of `DesignPattern` objects. Each pattern provides a decision framework for a specific design scenario, with cross-references to existing KB entries instead of duplicating facts.
+
+```json
+{
+  "$schema": "DesignPattern[]",
+  "example": {
+    "id": "button-hierarchy",
+    "title": "Button Hierarchy in Action Groups",
+    "category": "component-usage",
+    "rule": "One filled (primary action) button per action group. Forward-progress action gets filled; alternatives get outlined or ghost.",
+    "decision_framework": {
+      "steps": [
+        "Identify the user's forward-progress goal",
+        "Assign filled variant to that action",
+        "Assign outlined to secondary actions",
+        "Assign ghost to dismissive actions"
+      ]
+    },
+    "reasoning": ["flow_progression", "decision_clarity", "cognitive_load"],
+    "common_violations": ["Multiple filled buttons in one group"],
+    "guidance_approach": "Recommend and explain using variant names. Don't auto-fix.",
+    "see_also": ["Button.usage", "Button.variants"]
+  }
+}
+```
+
+### Field Descriptions
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | Yes | Unique identifier (kebab-case) |
+| `title` | string | Yes | Human-readable pattern title |
+| `category` | string | Yes | Grouping category (see below) |
+| `rule` | string | Yes | Core principle statement in one sentence |
+| `decision_framework` | object | Yes | Steps or decision tree for applying the pattern |
+| `reasoning` | string[] | Yes | Why the pattern exists (system principles, not generic UX) |
+| `common_violations` | string[] | Yes | Typical ways this pattern gets violated |
+| `guidance_approach` | string | Yes | How to communicate findings to designers |
+| `see_also` | string[] | No | Cross-references to related KB entries (e.g., "Button.usage") |
+
+### Pattern Categories
+
+- **component-usage**: How to choose and combine components (e.g., button hierarchy, input vs select)
+- **layout**: Spacing, alignment, and structural patterns
+- **token-strategy**: When and how to apply design tokens
+- **flow-design**: Multi-screen flow and journey-level patterns
+
+### Guidelines for Adding New Patterns
+
+1. **Reference, don't repeat**: If the information exists in components.json, accessibility.json, or tokens.json, use `see_also` instead of restating it.
+2. **Use system terminology**: Use actual variant names (filled/outlined/ghost), token names (space.4), and component names (Select/Input) from the existing KB.
+3. **Focus on decisions**: Patterns should answer "when do I use X vs Y?" and "why does this matter?" -- not repeat component specs.
+4. **Keep it compact**: Each pattern should be under 2KB. The full file should stay under 10KB.
+
+---
+
 ## Enrichment Guidelines
 
 When manually enriching auto-extracted data:
@@ -203,3 +261,4 @@ When manually enriching auto-extracted data:
 3. **Usage do/dont**: Write actionable, scenario-based guidelines. Avoid vague rules.
 4. **Tokens**: Always include the resolved value AND the token name. Designers think in both.
 5. **Related components**: Help designers find alternatives ("If this isn't right, try X instead")
+6. **Patterns**: Add decision frameworks for cross-component scenarios. Use `see_also` to reference existing KB entries rather than duplicating information.
