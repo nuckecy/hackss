@@ -17,10 +17,8 @@
   z-index: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  .input-bar::before {
-    background: linear-gradient(to top, rgba(74, 45, 140, 0.234), transparent);
-  }
+[data-theme="dark"] .input-bar::before {
+  background: linear-gradient(to top, rgba(74, 45, 140, 0.234), transparent);
 }
 
 .input-pill {

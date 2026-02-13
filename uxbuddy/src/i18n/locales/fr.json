@@ -22,7 +22,23 @@
     "fontSizeMedium": "Moyen",
     "fontSizeLarge": "Grand",
     "screenReaderMode": "Étiquettes améliorées pour les lecteurs d'écran",
-    "language": "Langue"
+    "language": "Langue",
+    "display": "Affichage",
+    "theme": "Thème",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
+    "themeSystem": "Système",
+    "test": "Tester",
+    "testing": "Test en cours\u2026",
+    "connected": "Connecté",
+    "networkError": "Erreur réseau",
+    "noResponse": "Pas de réponse",
+    "geminiHelp": "Obtenir une clé sur aistudio.google.com",
+    "claudeHelp": "Obtenir une clé sur console.anthropic.com",
+    "gptHelp": "Obtenir une clé sur platform.openai.com",
+    "geminiPlaceholder": "Entrez la clé API Gemini",
+    "claudePlaceholder": "Entrez la clé API Claude",
+    "gptPlaceholder": "Entrez la clé API GPT"
   },
   "chat": {
     "placeholder": "Posez des questions sur les composants, les tokens ou l'accessibilité...",
@@ -44,49 +60,76 @@
     "fr": "Français"
   },
   "emptyState": {
+    "greeting": "Bonjour.",
+    "greetingName": "Bonjour, {name}.",
     "welcome": "Posez-moi n'importe quelle question sur le système de conception.",
     "selectionNotice": "J'ai remarqué que vous avez sélectionné quelque chose. Voulez-vous de l'aide?",
     "hint": "Ou sélectionnez un calque dans Figma pour des suggestions contextuelles."
   },
   "chips": {
+    "scan": "Scanner cet élément",
+    "scanMsg": "Scanner \"{name}\"",
     "general": {
       "alertVsToast": "Alerte vs Toast?",
+      "alertVsToastMsg": "Quand dois-je utiliser une Alerte au lieu d'une notification Toast ?",
       "spacingTokens": "Tokens d'espacement",
+      "spacingTokensMsg": "Quels tokens d'espacement sont disponibles et quand utiliser chacun ?",
       "accessibleForms": "Formulaires accessibles",
+      "accessibleFormsMsg": "Comment rendre un formulaire accessible selon les directives WCAG ?",
       "buttonVariants": "Variantes de boutons",
+      "buttonVariantsMsg": "Quelles variantes de boutons sont disponibles et quand utiliser chacune ?",
       "colorContrast": "Contraste des couleurs",
+      "colorContrastMsg": "Quelles sont les exigences de contraste de couleur que je dois respecter ?",
       "typographyScale": "Échelle typographique",
+      "typographyScaleMsg": "Peux-tu m'expliquer l'échelle typographique et quand utiliser chaque taille ?",
       "iconUsage": "Utilisation des icônes",
-      "responsiveLayout": "Mise en page responsive"
+      "iconUsageMsg": "Quelles sont les meilleures pratiques pour l'utilisation des icônes dans le design system ?",
+      "responsiveLayout": "Mise en page responsive",
+      "responsiveLayoutMsg": "Comment gérer les mises en page responsives avec le design system ?"
     },
     "instance": {
       "rightUse": "Bonne utilisation de {name}?",
+      "rightUseMsg": "Est-ce que j'utilise {name} correctement ? Est-ce conforme aux directives du design system ?",
       "accessibilityCheck": "Vérification d'accessibilité",
       "availableVariants": "Variantes disponibles?",
-      "spacingReview": "Révision de l'espacement"
+      "availableVariantsMsg": "Quelles variantes a {name} et laquelle convient le mieux ici ?",
+      "spacingReview": "Révision de l'espacement",
+      "spacingReviewMsg": "L'espacement autour de {name} est-il correct ? Des ajustements de tokens nécessaires ?"
     },
     "text": {
       "textAccessible": "Texte accessible?",
       "contrastRatio": "Ratio de contraste",
+      "contrastRatioMsg": "Peux-tu vérifier le ratio de contraste de \"{name}\" pour la conformité WCAG AA ?",
       "correctToken": "Token correct?",
-      "fontSizeReview": "Révision de taille de police"
+      "correctTokenMsg": "Est-ce que j'utilise le bon token typographique pour \"{name}\" ?",
+      "fontSizeReview": "Révision de taille de police",
+      "fontSizeReviewMsg": "La taille de police de \"{name}\" est-elle appropriée pour son contexte ?"
     },
     "layout": {
       "reviewLayout": "Réviser la mise en page",
       "checkSpacing": "Vérifier l'espacement",
+      "checkSpacingMsg": "L'espacement dans \"{name}\" respecte-t-il les tokens du design system ?",
       "accessibilityIssues": "Problèmes d'accessibilité?",
-      "alignmentCheck": "Vérifier l'alignement"
+      "accessibilityIssuesMsg": "Y a-t-il des problèmes d'accessibilité avec la mise en page de \"{name}\" ?",
+      "alignmentCheck": "Vérifier l'alignement",
+      "alignmentCheckMsg": "Peux-tu vérifier si l'alignement dans \"{name}\" est cohérent et correct ?"
     },
     "component": {
       "howToUse": "Comment utiliser {name}?",
+      "howToUseMsg": "Comment {name} doit-il être utilisé selon les directives du design system ?",
       "accessibilityReqs": "Exigences d'accessibilité",
+      "accessibilityReqsMsg": "Quelles exigences d'accessibilité {name} doit-il respecter ?",
       "tokenUsage": "Utilisation des tokens?",
+      "tokenUsageMsg": "Quels tokens de design {name} utilise-t-il et sont-ils correctement appliqués ?",
       "bestPractices": "Meilleures pratiques"
     },
     "default": {
       "whatIs": "Qu'est-ce que {name}?",
+      "whatIsMsg": "Peux-tu me dire ce qu'est \"{name}\" et comment il s'intègre dans le design system ?",
       "anyIssues": "Des problèmes?",
-      "howToImprove": "Comment améliorer?"
+      "anyIssuesMsg": "Y a-t-il des problèmes de design ou d'accessibilité avec \"{name}\" ?",
+      "howToImprove": "Comment améliorer?",
+      "howToImproveMsg": "Comment puis-je améliorer \"{name}\" pour mieux suivre le design system ?"
     }
   }
 }

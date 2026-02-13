@@ -47,15 +47,15 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  max-width: 360px;
+  gap: 8px 10px;
+  max-width: 380px;
 }
 
 /* General starter chips — soft purple tint from palette */
 .empty-state-chip {
   display: inline-flex;
   align-items: center;
-  padding: 5px 12px;
+  padding: 6px 13px;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   font-family: var(--font-family);
@@ -81,23 +81,22 @@
 
 /* Hint text */
 .empty-state-hint {
-  font-size: var(--font-size-sm);
-  color: var(--text-tertiary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
   line-height: var(--line-height-base);
-  margin-top: 2px;
+  margin-top: 16px;
 }
 
 /* Dark mode overrides */
-@media (prefers-color-scheme: dark) {
-  .empty-state-chip {
-    color: #B8A8E0;
-    background: #1E1035;
-    border-color: #2A1950;
-  }
+[data-theme="dark"] .empty-state-chip {
+  color: #B8A8E0;
+  background: #1E1035;
+  border-color: #2A1950;
+}
 
-  .empty-state-chip:hover {
-    background: #2A1950;
-    border-color: #9388A2;
-    color: #D0C5E5;
-  }
+[data-theme="dark"] .empty-state-chip:hover {
+  background: #2A1950;
+  border-color: #9388A2;
+  color: #D0C5E5;
 }

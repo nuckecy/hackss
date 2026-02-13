@@ -21,7 +21,7 @@ interface GeminiResponse {
   };
 }
 
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 export class GeminiProvider implements AIProvider {
   private apiKey: string;
@@ -83,26 +83,30 @@ export class GeminiProvider implements AIProvider {
       throw new Error('No internet connection');
     }
 
-    if (response.status === 401 || response.status === 403) {
-      throw new Error('Invalid API key');
-    }
-
-    if (response.status === 429) {
-      throw new Error('Rate limited, please wait');
-    }
-
-    if (response.status >= 500) {
-      throw new Error('Gemini service error');
-    }
-
     if (!response.ok) {
-      throw new Error(`Request failed (${response.status})`);
+      let detail = '';
+      try {
+        const errData = await response.json();
+        detail = errData?.error?.message || JSON.stringify(errData).slice(0, 200);
+      } catch (_) { /* ignore parse errors */ }
+
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('Invalid API key' + (detail ? ': ' + detail : ''));
+      }
+      if (response.status === 429) {
+        throw new Error('Rate limited, please wait');
+      }
+      if (response.status >= 500) {
+        throw new Error('Gemini service error' + (detail ? ': ' + detail : ''));
+      }
+      throw new Error(`Request failed (${response.status})${detail ? ': ' + detail : ''}`);
     }
 
     const data: GeminiResponse = await response.json();
 
     if (!data.candidates || data.candidates.length === 0) {
-      throw new Error('No response generated');
+      const blockReason = (data as any)?.promptFeedback?.blockReason;
+      throw new Error(blockReason ? 'Response blocked: ' + blockReason : 'No response generated');
     }
 
     const text = data.candidates[0]?.content?.parts?.[0]?.text;

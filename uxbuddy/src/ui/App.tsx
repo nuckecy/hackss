@@ -16,6 +16,8 @@ import { useChat } from './hooks/useChat';
 import { useScan } from './hooks/useScan';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { useAccessibility } from './hooks/useAccessibility';
+import { useLocale } from './hooks/useLocale';
+import { setLocale } from '../i18n/i18n';
 import { postToMain } from '../types/messages';
 import type { ProviderType } from '../ai/provider';
 import chatbotIcon from './chatbot-icon.png';
@@ -27,11 +29,35 @@ function App() {
   const { selectedProvider, providerKeys, isLoading: settingsLoading, saveKey, clearKey, selectProvider } = useProviderSettings();
   const [showSettings, setShowSettings] = useState(false);
   const { settings: accessibilitySettings } = useAccessibility();
+  const { locale, updateLocale } = useLocale();
 
   // Apply font size to body element
   useEffect(() => {
     document.body.setAttribute('data-font-size', accessibilitySettings.fontSize);
   }, [accessibilitySettings.fontSize]);
+
+  // Apply theme to document root
+  useEffect(() => {
+    const applyTheme = (mode: 'light' | 'dark') => {
+      document.documentElement.setAttribute('data-theme', mode);
+    };
+
+    if (accessibilitySettings.theme === 'light' || accessibilitySettings.theme === 'dark') {
+      applyTheme(accessibilitySettings.theme);
+    } else {
+      // Auto: follow OS preference
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      applyTheme(mq.matches ? 'dark' : 'light');
+      const handler = (e: MediaQueryListEvent) => applyTheme(e.matches ? 'dark' : 'light');
+      mq.addEventListener('change', handler);
+      return () => mq.removeEventListener('change', handler);
+    }
+  }, [accessibilitySettings.theme]);
+
+  // Apply locale globally
+  useEffect(() => {
+    setLocale(locale);
+  }, [locale]);
 
   const apiKey = providerKeys[selectedProvider];
   const needsApiKey = !settingsLoading && !apiKey;
@@ -67,6 +93,8 @@ function App() {
           onSaveKey={saveKey}
           onDeleteKey={clearKey}
           onSelectProvider={selectProvider}
+          locale={locale}
+          onLocaleChange={updateLocale}
         />
       </div>
     );
@@ -76,7 +104,7 @@ function App() {
   return (
     <>
       {showSettings && (
-        <div class="app-shell">
+        <div class="app-shell" key={`settings-${locale}`}>
           <div class="app-header">
             <div class="app-header-title">
               <img src={chatbotIcon} alt="" class="app-header-icon" />
@@ -97,10 +125,12 @@ function App() {
             onDeleteKey={clearKey}
             onSelectProvider={selectProvider}
             onClose={() => setShowSettings(false)}
+            locale={locale}
+            onLocaleChange={updateLocale}
           />
         </div>
       )}
-      <div style={{ display: showSettings ? 'none' : 'contents' }}>
+      <div style={{ display: showSettings ? 'none' : 'contents' }} key={`chat-${locale}`}>
         <ChatScreen
           apiKey={apiKey!}
           selectedProvider={selectedProvider}
@@ -118,7 +148,6 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
   const { userName } = useCurrentUser();
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
   // Auto-scroll to bottom on new messages or loading state change
   useEffect(() => {
     if (chatAreaRef.current) {
@@ -274,15 +303,15 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
         </div>
       </div>
 
-      {/* Suggestion Panel — floating card above input */}
-      <SuggestionPanel
-        selection={selection}
-        onChipClick={handleSuggestionClick}
-        disabled={busy}
-      />
-
-      {/* Input Bar */}
-      <InputBar onSend={handleSend} disabled={busy} />
+      {/* Footer — suggestion panel + input */}
+      <div class="chat-footer">
+        <SuggestionPanel
+          selection={selection}
+          onChipClick={handleSuggestionClick}
+          disabled={busy}
+        />
+        <InputBar onSend={handleSend} disabled={busy} />
+      </div>
     </div>
   );
 }

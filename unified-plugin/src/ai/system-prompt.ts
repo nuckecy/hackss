@@ -95,7 +95,14 @@ function serializeSelection(selection: SelectionData | null): string {
   return parts.join('\n');
 }
 
-export function buildSystemPrompt(selection: SelectionData | null): string {
+const LOCALE_NAMES: Record<string, string> = {
+  en: 'English',
+  es: 'Spanish (Español)',
+  de: 'German (Deutsch)',
+  fr: 'French (Français)',
+};
+
+export function buildSystemPrompt(selection: SelectionData | null, locale: string = 'en'): string {
   const sections: string[] = [];
 
   // 1. Persona
@@ -388,6 +395,12 @@ Found 2 errors and 1 warning in this frame.
 - You can now help place components, but you CANNOT modify existing elements, change colors, move layers, or edit text.
 - If the user asks you to modify something (e.g., "change this to red", "move this element"), explain that you can only place new components, not modify existing ones.
 - You are a Q&A assistant with component placement capability. You answer questions, review designs, give recommendations, and can place SDS components.`);
+
+  // 8. Language instruction
+  const langName = LOCALE_NAMES[locale] || LOCALE_NAMES['en'];
+  if (locale !== 'en') {
+    sections.push(`---\n## Language\nIMPORTANT: You MUST respond in ${langName}. All text in your responses must be written in ${langName}. This includes explanations, recommendations, severity labels, and any other text. Component names, token names, and WCAG criteria identifiers should remain in their original form.`);
+  }
 
   return sections.join('\n\n');
 }

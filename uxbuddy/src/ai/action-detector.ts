@@ -79,25 +79,37 @@ function detectVariant(text: string, componentName: string): string | null {
  * Looks for component names mentioned with emphasis (bold, code, etc.)
  */
 export function detectComponentAction(text: string): ComponentAction | null {
-  // Sort by length (longest first) to avoid partial matches
+  // Only trigger placement when the AI explicitly recommends a component
+  // via bold (**ComponentName**) or inline code (`ComponentName`)
+  // Plain mentions are informational and should NOT show the button
   for (const componentName of componentNames) {
-    // Look for component name in bold (**ComponentName**) or code (`ComponentName`)
-    const boldPattern = new RegExp(
+    const emphasisPattern = new RegExp(
       `\\*\\*${escapeRegex(componentName)}\\*\\*|` +
-      `\`${escapeRegex(componentName)}\`|` +
-      `\\b${escapeRegex(componentName)}\\b`,
+      `\`${escapeRegex(componentName)}\``,
       'i'
     );
 
-    if (boldPattern.test(text)) {
+    if (emphasisPattern.test(text)) {
       const data = componentMap.get(componentName.toLowerCase());
       if (!data) continue;
 
       const variant = detectVariant(text, componentName);
 
+      // If a variant was detected and we have a specific key for it, use that key
+      let resolvedKey = data.componentKey;
+      if (variant && data.variantKeys) {
+        const variantLower = variant.toLowerCase();
+        for (const [vName, vKey] of Object.entries(data.variantKeys)) {
+          if (vName.toLowerCase() === variantLower) {
+            resolvedKey = vKey;
+            break;
+          }
+        }
+      }
+
       return {
         type: 'place_component',
-        componentKey: data.componentKey,
+        componentKey: resolvedKey,
         componentName: componentName,
         variant: variant,
       };

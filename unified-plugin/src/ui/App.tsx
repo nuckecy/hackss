@@ -3,10 +3,9 @@ import { useState, useEffect, useRef } from 'preact/hooks';
 import './styles/global.css';
 import { MessageBubble } from './components/MessageBubble';
 import { InputBar } from './components/InputBar';
-import { SelectionIndicator } from './components/SelectionIndicator';
+import { SelectionIndicator, SuggestionPanel } from './components/SelectionIndicator';
 import { EmptyState } from './components/EmptyState';
 import { Settings } from './components/Settings';
-import { SuggestionChips } from './components/SuggestionChips';
 import { ScanFrameButton } from './components/ScanFrameButton';
 import { useSelection } from './hooks/useSelection';
 import { useChat } from './hooks/useChat';
@@ -32,6 +31,24 @@ function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-font-size', accessibilitySettings.fontSize);
   }, [accessibilitySettings.fontSize]);
+
+  // Apply theme to document root
+  useEffect(() => {
+    const applyTheme = (mode: 'light' | 'dark') => {
+      document.documentElement.setAttribute('data-theme', mode);
+    };
+
+    if (accessibilitySettings.theme === 'light' || accessibilitySettings.theme === 'dark') {
+      applyTheme(accessibilitySettings.theme);
+    } else {
+      // Auto: follow OS preference
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      applyTheme(mq.matches ? 'dark' : 'light');
+      const handler = (e: MediaQueryListEvent) => applyTheme(e.matches ? 'dark' : 'light');
+      mq.addEventListener('change', handler);
+      return () => mq.removeEventListener('change', handler);
+    }
+  }, [accessibilitySettings.theme]);
 
   // Apply locale globally
   useEffect(() => {
@@ -70,6 +87,8 @@ function App() {
           onClearKey={clearKey}
           fontSize={accessibilitySettings.fontSize}
           onFontSizeChange={(size) => updateAccessibilitySettings({ fontSize: size })}
+          theme={accessibilitySettings.theme}
+          onThemeChange={(theme) => updateAccessibilitySettings({ theme })}
           locale={locale}
           onLocaleChange={updateLocale}
         />
@@ -103,6 +122,8 @@ function App() {
             onClearKey={clearKey}
             fontSize={accessibilitySettings.fontSize}
             onFontSizeChange={(size) => updateAccessibilitySettings({ fontSize: size })}
+            theme={accessibilitySettings.theme}
+            onThemeChange={(theme) => updateAccessibilitySettings({ theme })}
             locale={locale}
             onLocaleChange={updateLocale}
             onClose={() => setShowSettings(false)}
@@ -131,22 +152,9 @@ function ChatScreen({
   const { messages, isLoading, sendMessage, clearChat } = useChat(apiKey, selection, provider);
   const [analysisMessages, setAnalysisMessages] = useState<any[]>([]);
   const chatAreaRef = useRef<HTMLDivElement>(null);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const prevSelectionId = useRef<string | null>(null);
 
   // Combine regular messages with analysis messages
   const allMessages = [...messages, ...analysisMessages];
-
-  // Show suggestions when selection changes to a new element
-  useEffect(() => {
-    const newId = selection?.id ?? null;
-    if (newId && newId !== prevSelectionId.current) {
-      setShowSuggestions(true);
-    } else if (!newId) {
-      setShowSuggestions(false);
-    }
-    prevSelectionId.current = newId;
-  }, [selection]);
 
   // Auto-scroll to bottom on new messages or loading state change
   useEffect(() => {
@@ -205,12 +213,10 @@ function ChatScreen({
   }, []);
 
   const handleSuggestionClick = (text: string): void => {
-    setShowSuggestions(false);
     sendMessage(text);
   };
 
   const handleSend = (text: string): void => {
-    setShowSuggestions(false);
     sendMessage(text);
   };
 
@@ -381,14 +387,12 @@ function ChatScreen({
         )}
       </div>
 
-      {/* Suggestion Chips — only when chat has messages */}
-      {hasMessages && (
-        <SuggestionChips
-          selection={selection}
-          onChipClick={handleSuggestionClick}
-          visible={showSuggestions && !isLoading}
-        />
-      )}
+      {/* Suggestion Panel — floating card above input */}
+      <SuggestionPanel
+        selection={selection}
+        onChipClick={handleSuggestionClick}
+        disabled={isLoading}
+      />
 
       {/* Input Bar */}
       <InputBar onSend={handleSend} disabled={isLoading} />

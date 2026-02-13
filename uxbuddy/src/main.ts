@@ -511,13 +511,21 @@ figma.ui.onmessage = async (msg: {
     await figma.clientStorage.setAsync('user-locale', (msg as any).locale);
   } else if (msg.type === 'get-accessibility-settings') {
     const fontSize = await figma.clientStorage.getAsync('font-size');
+    const theme = await figma.clientStorage.getAsync('theme');
     figma.ui.postMessage({
       type: 'accessibility-settings-response',
       fontSize: fontSize || 'medium',
+      theme: theme || 'auto',
     });
   } else if (msg.type === 'save-accessibility-settings') {
     const settings = msg as any;
     await figma.clientStorage.setAsync('font-size', settings.fontSize);
+    await figma.clientStorage.setAsync('theme', settings.theme);
+    figma.ui.postMessage({
+      type: 'accessibility-settings-response',
+      fontSize: settings.fontSize,
+      theme: settings.theme,
+    });
   } else if (msg.type === 'analyze-frame') {
     // Frame scanning for design system compliance
     const selection = figma.currentPage.selection;

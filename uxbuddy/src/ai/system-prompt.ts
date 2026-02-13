@@ -88,7 +88,14 @@ function serializeSelection(selection: SelectionData | null): string {
   return parts.join('\n');
 }
 
-export function buildSystemPrompt(selection: SelectionData | null): string {
+const LOCALE_NAMES: Record<string, string> = {
+  en: 'English',
+  es: 'Spanish (Español)',
+  de: 'German (Deutsch)',
+  fr: 'French (Français)',
+};
+
+export function buildSystemPrompt(selection: SelectionData | null, locale: string = 'en'): string {
   const sections: string[] = [];
 
   // 1. Persona
@@ -135,6 +142,12 @@ export function buildSystemPrompt(selection: SelectionData | null): string {
 - Instead of pretending to help with the action, redirect: explain HOW they can do it themselves in Figma, and offer relevant design system advice for the task.
 - You are a Q&A assistant only. You answer questions, review designs, and give recommendations. You do not execute changes.`);
 
+  // 8. Language instruction
+  const langName = LOCALE_NAMES[locale] || LOCALE_NAMES['en'];
+  if (locale !== 'en') {
+    sections.push(`---\n## Language\nIMPORTANT: You MUST respond in ${langName}. All text in your responses must be written in ${langName}. This includes explanations, recommendations, severity labels, and any other text. Component names, token names, and WCAG criteria identifiers should remain in their original form.`);
+  }
+
   return sections.join('\n\n');
 }
 
@@ -142,7 +155,8 @@ export function buildScanFormatPrompt(
   issues: ScanIssue[],
   passed: string[],
   nodeName: string,
-  nodeType: string
+  nodeType: string,
+  locale: string = 'en'
 ): string {
   var sections: string[] = [];
 
@@ -220,6 +234,12 @@ export function buildScanFormatPrompt(
   }
 
   sections.push(dataLines.join('\n'));
+
+  // Language instruction
+  var scanLangName = LOCALE_NAMES[locale] || LOCALE_NAMES['en'];
+  if (locale !== 'en') {
+    sections.push('---\n## Language\nIMPORTANT: You MUST respond in ' + scanLangName + '. All text in your responses must be written in ' + scanLangName + '. This includes explanations, recommendations, severity labels, and any other text. Component names, token names, and WCAG criteria identifiers should remain in their original form.');
+  }
 
   return sections.join('\n\n');
 }

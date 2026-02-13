@@ -51,13 +51,12 @@
 
   /* Typography */
   --font-family:        'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --base-font-scale:    1; /* Default: medium */
-  --font-size-xs:       calc(10px * var(--base-font-scale));
-  --font-size-sm:       calc(11px * var(--base-font-scale));
-  --font-size-base:     calc(12px * var(--base-font-scale));
-  --font-size-md:       calc(13px * var(--base-font-scale));
-  --font-size-lg:       calc(14px * var(--base-font-scale));
-  --font-size-xl:       calc(16px * var(--base-font-scale));
+  --font-size-xs:       10px;
+  --font-size-sm:       11px;
+  --font-size-base:     12px;
+  --font-size-md:       13px;
+  --font-size-lg:       14px;
+  --font-size-xl:       16px;
   --font-weight-regular:  400;
   --font-weight-medium:   500;
   --font-weight-semibold: 600;
@@ -94,8 +93,7 @@
 }
 
 /* ── Dark Mode ── */
-@media (prefers-color-scheme: dark) {
-  :root {
+:root[data-theme="dark"] {
     --bg-primary:         #0E050F;
     --bg-secondary:       #170B3B;
     --bg-tertiary:        #341948;
@@ -134,7 +132,6 @@
     --shadow-sm:          0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
     --shadow-md:          0 4px 8px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.5);
     --shadow-focus:       0 0 0 3px rgba(147, 136, 162, 0.24);
-  }
 }
 
 /* ── Base Reset ── */
@@ -343,13 +340,28 @@ body {
 
 /* ── Font Size Accessibility ── */
 :root[data-font-size="small"] {
-  --base-font-scale: 0.85;
+  --font-size-xs:       10px;
+  --font-size-sm:       11px;
+  --font-size-base:     12px;
+  --font-size-md:       13px;
+  --font-size-lg:       14px;
+  --font-size-xl:       16px;
 }
 
 :root[data-font-size="medium"] {
-  --base-font-scale: 1;
+  --font-size-xs:       12px;
+  --font-size-sm:       13px;
+  --font-size-base:     14px;
+  --font-size-md:       15px;
+  --font-size-lg:       16px;
+  --font-size-xl:       18px;
 }
 
 :root[data-font-size="large"] {
-  --base-font-scale: 1.15;
+  --font-size-xs:       14px;
+  --font-size-sm:       15px;
+  --font-size-base:     16px;
+  --font-size-md:       17px;
+  --font-size-lg:       18px;
+  --font-size-xl:       20px;
 }

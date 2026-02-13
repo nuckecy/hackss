@@ -3,6 +3,8 @@ import './Settings.css';
 import { t } from '../../i18n/i18n';
 import type { ProviderType } from '../../ai/ai-provider';
 
+type ThemeMode = 'auto' | 'light' | 'dark';
+
 interface SettingsProps {
   selectedProvider: ProviderType;
   providerKeys: Record<ProviderType, string | null>;
@@ -12,12 +14,44 @@ interface SettingsProps {
   // Accessibility settings
   fontSize: 'small' | 'medium' | 'large';
   onFontSizeChange: (size: 'small' | 'medium' | 'large') => void;
+  theme: ThemeMode;
+  onThemeChange: (theme: ThemeMode) => void;
   // Localization
   locale: 'en' | 'es' | 'de' | 'fr';
   onLocaleChange: (locale: 'en' | 'es' | 'de' | 'fr') => void;
   // Navigation
   onClose?: () => void;
 }
+
+const PROVIDERS: { key: ProviderType; label: string }[] = [
+  { key: 'gemini', label: 'Gemini' },
+  { key: 'claude', label: 'Claude' },
+  { key: 'gpt', label: 'OpenAI' },
+];
+
+const API_LINKS: Partial<Record<ProviderType, string>> = {
+  gemini: 'https://aistudio.google.com/apikey',
+  gpt: 'https://platform.openai.com/api-keys',
+};
+
+const FONT_SIZES: { key: 'small' | 'medium' | 'large'; pt: string }[] = [
+  { key: 'small', pt: '12pt' },
+  { key: 'medium', pt: '14pt' },
+  { key: 'large', pt: '16pt' },
+];
+
+const LANGUAGES = [
+  { code: 'en' as const, label: 'EN' },
+  { code: 'es' as const, label: 'ES' },
+  { code: 'de' as const, label: 'DE' },
+  { code: 'fr' as const, label: 'FR' },
+];
+
+const THEME_MODES: { key: ThemeMode; labelKey: string }[] = [
+  { key: 'light', labelKey: 'settings.themeLight' },
+  { key: 'dark', labelKey: 'settings.themeDark' },
+  { key: 'auto', labelKey: 'settings.themeSystem' },
+];
 
 export function Settings({
   selectedProvider,
@@ -27,275 +61,191 @@ export function Settings({
   onClearKey,
   fontSize,
   onFontSizeChange,
+  theme,
+  onThemeChange,
   locale,
   onLocaleChange,
-  onClose
+  onClose,
 }: SettingsProps) {
-  const [editingProvider, setEditingProvider] = useState<ProviderType | null>(null);
-  const [inputValues, setInputValues] = useState<Record<ProviderType, string>>({
-    gemini: '',
-    claude: '',
-    gpt: '',
-  });
+  const [inputValue, setInputValue] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
-  // Check if this is first run (no provider has a key and gemini is selected)
+  const currentKey = providerKeys[selectedProvider];
+  const needsKey = selectedProvider !== 'claude';
+  const apiLink = API_LINKS[selectedProvider];
   const hasAnyKey = Object.values(providerKeys).some(key => key !== null);
   const isFirstRun = !hasAnyKey && selectedProvider === 'gemini';
 
-  function handleSave(provider: ProviderType): void {
-    const trimmed = inputValues[provider].trim();
+  function handleSave(): void {
+    const trimmed = inputValue.trim();
     if (trimmed) {
-      onSaveKey(provider, trimmed);
-      setInputValues(prev => ({ ...prev, [provider]: '' }));
-      setEditingProvider(null);
+      onSaveKey(selectedProvider, trimmed);
+      setInputValue('');
+      setIsEditing(false);
     }
   }
 
-  function handleClear(provider: ProviderType): void {
-    onClearKey(provider);
-    setEditingProvider(null);
+  function handleClear(): void {
+    onClearKey(selectedProvider);
+    setIsEditing(false);
   }
 
-  function getProviderLabel(provider: ProviderType): string {
-    switch (provider) {
-      case 'gemini': return 'Gemini';
-      case 'claude': return 'Claude';
-      case 'gpt': return 'OpenAI (GPT)';
-      default: return provider;
-    }
+  function handleProviderSwitch(provider: ProviderType): void {
+    onProviderChange(provider);
+    setInputValue('');
+    setIsEditing(false);
   }
 
-  function getProviderApiKeyLink(provider: ProviderType): string | null {
-    switch (provider) {
-      case 'gemini': return 'https://aistudio.google.com/apikey';
-      case 'gpt': return 'https://platform.openai.com/api-keys';
-      case 'claude': return null; // Claude uses backend
-      default: return null;
-    }
-  }
-
-  function needsApiKey(provider: ProviderType): boolean {
-    return provider !== 'claude'; // Claude doesn't need user-provided API key
-  }
-
-  function getLanguageName(localeCode: string): string {
-    const names: Record<string, string> = {
-      en: 'English',
-      es: 'Español',
-      de: 'Deutsch',
-      fr: 'Français',
-    };
-    return names[localeCode] || localeCode;
-  }
-
-  function getLanguageFlag(localeCode: string): string {
-    const flags: Record<string, string> = {
-      en: '🇬🇧',
-      es: '🇪🇸',
-      de: '🇩🇪',
-      fr: '🇫🇷',
-    };
-    return flags[localeCode] || '';
-  }
-
-  const maskKey = (key: string) => key.substring(0, 8) + '...';
+  const maskKey = (key: string) => key.substring(0, 8) + '\u2026';
 
   return (
     <div class="settings">
-      <div class="settings-title">
+      <div class="settings-header">
         {isFirstRun ? t('settings.welcome') : t('common.settings')}
       </div>
 
-      {/* Provider Selection */}
-      <div class="settings-section">
-        <div class="settings-label">{t('settings.aiProvider')}</div>
-        <div class="settings-provider-options">
-          <label class={`settings-provider-option ${selectedProvider === 'gemini' ? 'active' : ''}`}>
-            <input
-              type="radio"
-              name="provider"
-              value="gemini"
-              checked={selectedProvider === 'gemini'}
-              onChange={() => onProviderChange('gemini')}
-            />
-            <span>Gemini</span>
-          </label>
-          <label class={`settings-provider-option ${selectedProvider === 'claude' ? 'active' : ''}`}>
-            <input
-              type="radio"
-              name="provider"
-              value="claude"
-              checked={selectedProvider === 'claude'}
-              onChange={() => onProviderChange('claude')}
-            />
-            <span>Claude</span>
-          </label>
-          <label class={`settings-provider-option ${selectedProvider === 'gpt' ? 'active' : ''}`}>
-            <input
-              type="radio"
-              name="provider"
-              value="gpt"
-              checked={selectedProvider === 'gpt'}
-              onChange={() => onProviderChange('gpt')}
-            />
-            <span>OpenAI</span>
-          </label>
-        </div>
-      </div>
-
-      {/* API Keys Section - Per Provider */}
-      <div class="settings-section">
-        <div class="settings-label">API Keys</div>
-
-        {(['gemini', 'claude', 'gpt'] as ProviderType[]).map((provider) => {
-          const currentKey = providerKeys[provider];
-          const isEditing = editingProvider === provider;
-          const apiKeyLink = getProviderApiKeyLink(provider);
-          const requiresKey = needsApiKey(provider);
-
-          if (!requiresKey) {
-            // Claude doesn't need API key
-            return (
-              <div key={provider} class="settings-provider-key-section">
-                <div class="settings-provider-key-header">
-                  <strong>{getProviderLabel(provider)}</strong>
-                </div>
-                <div class="settings-description" style={{ fontSize: '12px', opacity: 0.7 }}>
-                  Uses backend API (no key required)
-                </div>
-              </div>
-            );
-          }
-
-          return (
-            <div key={provider} class="settings-provider-key-section">
-              <div class="settings-provider-key-header">
-                <strong>{getProviderLabel(provider)}</strong>
-                {apiKeyLink && (
-                  <a
-                    class="settings-link"
-                    href={apiKeyLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ fontSize: '12px' }}
-                  >
-                    Get API Key
-                  </a>
-                )}
-              </div>
-
-              {currentKey && !isEditing ? (
-                <div class="settings-current-key">
-                  <div class="settings-key-display">{maskKey(currentKey)}</div>
-                  <div class="settings-actions">
-                    <button
-                      class="settings-button-secondary"
-                      onClick={() => setEditingProvider(provider)}
-                    >
-                      Change
-                    </button>
-                    <button
-                      class="settings-button-secondary"
-                      onClick={() => handleClear(provider)}
-                    >
-                      Clear
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div class="settings-form">
-                  <input
-                    class="settings-input"
-                    type="password"
-                    placeholder={`Enter ${getProviderLabel(provider)} API key`}
-                    value={inputValues[provider]}
-                    onInput={(e) => setInputValues(prev => ({
-                      ...prev,
-                      [provider]: (e.target as HTMLInputElement).value
-                    }))}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleSave(provider);
-                    }}
-                  />
-                  <button
-                    class="settings-button"
-                    onClick={() => handleSave(provider)}
-                    disabled={!inputValues[provider].trim()}
-                  >
-                    Save
-                  </button>
-                  {currentKey && (
-                    <button
-                      class="settings-button-secondary"
-                      onClick={() => setEditingProvider(null)}
-                    >
-                      {t('common.cancel')}
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Accessibility Settings */}
-      <div class="settings-section">
-        <div class="settings-label">{t('settings.accessibility')}</div>
-
-        {/* Font Size */}
-        <div class="settings-subsection">
-          <div class="settings-description">{t('settings.fontSize')}</div>
-          <div class="settings-font-size-options">
-            <button
-              class={`font-size-option ${fontSize === 'small' ? 'active' : ''}`}
-              onClick={() => onFontSizeChange('small')}
-              aria-label={t('settings.fontSizeSmall')}
-            >
-              A
-            </button>
-            <button
-              class={`font-size-option ${fontSize === 'medium' ? 'active' : ''}`}
-              onClick={() => onFontSizeChange('medium')}
-              aria-label={t('settings.fontSizeMedium')}
-            >
-              A
-            </button>
-            <button
-              class={`font-size-option ${fontSize === 'large' ? 'active' : ''}`}
-              onClick={() => onFontSizeChange('large')}
-              aria-label={t('settings.fontSizeLarge')}
-            >
-              A
-            </button>
+      {/* Provider */}
+      <div class="settings-group">
+        <div class="settings-section-title">{t('settings.aiProvider')}</div>
+        <div class="settings-section">
+          <div class="settings-segment">
+            {PROVIDERS.map((p) => (
+              <button
+                key={p.key}
+                class={`settings-segment-btn ${selectedProvider === p.key ? 'active' : ''}`}
+                onClick={() => handleProviderSwitch(p.key)}
+              >
+                {p.label}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Language Settings */}
-      <div class="settings-section">
-        <div class="settings-label">{t('settings.language')}</div>
-        <div class="settings-language-options">
-          {(['en', 'es', 'de', 'fr'] as const).map((lang) => (
-            <button
-              key={lang}
-              class={`language-option ${locale === lang ? 'active' : ''}`}
-              onClick={() => onLocaleChange(lang)}
-              aria-label={getLanguageName(lang)}
-            >
-              {getLanguageFlag(lang)} {getLanguageName(lang)}
-            </button>
-          ))}
+      {/* API Key */}
+      <div class="settings-group">
+        <div class="settings-section-title">{t('settings.apiKey')}</div>
+        <div class="settings-section">
+          {!needsKey ? (
+            <div class="settings-note">{t('settings.noKeyNeeded')}</div>
+          ) : currentKey && !isEditing ? (
+            <div class="settings-key-card">
+              <div class="settings-key-saved">
+                <span class="settings-key-check material-symbols-outlined">check_circle</span>
+                <span class="settings-key-value">{maskKey(currentKey)}</span>
+              </div>
+              <div class="settings-key-actions">
+                <button class="settings-action-btn" onClick={() => setIsEditing(true)}>
+                  <span class="material-symbols-outlined settings-action-icon">edit</span>
+                  {t('settings.changeKey')}
+                </button>
+                <button class="settings-action-btn settings-action-btn--danger" onClick={handleClear}>
+                  <span class="material-symbols-outlined settings-action-icon">delete</span>
+                  {t('settings.clearKey')}
+                </button>
+              </div>
+              {apiLink && (
+                <a class="settings-help-link" href={apiLink} target="_blank" rel="noopener noreferrer">
+                  {t('settings.getApiKey')}
+                </a>
+              )}
+            </div>
+          ) : (
+            <div class="settings-key-card">
+              <input
+                class="settings-key-input"
+                type="password"
+                placeholder={t('settings.apiKeyPlaceholder')}
+                value={inputValue}
+                onInput={(e) => setInputValue((e.target as HTMLInputElement).value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleSave(); }}
+              />
+              <button
+                class="settings-key-save"
+                onClick={handleSave}
+                disabled={!inputValue.trim()}
+              >
+                {t('settings.saveKey')}
+              </button>
+              {isEditing && currentKey && (
+                <button
+                  class="settings-action-btn"
+                  onClick={() => { setIsEditing(false); setInputValue(''); }}
+                >
+                  {t('common.cancel')}
+                </button>
+              )}
+              {apiLink && (
+                <a class="settings-help-link" href={apiLink} target="_blank" rel="noopener noreferrer">
+                  {t('settings.getApiKey')}
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Footer with Save button - show when onClose is available */}
+      {/* Display */}
+      <div class="settings-group">
+        <div class="settings-section-title">{t('settings.display')}</div>
+        <div class="settings-section">
+          <div class="settings-row">
+            <span class="settings-row-label">{t('settings.theme')}</span>
+          </div>
+          <div class="settings-langs">
+            {THEME_MODES.map((m) => (
+              <button
+                key={m.key}
+                class={`settings-lang-btn ${theme === m.key ? 'active' : ''}`}
+                onClick={() => onThemeChange(m.key)}
+              >
+                {t(m.labelKey)}
+              </button>
+            ))}
+          </div>
+
+          <div class="settings-display-divider" />
+
+          <div class="settings-row">
+            <span class="settings-row-label">{t('settings.fontSize')}</span>
+          </div>
+          <div class="settings-font-sizes">
+            {FONT_SIZES.map((s) => (
+              <button
+                key={s.key}
+                class={`settings-font-btn ${fontSize === s.key ? 'active' : ''}`}
+                onClick={() => onFontSizeChange(s.key)}
+                aria-label={s.pt}
+              >
+                <span class="settings-font-btn-letter">A</span>
+                <span class="settings-font-btn-pt">{s.pt}</span>
+              </button>
+            ))}
+          </div>
+
+          <div class="settings-display-divider" />
+
+          <div class="settings-row">
+            <span class="settings-row-label">{t('settings.language')}</span>
+          </div>
+          <div class="settings-langs">
+            {LANGUAGES.map((l) => (
+              <button
+                key={l.code}
+                class={`settings-lang-btn ${locale === l.code ? 'active' : ''}`}
+                onClick={() => onLocaleChange(l.code)}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
       {onClose && (
         <div class="settings-footer">
-          <button
-            class="settings-button"
-            onClick={onClose}
-          >
+          <button class="settings-done" onClick={onClose}>
             {t('common.save')}
           </button>
         </div>

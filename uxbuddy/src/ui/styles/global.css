@@ -91,8 +91,7 @@
 }
 
 /* ── Dark Mode ── */
-@media (prefers-color-scheme: dark) {
-  :root {
+:root[data-theme="dark"] {
     --bg-primary:         #0E050F;
     --bg-secondary:       #170B3B;
     --bg-tertiary:        #341948;
@@ -132,8 +131,6 @@
     --shadow-sm:          0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
     --shadow-md:          0 4px 8px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.5);
     --shadow-focus:       0 0 0 3px rgba(147, 136, 162, 0.24);
-  }
-
 }
 
 /* ── Base Reset ── */
@@ -239,14 +236,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   background: none;
   border: none;
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   cursor: pointer;
   transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.app-header-hamburger .material-symbols-outlined {
+  font-size: 20px;
 }
 
 .app-header-hamburger:hover {
@@ -279,14 +280,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   background: none;
   border: none;
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   cursor: pointer;
   transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.app-header-settings .material-symbols-outlined {
+  font-size: 20px;
 }
 
 .app-header-settings:hover {
@@ -316,6 +321,12 @@ body {
 }
 
 /* ── Chat Area ── */
+/* Footer wrapper — suggestion panel + input bar */
+.chat-footer {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border-default);
+}
+
 .chat-area-wrapper {
   position: relative;
   overflow: hidden;
@@ -350,35 +361,42 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
-  margin-top: 8px;
+  padding: 6px 14px 6px 10px;
   background: var(--accent-primary);
   color: var(--text-inverse);
   border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family);
   cursor: pointer;
-  transition: background var(--transition-base);
+  transition: background var(--transition-fast);
+  white-space: nowrap;
 }
 
 .placement-button:hover:not(:disabled) {
   background: var(--accent-hover);
 }
 
+.placement-button:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
 .placement-button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-.placement-button svg {
+.placement-button-icon {
+  font-size: 16px !important;
   flex-shrink: 0;
 }
 
 .placement-button .spinner {
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border: 2px solid var(--text-inverse);
   border-top-color: transparent;
   border-radius: 50%;
@@ -392,23 +410,28 @@ body {
 
 /* ── Accessibility Font Sizing ── */
 body[data-font-size="small"] {
-  --font-size-xs:       9px;
-  --font-size-sm:       10px;
-  --font-size-base:     11px;
-  --font-size-md:       12px;
-  --font-size-lg:       13px;
-  --font-size-xl:       14px;
+  --font-size-xs:       10px;
+  --font-size-sm:       11px;
+  --font-size-base:     12px;
+  --font-size-md:       13px;
+  --font-size-lg:       14px;
+  --font-size-xl:       16px;
 }
 
 body[data-font-size="medium"] {
-  /* Uses default values from :root */
-}
-
-body[data-font-size="large"] {
-  --font-size-xs:       11px;
-  --font-size-sm:       12px;
+  --font-size-xs:       12px;
+  --font-size-sm:       13px;
   --font-size-base:     14px;
   --font-size-md:       15px;
   --font-size-lg:       16px;
   --font-size-xl:       18px;
+}
+
+body[data-font-size="large"] {
+  --font-size-xs:       14px;
+  --font-size-sm:       15px;
+  --font-size-base:     16px;
+  --font-size-md:       17px;
+  --font-size-lg:       18px;
+  --font-size-xl:       20px;
 }

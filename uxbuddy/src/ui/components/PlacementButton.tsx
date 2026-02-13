@@ -42,22 +42,17 @@ export function PlacementButton({ action }: PlacementButtonProps) {
       className="placement-button"
       onClick={handleClick}
       disabled={isPlacing}
+      aria-label={isPlacing ? `Placing ${action.componentName} component` : `Add ${action.componentName} to canvas`}
+      aria-busy={isPlacing}
     >
       {isPlacing ? (
         <>
-          <span className="spinner" /> Placing...
+          <span className="spinner" aria-hidden="true" /> Placing...
         </>
       ) : (
         <>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path
-              d="M7 1V13M1 7H13"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
-          Place in Figma
+          <span className="material-symbols-outlined placement-button-icon" aria-hidden="true">add_box</span>
+          Add to canvas
         </>
       )}
     </button>

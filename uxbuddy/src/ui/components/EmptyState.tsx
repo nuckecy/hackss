@@ -1,6 +1,7 @@
 import type { SelectionData } from '../../types/figma';
 import chatbotIcon from '../chatbot-icon.png';
 import './EmptyState.css';
+import { t, tp } from '../../i18n/i18n';
 
 interface EmptyStateProps {
   selection: SelectionData | null;
@@ -13,16 +14,18 @@ interface Chip {
   message: string;
 }
 
-const GENERAL_STARTERS: Chip[] = [
-  { label: 'Alert vs Toast?', message: 'When should I use an Alert instead of a Toast notification?' },
-  { label: 'Spacing tokens', message: 'What spacing tokens are available and when should I use each one?' },
-  { label: 'Accessible forms', message: 'How do I make a form accessible following WCAG guidelines?' },
-  { label: 'Button variants', message: 'What button variants are available and when should I use each one?' },
-  { label: 'Color contrast', message: 'What are the color contrast requirements I need to follow?' },
-  { label: 'Typography scale', message: 'Can you walk me through the typography scale and when to use each size?' },
-  { label: 'Icon usage', message: 'What are the best practices for using icons in the design system?' },
-  { label: 'Responsive layout', message: 'How should I handle responsive layouts with the design system?' },
-];
+function getGeneralStarters(): Chip[] {
+  return [
+    { label: t('chips.general.alertVsToast'), message: t('chips.general.alertVsToastMsg') },
+    { label: t('chips.general.spacingTokens'), message: t('chips.general.spacingTokensMsg') },
+    { label: t('chips.general.accessibleForms'), message: t('chips.general.accessibleFormsMsg') },
+    { label: t('chips.general.buttonVariants'), message: t('chips.general.buttonVariantsMsg') },
+    { label: t('chips.general.colorContrast'), message: t('chips.general.colorContrastMsg') },
+    { label: t('chips.general.typographyScale'), message: t('chips.general.typographyScaleMsg') },
+    { label: t('chips.general.iconUsage'), message: t('chips.general.iconUsageMsg') },
+    { label: t('chips.general.responsiveLayout'), message: t('chips.general.responsiveLayoutMsg') },
+  ];
+}
 
 export function EmptyState({ selection, onExampleClick, userName }: EmptyStateProps) {
   const firstName = userName ? userName.split(' ')[0] : null;
@@ -36,14 +39,14 @@ export function EmptyState({ selection, onExampleClick, userName }: EmptyStatePr
 
       {/* Personalized greeting */}
       <h2 class="empty-state-greeting">
-        {firstName ? `Hello, ${firstName}.` : 'Hello.'}
+        {firstName ? tp('emptyState.greetingName', { name: firstName }) : t('emptyState.greeting')}
       </h2>
 
       <p class="empty-state-primary">
-        Ask me anything about the Simple Design System.
+        {t('emptyState.welcome')}
       </p>
       <div class="empty-state-cloud">
-        {GENERAL_STARTERS.map((chip) => (
+        {getGeneralStarters().map((chip) => (
           <button
             key={chip.label}
             class="empty-state-chip"
@@ -55,7 +58,7 @@ export function EmptyState({ selection, onExampleClick, userName }: EmptyStatePr
       </div>
       {!selection && (
         <p class="empty-state-hint">
-          Or select a layer in Figma for contextual suggestions.
+          {t('emptyState.hint')}
         </p>
       )}
     </div>

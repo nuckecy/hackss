@@ -6,6 +6,7 @@ import { ScanEngine } from '../../scan/scan-engine';
 import { createProvider } from '../../ai/provider';
 import type { ProviderType } from '../../ai/provider';
 import { buildScanFormatPrompt } from '../../ai/system-prompt';
+import { getLocale } from '../../i18n/i18n';
 import componentsKB from '../../knowledge/components.json';
 import accessibilityKB from '../../knowledge/accessibility.json';
 import tokensKB from '../../knowledge/tokens.json';
@@ -181,7 +182,8 @@ export function useScan(
         combinedResult.issues,
         combinedResult.passed,
         combinedResult.nodeName,
-        combinedResult.nodeType
+        combinedResult.nodeType,
+        getLocale()
       );
 
       // Try AI formatting, fall back to structured summary

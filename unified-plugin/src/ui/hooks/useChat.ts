@@ -2,6 +2,7 @@ import { useState, useRef } from 'preact/hooks';
 import { createProvider } from '../../ai/ai-provider';
 import { buildSystemPrompt } from '../../ai/system-prompt';
 import { detectComponentAction } from '../../ai/action-detector';
+import { getLocale } from '../../i18n/i18n';
 import type { AIProvider, ChatMessage, ProviderType } from '../../ai/ai-provider';
 import type { SelectionData } from '../../types/figma';
 import type { ComponentAction } from '../../types';
@@ -71,7 +72,7 @@ export function useChat(
       content: msg.content,
     }));
 
-    const systemPrompt = buildSystemPrompt(selection);
+    const systemPrompt = buildSystemPrompt(selection, getLocale());
 
     providerRef.current!
       .chat(providerMessages, systemPrompt)

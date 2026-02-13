@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'preact/hooks';
 
 export type FontSize = 'small' | 'medium' | 'large';
+export type ThemeMode = 'auto' | 'light' | 'dark';
 
 export interface AccessibilitySettings {
   fontSize: FontSize;
+  theme: ThemeMode;
 }
 
 export function useAccessibility() {
   const [settings, setSettings] = useState<AccessibilitySettings>({
     fontSize: 'medium',
+    theme: 'auto',
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,6 +25,7 @@ export function useAccessibility() {
       if (msg.type === 'accessibility-settings-response') {
         setSettings({
           fontSize: msg.fontSize || 'medium',
+          theme: msg.theme || 'auto',
         });
         setIsLoading(false);
       }
@@ -38,6 +42,7 @@ export function useAccessibility() {
       pluginMessage: {
         type: 'save-accessibility-settings',
         fontSize: updated.fontSize,
+        theme: updated.theme,
       }
     }, '*');
   };

@@ -33,7 +33,7 @@
 
 .message-content code {
   font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-  font-size: 11px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   color: var(--accent-text);
   background: var(--bg-secondary);

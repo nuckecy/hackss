@@ -2,6 +2,7 @@ import { useState, useRef } from 'preact/hooks';
 import { createProvider } from '../../ai/provider';
 import type { AIProvider, ProviderType } from '../../ai/provider';
 import { buildSystemPrompt } from '../../ai/system-prompt';
+import { getLocale } from '../../i18n/i18n';
 import type { ChatMessage } from '../../ai/gemini-provider';
 import type { SelectionData } from '../../types/figma';
 import type { ScanResult } from '../../types/scan';
@@ -72,7 +73,7 @@ export function useChat(apiKey: string, selectedProvider: ProviderType, selectio
       content: msg.content,
     }));
 
-    const systemPrompt = buildSystemPrompt(selection);
+    const systemPrompt = buildSystemPrompt(selection, getLocale());
 
     providerRef.current!
       .chat(chatMessages, systemPrompt)

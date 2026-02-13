@@ -149,11 +149,13 @@ export function MessageBubble({ role, content, timestamp, isLoading, action }: M
           <div class="message-content">
             {renderMarkdown(content)}
           </div>
-          {action && <PlacementButton action={action} />}
         </>
       )}
       {!isLoading && (
-        <div class="message-timestamp">{formatTime(timestamp)}</div>
+        <div class="message-footer">
+          {action && <PlacementButton action={action} />}
+          <div class="message-timestamp">{formatTime(timestamp)}</div>
+        </div>
       )}
     </div>
   );

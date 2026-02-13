@@ -1,8 +1,8 @@
 import { useState } from 'preact/hooks';
 import type { ProviderType } from '../../ai/provider';
-import { useLocale } from '../hooks/useLocale';
-import { useAccessibility, type FontSize } from '../hooks/useAccessibility';
+import { useAccessibility, type FontSize, type ThemeMode } from '../hooks/useAccessibility';
 import { t } from '../../i18n/i18n';
+import type { SupportedLocale } from '../../i18n/i18n';
 import './Settings.css';
 
 interface SettingsProps {
@@ -12,54 +12,59 @@ interface SettingsProps {
   onDeleteKey: (provider: ProviderType) => void;
   onSelectProvider: (provider: ProviderType) => void;
   onClose?: () => void;
+  locale?: SupportedLocale;
+  onLocaleChange?: (locale: SupportedLocale) => void;
 }
 
-const PROVIDER_CONFIG: Record<ProviderType, {
-  label: string;
-  keyLabel: string;
-  placeholder: string;
-  helpText: string;
-  helpUrl: string;
-  privacyText: string;
-}> = {
-  gemini: {
-    label: 'Gemini',
-    keyLabel: 'GEMINI API KEY',
-    placeholder: 'Enter Gemini API key...',
-    helpText: 'Get a key at aistudio.google.com',
-    helpUrl: 'https://aistudio.google.com/apikey',
-    privacyText: "Your key is stored locally and only sent to Google's Gemini API.",
-  },
-  claude: {
-    label: 'Claude',
-    keyLabel: 'CLAUDE API KEY',
-    placeholder: 'Enter Claude API key...',
-    helpText: 'Get a key at console.anthropic.com',
-    helpUrl: 'https://console.anthropic.com/',
-    privacyText: "Your key is stored locally and only sent to Anthropic's Claude API.",
-  },
-  gpt: {
-    label: 'GPT',
-    keyLabel: 'GPT API KEY',
-    placeholder: 'Enter GPT API key...',
-    helpText: 'Get a key at platform.openai.com',
-    helpUrl: 'https://platform.openai.com/api-keys',
-    privacyText: "Your key is stored locally and only sent to OpenAI's GPT API.",
-  },
+const PROVIDERS: { key: ProviderType; label: string }[] = [
+  { key: 'gemini', label: 'Gemini' },
+  { key: 'claude', label: 'Claude' },
+  { key: 'gpt', label: 'GPT' },
+];
+
+const API_URLS: Record<ProviderType, string> = {
+  gemini: 'https://aistudio.google.com/apikey',
+  claude: 'https://console.anthropic.com/',
+  gpt: 'https://platform.openai.com/api-keys',
 };
 
-const PROVIDERS: ProviderType[] = ['gemini', 'claude', 'gpt'];
+const API_HELP_KEYS: Record<ProviderType, { help: string; placeholder: string }> = {
+  gemini: { help: 'settings.geminiHelp', placeholder: 'settings.geminiPlaceholder' },
+  claude: { help: 'settings.claudeHelp', placeholder: 'settings.claudePlaceholder' },
+  gpt: { help: 'settings.gptHelp', placeholder: 'settings.gptPlaceholder' },
+};
 
-export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKey, onSelectProvider, onClose }: SettingsProps) {
+const FONT_SIZES: { key: FontSize; pt: string }[] = [
+  { key: 'small', pt: '12pt' },
+  { key: 'medium', pt: '14pt' },
+  { key: 'large', pt: '16pt' },
+];
+
+const LANGUAGES: { code: SupportedLocale; label: string }[] = [
+  { code: 'en', label: 'EN' },
+  { code: 'es', label: 'ES' },
+  { code: 'de', label: 'DE' },
+  { code: 'fr', label: 'FR' },
+];
+
+const THEME_MODES: { key: ThemeMode; labelKey: string }[] = [
+  { key: 'light', labelKey: 'settings.themeLight' },
+  { key: 'dark', labelKey: 'settings.themeDark' },
+  { key: 'auto', labelKey: 'settings.themeSystem' },
+];
+
+export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKey, onSelectProvider, onClose, locale: localeProp, onLocaleChange }: SettingsProps) {
   const [inputValue, setInputValue] = useState('');
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [testMessage, setTestMessage] = useState('');
 
-  const { locale, updateLocale } = useLocale();
+  const locale = localeProp || 'en';
+  const updateLocale = onLocaleChange || (() => {});
   const { settings: accessibilitySettings, updateSettings: updateAccessibilitySettings } = useAccessibility();
 
-  const config = PROVIDER_CONFIG[selectedProvider];
   const currentKey = providerKeys[selectedProvider];
+  const apiUrl = API_URLS[selectedProvider];
+  const helpKeys = API_HELP_KEYS[selectedProvider];
 
   function handleSave(): void {
     const trimmed = inputValue.trim();
@@ -78,16 +83,6 @@ export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKe
     setTestMessage('');
   }
 
-  function getLanguageName(localeCode: string): string {
-    const names: Record<string, string> = {
-      en: 'English',
-      es: 'Español',
-      de: 'Deutsch',
-      fr: 'Français',
-    };
-    return names[localeCode] || localeCode;
-  }
-
   function handleFontSizeChange(size: FontSize): void {
     updateAccessibilitySettings({ fontSize: size });
   }
@@ -100,11 +95,11 @@ export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKe
     setTestMessage('');
 
     try {
-      let ok = false;
+      let res: Response | null = null;
 
       if (selectedProvider === 'gemini') {
-        const res = await fetch(
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key,
+        res = await fetch(
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + key,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -114,9 +109,8 @@ export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKe
             }),
           }
         );
-        ok = res.ok;
       } else if (selectedProvider === 'claude') {
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
+        res = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
           headers: {
             'content-type': 'application/json',
@@ -130,9 +124,8 @@ export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKe
             messages: [{ role: 'user', content: 'Say "ok"' }],
           }),
         });
-        ok = res.ok;
       } else if (selectedProvider === 'gpt') {
-        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        res = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -144,159 +137,177 @@ export function Settings({ providerKeys, selectedProvider, onSaveKey, onDeleteKe
             max_tokens: 5,
           }),
         });
-        ok = res.ok;
       }
 
-      if (ok) {
+      if (res && res.ok) {
         setTestStatus('success');
-        setTestMessage('Connection successful!');
+        setTestMessage(t('settings.connected'));
+      } else if (res) {
+        let detail = `Status ${res.status}`;
+        try {
+          const errBody = await res.json();
+          detail = errBody?.error?.message || JSON.stringify(errBody).slice(0, 150);
+        } catch (_) { /* ignore */ }
+        setTestStatus('error');
+        setTestMessage(detail);
       } else {
         setTestStatus('error');
-        setTestMessage('Invalid API key or connection failed.');
+        setTestMessage(t('settings.noResponse'));
       }
     } catch (_) {
       setTestStatus('error');
-      setTestMessage('Network error. Check your connection.');
+      setTestMessage(t('settings.networkError'));
     }
   }
 
+  const maskKey = (key: string) => key.substring(0, 8) + '\u2026';
+
   return (
     <div class="settings">
-      {/* Provider selector */}
-      <div class="settings-section-label">AI PROVIDER</div>
-      <div class="settings-provider-row">
-        {PROVIDERS.map((p) => (
-          <button
-            key={p}
-            class={'settings-provider-btn' + (selectedProvider === p ? ' settings-provider-btn--active' : '')}
-            onClick={() => handleProviderSwitch(p)}
-          >
-            {PROVIDER_CONFIG[p].label}
-          </button>
-        ))}
-      </div>
-
-      {/* API key section */}
-      <div class="settings-section-label">{config.keyLabel}</div>
-      <a
-        class="settings-help-link"
-        href={config.helpUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {config.helpText}
-      </a>
-
-      <input
-        class="settings-input"
-        type="password"
-        placeholder={config.placeholder}
-        value={inputValue}
-        onInput={(e) => setInputValue((e.target as HTMLInputElement).value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') handleSave();
-        }}
-      />
-
-      {/* Action buttons */}
-      <div class="settings-actions">
-        <button
-          class="settings-btn-save"
-          onClick={handleSave}
-          disabled={!inputValue.trim()}
-        >
-          Save Key
-        </button>
-        <button
-          class="settings-btn-test"
-          onClick={handleTestConnection}
-          disabled={!currentKey || testStatus === 'testing'}
-        >
-          {testStatus === 'testing' ? 'Testing...' : 'Test Connection'}
-        </button>
-      </div>
-
-      {/* Test result feedback */}
-      {testMessage && (
-        <div class={'settings-test-result' + (testStatus === 'success' ? ' settings-test-success' : ' settings-test-error')}>
-          {testMessage}
+      {/* Provider */}
+      <div class="settings-group">
+        <div class="settings-section-title">{t('settings.aiProvider')}</div>
+        <div class="settings-section">
+          <div class="settings-segment">
+            {PROVIDERS.map((p) => (
+              <button
+                key={p.key}
+                class={`settings-segment-btn ${selectedProvider === p.key ? 'active' : ''}`}
+                onClick={() => handleProviderSwitch(p.key)}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
         </div>
-      )}
+      </div>
 
-      {/* Current key indicator */}
-      {currentKey && (
-        <div class="settings-key-chip">
-          <span class="settings-key-chip-text">
-            Key saved: {currentKey.substring(0, 8)}...
-          </span>
-          <button
-            class="settings-key-chip-delete"
-            aria-label="Remove API key"
-            onClick={() => {
-              onDeleteKey(selectedProvider);
-              setTestStatus('idle');
-              setTestMessage('');
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M4 4l6 6M10 4l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-            </svg>
-          </button>
+      {/* API Key */}
+      <div class="settings-group">
+        <div class="settings-section-title">{t('settings.apiKey')}</div>
+        <div class="settings-section">
+          {currentKey ? (
+            <div class="settings-key-card">
+              <div class="settings-key-saved">
+                <span class="settings-key-check material-symbols-outlined">check_circle</span>
+                <span class="settings-key-value">{maskKey(currentKey)}</span>
+              </div>
+              <div class="settings-key-actions">
+                <button
+                  class="settings-action-btn"
+                  onClick={handleTestConnection}
+                  disabled={testStatus === 'testing'}
+                >
+                  <span class="material-symbols-outlined settings-action-icon">bolt</span>
+                  {testStatus === 'testing' ? t('settings.testing') : t('settings.test')}
+                </button>
+                <button
+                  class="settings-action-btn settings-action-btn--danger"
+                  onClick={() => {
+                    onDeleteKey(selectedProvider);
+                    setTestStatus('idle');
+                    setTestMessage('');
+                  }}
+                >
+                  <span class="material-symbols-outlined settings-action-icon">delete</span>
+                  {t('settings.clearKey')}
+                </button>
+              </div>
+              {testMessage && (
+                <div class={`settings-test-msg ${testStatus === 'success' ? 'settings-test-msg--ok' : 'settings-test-msg--err'}`}>
+                  {testMessage}
+                </div>
+              )}
+              <a class="settings-help-link" href={apiUrl} target="_blank" rel="noopener noreferrer">
+                {t(helpKeys.help)}
+              </a>
+            </div>
+          ) : (
+            <div class="settings-key-card">
+              <input
+                class="settings-key-input"
+                type="password"
+                placeholder={t(helpKeys.placeholder)}
+                value={inputValue}
+                onInput={(e) => setInputValue((e.target as HTMLInputElement).value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleSave(); }}
+              />
+              <button
+                class="settings-key-save"
+                onClick={handleSave}
+                disabled={!inputValue.trim()}
+              >
+                {t('settings.saveKey')}
+              </button>
+              <a class="settings-help-link" href={apiUrl} target="_blank" rel="noopener noreferrer">
+                {t(helpKeys.help)}
+              </a>
+            </div>
+          )}
         </div>
-      )}
-
-      {/* Privacy note */}
-      <div class="settings-privacy">{config.privacyText}</div>
-
-      {/* Accessibility Settings */}
-      <div class="settings-section-label">{t('settings.accessibility').toUpperCase()}</div>
-      <div class="settings-privacy" style="margin-top: -4px">{t('settings.fontSize')}</div>
-      <div class="settings-font-size-options">
-        <button
-          class={`font-size-option ${accessibilitySettings.fontSize === 'small' ? 'active' : ''}`}
-          onClick={() => handleFontSizeChange('small')}
-          aria-label={t('settings.fontSizeSmall')}
-        >
-          A
-        </button>
-        <button
-          class={`font-size-option ${accessibilitySettings.fontSize === 'medium' ? 'active' : ''}`}
-          onClick={() => handleFontSizeChange('medium')}
-          aria-label={t('settings.fontSizeMedium')}
-        >
-          A
-        </button>
-        <button
-          class={`font-size-option ${accessibilitySettings.fontSize === 'large' ? 'active' : ''}`}
-          onClick={() => handleFontSizeChange('large')}
-          aria-label={t('settings.fontSizeLarge')}
-        >
-          A
-        </button>
       </div>
 
-      {/* Language Settings */}
-      <div class="settings-section-label">{t('settings.language').toUpperCase()}</div>
-      <div class="settings-language-options">
-        {(['en', 'es', 'de', 'fr'] as const).map((lang) => (
-          <button
-            key={lang}
-            class={`language-option ${locale === lang ? 'active' : ''}`}
-            onClick={() => updateLocale(lang)}
-            aria-label={getLanguageName(lang)}
-          >
-            {getLanguageName(lang)}
-          </button>
-        ))}
+      {/* Display */}
+      <div class="settings-group">
+        <div class="settings-section-title">{t('settings.display')}</div>
+        <div class="settings-section">
+          <div class="settings-row">
+            <span class="settings-row-label">{t('settings.theme')}</span>
+          </div>
+          <div class="settings-langs">
+            {THEME_MODES.map((m) => (
+              <button
+                key={m.key}
+                class={`settings-lang-btn ${accessibilitySettings.theme === m.key ? 'active' : ''}`}
+                onClick={() => updateAccessibilitySettings({ theme: m.key })}
+              >
+                {t(m.labelKey)}
+              </button>
+            ))}
+          </div>
+
+          <div class="settings-display-divider" />
+
+          <div class="settings-row">
+            <span class="settings-row-label">{t('settings.fontSize')}</span>
+          </div>
+          <div class="settings-font-sizes">
+            {FONT_SIZES.map((s) => (
+              <button
+                key={s.key}
+                class={`settings-font-btn ${accessibilitySettings.fontSize === s.key ? 'active' : ''}`}
+                onClick={() => handleFontSizeChange(s.key)}
+                aria-label={s.pt}
+              >
+                <span class="settings-font-btn-letter">A</span>
+                <span class="settings-font-btn-pt">{s.pt}</span>
+              </button>
+            ))}
+          </div>
+
+          <div class="settings-display-divider" />
+
+          <div class="settings-row">
+            <span class="settings-row-label">{t('settings.language')}</span>
+          </div>
+          <div class="settings-langs">
+            {LANGUAGES.map((l) => (
+              <button
+                key={l.code}
+                class={`settings-lang-btn ${locale === l.code ? 'active' : ''}`}
+                onClick={() => updateLocale(l.code)}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Footer with Save button - show when onClose is available */}
+      {/* Footer */}
       {onClose && (
         <div class="settings-footer">
-          <button
-            class="settings-btn-save"
-            onClick={onClose}
-          >
+          <button class="settings-done" onClick={onClose}>
             {t('common.save')}
           </button>
         </div>

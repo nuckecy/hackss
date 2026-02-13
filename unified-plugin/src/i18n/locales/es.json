@@ -23,7 +23,13 @@
     "fontSizeMedium": "Mediano",
     "fontSizeLarge": "Grande",
     "screenReaderMode": "Etiquetas mejoradas para lectores de pantalla",
-    "language": "Idioma"
+    "language": "Idioma",
+    "display": "Pantalla",
+    "theme": "Tema",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro",
+    "themeSystem": "Sistema",
+    "noKeyNeeded": "Sin clave \u2014 usa API del servidor"
   },
   "chat": {
     "placeholder": "Pregunte sobre componentes, tokens o accesibilidad...",
@@ -50,44 +56,69 @@
     "hint": "O selecciona una capa en Figma para sugerencias contextuales."
   },
   "chips": {
+    "scan": "Escanear este elemento",
+    "scanMsg": "Escanear \"{name}\"",
     "general": {
       "alertVsToast": "¿Alerta o Toast?",
+      "alertVsToastMsg": "¿Cuándo debo usar una Alerta en lugar de una notificación Toast?",
       "spacingTokens": "Tokens de espaciado",
+      "spacingTokensMsg": "¿Qué tokens de espaciado están disponibles y cuándo debo usar cada uno?",
       "accessibleForms": "Formularios accesibles",
+      "accessibleFormsMsg": "¿Cómo hago un formulario accesible siguiendo las pautas WCAG?",
       "buttonVariants": "Variantes de botones",
+      "buttonVariantsMsg": "¿Qué variantes de botones están disponibles y cuándo debo usar cada una?",
       "colorContrast": "Contraste de color",
+      "colorContrastMsg": "¿Cuáles son los requisitos de contraste de color que debo seguir?",
       "typographyScale": "Escala tipográfica",
+      "typographyScaleMsg": "¿Puedes explicarme la escala tipográfica y cuándo usar cada tamaño?",
       "iconUsage": "Uso de iconos",
-      "responsiveLayout": "Diseño responsivo"
+      "iconUsageMsg": "¿Cuáles son las mejores prácticas para usar iconos en el sistema de diseño?",
+      "responsiveLayout": "Diseño responsivo",
+      "responsiveLayoutMsg": "¿Cómo debo manejar los diseños responsivos con el sistema de diseño?"
     },
     "instance": {
       "rightUse": "¿Uso correcto de {name}?",
+      "rightUseMsg": "¿Estoy usando {name} correctamente? ¿Sigue las pautas del sistema de diseño?",
       "accessibilityCheck": "Verificación de accesibilidad",
       "availableVariants": "¿Variantes disponibles?",
-      "spacingReview": "Revisión de espaciado"
+      "availableVariantsMsg": "¿Qué variantes tiene {name} y cuál se adapta mejor aquí?",
+      "spacingReview": "Revisión de espaciado",
+      "spacingReviewMsg": "¿El espaciado alrededor de {name} es correcto? ¿Se necesitan ajustes de tokens?"
     },
     "text": {
       "textAccessible": "¿Texto accesible?",
       "contrastRatio": "Relación de contraste",
+      "contrastRatioMsg": "¿Puedes verificar la relación de contraste de \"{name}\" para cumplir con WCAG AA?",
       "correctToken": "¿Token correcto?",
-      "fontSizeReview": "Revisión de tamaño de fuente"
+      "correctTokenMsg": "¿Estoy usando el token tipográfico correcto para \"{name}\"?",
+      "fontSizeReview": "Revisión de tamaño de fuente",
+      "fontSizeReviewMsg": "¿Es apropiado el tamaño de fuente de \"{name}\" para su contexto?"
     },
     "layout": {
       "reviewLayout": "Revisar diseño",
       "checkSpacing": "Verificar espaciado",
+      "checkSpacingMsg": "¿El espaciado dentro de \"{name}\" sigue los tokens del sistema de diseño?",
       "accessibilityIssues": "¿Problemas de accesibilidad?",
-      "alignmentCheck": "Verificar alineación"
+      "accessibilityIssuesMsg": "¿Hay problemas de accesibilidad con el diseño de \"{name}\"?",
+      "alignmentCheck": "Verificar alineación",
+      "alignmentCheckMsg": "¿Puedes verificar si la alineación en \"{name}\" es consistente y correcta?"
     },
     "component": {
       "howToUse": "¿Cómo usar {name}?",
+      "howToUseMsg": "¿Cómo debe usarse {name} según las pautas del sistema de diseño?",
       "accessibilityReqs": "Requisitos de accesibilidad",
+      "accessibilityReqsMsg": "¿Qué requisitos de accesibilidad debe cumplir {name}?",
       "tokenUsage": "¿Uso de tokens?",
+      "tokenUsageMsg": "¿Qué tokens de diseño usa {name} y están aplicados correctamente?",
       "bestPractices": "Mejores prácticas"
     },
     "default": {
       "whatIs": "¿Qué es {name}?",
+      "whatIsMsg": "¿Puedes decirme qué es \"{name}\" y cómo encaja en el sistema de diseño?",
       "anyIssues": "¿Algún problema?",
-      "howToImprove": "¿Cómo mejorar?"
+      "anyIssuesMsg": "¿Hay problemas de diseño o accesibilidad con \"{name}\"?",
+      "howToImprove": "¿Cómo mejorar?",
+      "howToImproveMsg": "¿Cómo puedo mejorar \"{name}\" para seguir mejor el sistema de diseño?"
     }
   }
 }

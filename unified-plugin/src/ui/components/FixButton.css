@@ -3,7 +3,7 @@
   align-items: center;
   gap: 4px;
   padding: 5px 12px;
-  font-size: 11px;
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   font-family: var(--font-family);
   border: none;
@@ -73,7 +73,7 @@
 }
 
 .fix-button-error {
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   color: var(--severity-error);
   white-space: nowrap;
   overflow: hidden;

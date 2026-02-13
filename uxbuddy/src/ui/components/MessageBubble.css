@@ -37,7 +37,7 @@
 
 .message-content code {
   font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-  font-size: 11px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   color: var(--accent-text);
   background: var(--bg-secondary);
@@ -116,13 +116,22 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+/* Footer row — button + timestamp inline */
+.message-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+}
+
 /* Timestamp */
 .message-timestamp {
   font-size: var(--font-size-xs);
   color: var(--text-tertiary);
-  margin-top: 4px;
   letter-spacing: var(--tracking-wide);
-  text-align: right;
+  margin-left: auto;
+  white-space: nowrap;
 }
 
 /* User bubble timestamp override */

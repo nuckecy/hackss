@@ -23,7 +23,13 @@
     "fontSizeMedium": "Medium",
     "fontSizeLarge": "Large",
     "screenReaderMode": "Enhanced labels for screen readers",
-    "language": "Language"
+    "language": "Language",
+    "display": "Display",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System",
+    "noKeyNeeded": "No key needed \u2014 uses backend API"
   },
   "chat": {
     "placeholder": "Ask about components, tokens, or accessibility...",
@@ -50,44 +56,69 @@
     "hint": "Or select a layer in Figma for contextual suggestions."
   },
   "chips": {
+    "scan": "Scan this element",
+    "scanMsg": "Scan \"{name}\"",
     "general": {
       "alertVsToast": "Alert vs Toast?",
+      "alertVsToastMsg": "When should I use an Alert instead of a Toast notification?",
       "spacingTokens": "Spacing tokens",
+      "spacingTokensMsg": "What spacing tokens are available and when should I use each one?",
       "accessibleForms": "Accessible forms",
+      "accessibleFormsMsg": "How do I make a form accessible following WCAG guidelines?",
       "buttonVariants": "Button variants",
+      "buttonVariantsMsg": "What button variants are available and when should I use each one?",
       "colorContrast": "Color contrast",
+      "colorContrastMsg": "What are the color contrast requirements I need to follow?",
       "typographyScale": "Typography scale",
+      "typographyScaleMsg": "Can you walk me through the typography scale and when to use each size?",
       "iconUsage": "Icon usage",
-      "responsiveLayout": "Responsive layout"
+      "iconUsageMsg": "What are the best practices for using icons in the design system?",
+      "responsiveLayout": "Responsive layout",
+      "responsiveLayoutMsg": "How should I handle responsive layouts with the design system?"
     },
     "instance": {
       "rightUse": "Right use of {name}?",
+      "rightUseMsg": "Am I using {name} correctly? Does it follow the design system guidelines?",
       "accessibilityCheck": "Accessibility check",
       "availableVariants": "Available variants?",
-      "spacingReview": "Spacing review"
+      "availableVariantsMsg": "What variants does {name} have and which one fits best here?",
+      "spacingReview": "Spacing review",
+      "spacingReviewMsg": "Does the spacing around {name} look correct? Any token adjustments needed?"
     },
     "text": {
       "textAccessible": "Text accessible?",
       "contrastRatio": "Contrast ratio",
+      "contrastRatioMsg": "Can you check the contrast ratio on \"{name}\" for WCAG AA compliance?",
       "correctToken": "Correct token?",
-      "fontSizeReview": "Font size review"
+      "correctTokenMsg": "Am I using the right typography token for \"{name}\"?",
+      "fontSizeReview": "Font size review",
+      "fontSizeReviewMsg": "Is the font size on \"{name}\" appropriate for its context?"
     },
     "layout": {
       "reviewLayout": "Review layout",
       "checkSpacing": "Check spacing",
+      "checkSpacingMsg": "Does the spacing inside \"{name}\" follow the design system tokens?",
       "accessibilityIssues": "Accessibility issues?",
-      "alignmentCheck": "Alignment check"
+      "accessibilityIssuesMsg": "Are there any accessibility concerns with the layout of \"{name}\"?",
+      "alignmentCheck": "Alignment check",
+      "alignmentCheckMsg": "Can you check if the alignment in \"{name}\" is consistent and correct?"
     },
     "component": {
       "howToUse": "How to use {name}?",
+      "howToUseMsg": "How should {name} be used according to the design system guidelines?",
       "accessibilityReqs": "Accessibility reqs",
+      "accessibilityReqsMsg": "What accessibility requirements should {name} meet?",
       "tokenUsage": "Token usage?",
+      "tokenUsageMsg": "What design tokens does {name} use and are they applied correctly?",
       "bestPractices": "Best practices"
     },
     "default": {
       "whatIs": "What is {name}?",
+      "whatIsMsg": "Can you tell me what \"{name}\" is and how it fits in the design system?",
       "anyIssues": "Any issues?",
-      "howToImprove": "How to improve?"
+      "anyIssuesMsg": "Are there any design or accessibility issues with \"{name}\"?",
+      "howToImprove": "How to improve?",
+      "howToImproveMsg": "How can I improve \"{name}\" to better follow the design system?"
     }
   }
 }
