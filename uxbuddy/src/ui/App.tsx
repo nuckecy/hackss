@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'preact/hooks';
 import './styles/global.css';
 import { MessageBubble } from './components/MessageBubble';
 import { InputBar } from './components/InputBar';
-import { SelectionIndicator, SuggestionPanel } from './components/SelectionIndicator';
+import { SelectionIndicator, SuggestionPanel, getFollowUpSuggestions, detectTopicFromText } from './components/SelectionIndicator';
 import { EmptyState } from './components/EmptyState';
 import { Settings } from './components/Settings';
 
@@ -17,7 +17,7 @@ import { useScan } from './hooks/useScan';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { useAccessibility } from './hooks/useAccessibility';
 import { useLocale } from './hooks/useLocale';
-import { setLocale } from '../i18n/i18n';
+import { setLocale, t } from '../i18n/i18n';
 import { postToMain } from '../types/messages';
 import type { ProviderType } from '../ai/provider';
 import chatbotIcon from './chatbot-icon.png';
@@ -148,6 +148,12 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
   const { userName } = useCurrentUser();
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [lastChipTopic, setLastChipTopic] = useState<string | null>(null);
+  // Clear follow-up topic when selection changes
+  useEffect(() => {
+    setLastChipTopic(null);
+  }, [selection?.id]);
+
   // Auto-scroll to bottom on new messages or loading state change
   useEffect(() => {
     if (chatAreaRef.current) {
@@ -155,7 +161,8 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
     }
   }, [messages, isLoading, isScanning]);
 
-  const handleSuggestionClick = (text: string): void => {
+  const handleSuggestionClick = (text: string, topic: string): void => {
+    setLastChipTopic(topic);
     handleSendOrScan(text);
   };
 
@@ -170,6 +177,8 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
   }
 
   const handleSend = (text: string): void => {
+    const detected = detectTopicFromText(text, selection);
+    setLastChipTopic(detected);
     handleSendOrScan(text);
   };
 
@@ -187,7 +196,17 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
     }
   }
 
+  const handleEmptyStateClick = (text: string, topic: string): void => {
+    setLastChipTopic(topic);
+    handleSendOrScan(text);
+  };
+
   const hasMessages = messages.length > 0;
+  const followUpChips = lastChipTopic
+    ? getFollowUpSuggestions(lastChipTopic, selection)
+    : hasMessages
+      ? getFollowUpSuggestions('general.default', selection)
+      : [];
   const busy = isLoading || isScanning;
 
   return (
@@ -224,7 +243,7 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
             <button
               class="app-header-settings"
               aria-label="Clear chat"
-              onClick={clearChat}
+              onClick={() => { clearChat(); setLastChipTopic(null); }}
             >
               <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>delete</span>
             </button>
@@ -296,20 +315,39 @@ function ChatScreen({ apiKey, selectedProvider, onOpenSettings }: { apiKey: stri
                   />
                 </div>
               )}
+              {!isLoading && !isScanning && followUpChips.length > 0 && (
+                <div class="message-gap-sm chips-inline">
+                  <div class="suggestion-label">{t('emptyState.relatedQuestions')}</div>
+                  <div class="suggestion-list">
+                    {followUpChips.map((chip) => (
+                      <button
+                        key={chip.label}
+                        class="suggestion-chip"
+                        disabled={busy}
+                        onClick={() => handleSuggestionClick(chip.message, chip.topic)}
+                      >
+                        {chip.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
-            <EmptyState selection={selection} onExampleClick={handleSend} userName={userName} />
+            <EmptyState selection={selection} onExampleClick={handleEmptyStateClick} userName={userName} />
           )}
         </div>
       </div>
 
-      {/* Footer — suggestion panel + input */}
+      {/* Footer — suggestion panel (selection-based when no messages) + input */}
       <div class="chat-footer">
-        <SuggestionPanel
-          selection={selection}
-          onChipClick={handleSuggestionClick}
-          disabled={busy}
-        />
+        {!hasMessages && (
+          <SuggestionPanel
+            selection={selection}
+            onChipClick={handleSuggestionClick}
+            disabled={busy}
+          />
+        )}
         <InputBar onSend={handleSend} disabled={busy} />
       </div>
     </div>

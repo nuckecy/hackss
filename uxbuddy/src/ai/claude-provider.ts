@@ -52,7 +52,7 @@ export class ClaudeProvider implements AIProvider {
 
     const body = {
       model: 'claude-sonnet-4-5-20250929',
-      max_tokens: 1024,
+      max_tokens: 2048,
       system: systemPrompt,
       messages: claudeMessages,
     };

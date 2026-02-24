@@ -4,24 +4,25 @@ import { t } from '../../i18n/i18n';
 
 interface EmptyStateProps {
   selection: SelectionData | null;
-  onExampleClick?: (text: string) => void;
+  onExampleClick?: (text: string, topic: string) => void;
 }
 
 interface Chip {
   label: string;
   message: string;
+  topic: string;
 }
 
 function getGeneralStarters(): Chip[] {
   return [
-    { label: t('chips.general.alertVsToast'), message: t('chips.general.alertVsToastMsg') },
-    { label: t('chips.general.spacingTokens'), message: t('chips.general.spacingTokensMsg') },
-    { label: t('chips.general.accessibleForms'), message: t('chips.general.accessibleFormsMsg') },
-    { label: t('chips.general.buttonVariants'), message: t('chips.general.buttonVariantsMsg') },
-    { label: t('chips.general.colorContrast'), message: t('chips.general.colorContrastMsg') },
-    { label: t('chips.general.typographyScale'), message: t('chips.general.typographyScaleMsg') },
-    { label: t('chips.general.iconUsage'), message: t('chips.general.iconUsageMsg') },
-    { label: t('chips.general.responsiveLayout'), message: t('chips.general.responsiveLayoutMsg') },
+    { label: t('chips.general.alertVsToast'), message: t('chips.general.alertVsToastMsg'), topic: 'general.alertVsToast' },
+    { label: t('chips.general.spacingTokens'), message: t('chips.general.spacingTokensMsg'), topic: 'general.spacingTokens' },
+    { label: t('chips.general.accessibleForms'), message: t('chips.general.accessibleFormsMsg'), topic: 'general.accessibleForms' },
+    { label: t('chips.general.buttonVariants'), message: t('chips.general.buttonVariantsMsg'), topic: 'general.buttonVariants' },
+    { label: t('chips.general.colorContrast'), message: t('chips.general.colorContrastMsg'), topic: 'general.colorContrast' },
+    { label: t('chips.general.typographyScale'), message: t('chips.general.typographyScaleMsg'), topic: 'general.typographyScale' },
+    { label: t('chips.general.iconUsage'), message: t('chips.general.iconUsageMsg'), topic: 'general.iconUsage' },
+    { label: t('chips.general.responsiveLayout'), message: t('chips.general.responsiveLayoutMsg'), topic: 'general.responsiveLayout' },
   ];
 }
 
@@ -36,7 +37,7 @@ export function EmptyState({ selection, onExampleClick }: EmptyStateProps) {
           <button
             key={chip.label}
             class="empty-state-chip"
-            onClick={() => onExampleClick?.(chip.message)}
+            onClick={() => onExampleClick?.(chip.message, chip.topic)}
           >
             {chip.label}
           </button>

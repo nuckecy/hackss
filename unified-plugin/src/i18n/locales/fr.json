@@ -53,6 +53,7 @@
   "emptyState": {
     "welcome": "Posez-moi n'importe quelle question sur le Simple Design System.",
     "selectionNotice": "J'ai remarqué que vous avez sélectionné quelque chose. Voulez-vous de l'aide?",
+    "relatedQuestions": "Vous pourriez aussi vouloir savoir",
     "hint": "Ou sélectionnez un calque dans Figma pour des suggestions contextuelles."
   },
   "chips": {

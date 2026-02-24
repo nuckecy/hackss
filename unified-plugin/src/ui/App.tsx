@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'preact/hooks';
 import './styles/global.css';
 import { MessageBubble } from './components/MessageBubble';
 import { InputBar } from './components/InputBar';
-import { SelectionIndicator, SuggestionPanel } from './components/SelectionIndicator';
+import { SelectionIndicator, SuggestionPanel, getFollowUpSuggestions, detectTopicFromText } from './components/SelectionIndicator';
 import { EmptyState } from './components/EmptyState';
 import { Settings } from './components/Settings';
 import { ScanFrameButton } from './components/ScanFrameButton';
@@ -152,9 +152,15 @@ function ChatScreen({
   const { messages, isLoading, sendMessage, clearChat } = useChat(apiKey, selection, provider);
   const [analysisMessages, setAnalysisMessages] = useState<any[]>([]);
   const chatAreaRef = useRef<HTMLDivElement>(null);
+  const [lastChipTopic, setLastChipTopic] = useState<string | null>(null);
 
   // Combine regular messages with analysis messages
   const allMessages = [...messages, ...analysisMessages];
+
+  // Clear follow-up topic when selection changes
+  useEffect(() => {
+    setLastChipTopic(null);
+  }, [selection?.id]);
 
   // Auto-scroll to bottom on new messages or loading state change
   useEffect(() => {
@@ -212,11 +218,19 @@ function ChatScreen({
     return () => window.removeEventListener('message', handleMessage);
   }, []);
 
-  const handleSuggestionClick = (text: string): void => {
+  const handleSuggestionClick = (text: string, topic: string): void => {
+    setLastChipTopic(topic);
     sendMessage(text);
   };
 
   const handleSend = (text: string): void => {
+    const detected = detectTopicFromText(text, selection);
+    setLastChipTopic(detected);
+    sendMessage(text);
+  };
+
+  const handleEmptyStateClick = (text: string, topic: string): void => {
+    setLastChipTopic(topic);
     sendMessage(text);
   };
 
@@ -284,6 +298,11 @@ function ChatScreen({
   };
 
   const hasMessages = allMessages.length > 0;
+  const followUpChips = lastChipTopic
+    ? getFollowUpSuggestions(lastChipTopic, selection)
+    : hasMessages
+      ? getFollowUpSuggestions('general.default', selection)
+      : [];
 
   const handleExport = () => {
     const markdown = allMessages
@@ -317,7 +336,7 @@ function ChatScreen({
           <button
             class="app-header-settings"
             aria-label={t('chat.newChat') || 'New chat'}
-            onClick={() => { clearChat(); setAnalysisMessages([]); }}
+            onClick={() => { clearChat(); setAnalysisMessages([]); setLastChipTopic(null); }}
             title={t('chat.newChat') || 'New chat'}
           >
             <span class="material-symbols-outlined" style={{ fontSize: '16px' }}>add</span>
@@ -381,21 +400,40 @@ function ChatScreen({
                 />
               </div>
             )}
+            {!isLoading && followUpChips.length > 0 && (
+              <div class="message-gap-sm chips-inline">
+                <div class="suggestion-label">{t('emptyState.relatedQuestions')}</div>
+                <div class="suggestion-list">
+                  {followUpChips.map((chip) => (
+                    <button
+                      key={chip.label}
+                      class="suggestion-chip"
+                      disabled={isLoading}
+                      onClick={() => handleSuggestionClick(chip.message, chip.topic)}
+                    >
+                      {chip.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
-          <EmptyState selection={selection} onExampleClick={handleSend} />
+          <EmptyState selection={selection} onExampleClick={handleEmptyStateClick} />
         )}
       </div>
 
-      {/* Suggestion Panel — floating card above input */}
-      <SuggestionPanel
-        selection={selection}
-        onChipClick={handleSuggestionClick}
-        disabled={isLoading}
-      />
-
-      {/* Input Bar */}
-      <InputBar onSend={handleSend} disabled={isLoading} />
+      {/* Footer — suggestion panel (selection-based when no messages) + input */}
+      <div class="chat-footer">
+        {!hasMessages && (
+          <SuggestionPanel
+            selection={selection}
+            onChipClick={handleSuggestionClick}
+            disabled={isLoading}
+          />
+        )}
+        <InputBar onSend={handleSend} disabled={isLoading} />
+      </div>
     </div>
   );
 }

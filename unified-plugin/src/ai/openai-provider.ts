@@ -59,7 +59,7 @@ export class OpenAIProvider implements AIProvider {
       model: 'gpt-4o-mini',
       messages: openaiMessages,
       temperature: 0.7,
-      max_tokens: 1024,
+      max_tokens: 2048,
     };
 
     let response: Response;

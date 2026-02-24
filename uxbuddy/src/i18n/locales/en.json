@@ -64,6 +64,7 @@
     "greetingName": "Hello, {name}.",
     "welcome": "Ask me anything about the design system.",
     "selectionNotice": "I noticed you selected something. Want me to help?",
+    "relatedQuestions": "You might also want to know",
     "hint": "Or select a layer in Figma for contextual suggestions."
   },
   "chips": {
